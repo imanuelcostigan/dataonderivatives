@@ -15,7 +15,7 @@ rates), \code{'CO'} (commodities).}
 object. Only the year, month and day elements of the object are used.}
 }
 \value{
-a data frame containing the requested data or if no data is available,
+a data frame containing the requested data, or if no data is available,
 \code{NULL}.
 }
 \description{

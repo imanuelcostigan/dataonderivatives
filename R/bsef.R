@@ -13,7 +13,7 @@
 #' rates), \code{'CO'} (commodities).
 #' @param start_date the date for which data is required as Date or DateTime
 #' object. Only the year, month and day elements of the object are used.
-#' @return a data frame containing the requested data or if no data is available,
+#' @return a data frame containing the requested data, or if no data is available,
 #' \code{NULL}.
 #' @importFrom assertthat assert_that
 #' @importFrom httr POST
@@ -37,7 +37,20 @@ get_bsef_eod_data <- function (asset_class, start_date)
   # Convert response's content to JSON from raw
   response <- fromJSON(rawToChar(response$content))
   # Drill down response to data set that we are interested in
-  response$response[[bsef_data_responder(asset_class)]]$BsefEodData
+  df <- response$response[[bsef_data_responder(asset_class)]]$BsefEodData
+  data.frame(
+    tradedate = ymd_hms(df$tradeDate),
+    security = factor(df$security),
+    currency = factor(df$currency)
+    priceopen = as.numeric(df$priceOpen),
+    pricehigh = as.numeric(df$priceHigh),
+    pricelow = as.numeric(df$priceLow),
+    priceclose = as.numeric(df$priceClose),
+    pricesettlement = as.numeric(df$settlementPrice),
+    totalvolume = as.numeric(df$totalVolume),
+    blocktradevolume = as.numeric(df$blockTradeVolume),
+    totalvolumeusd = as.numeric(df$totalVolumeUsd),
+    blocktradevolumeusd = as.numeric(df$blockTradeVolumeUsd))
 }
 
 # URL target for data request
