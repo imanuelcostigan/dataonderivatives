@@ -41,7 +41,7 @@ get_bsef_eod_data <- function (asset_class, start_date)
   data.frame(
     tradedate = ymd_hms(df$tradeDate),
     security = factor(df$security),
-    currency = factor(df$currency)
+    currency = factor(df$currency),
     priceopen = as.numeric(df$priceOpen),
     pricehigh = as.numeric(df$priceHigh),
     pricelow = as.numeric(df$priceLow),
