@@ -1,6 +1,6 @@
 Package: dataonderivatives
 Type: Package
-Title: Make it easier to source publicly available data on derivatives
+Title: Source publicly available data on derivatives easily
 Version: 0.1
 Date: 2014-09-19
 Author: Imanuel Costigan <i.costigan@me.com>
