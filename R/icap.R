@@ -18,7 +18,10 @@
 #' (default: \code{TRUE})
 #' @return a data frame containing the requested data, or an empty data frame
 #' if data is unavailable
+#' @references
+#' \href{http://www.icap.com/what-we-do/global-broking/sef.aspx}{ICAP SEF}
 #' @importFrom dplyr %>%
+#' @export
 get_icap_data <- function (date, clean = TRUE)
 {
   download_icap_zip()

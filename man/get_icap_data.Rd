@@ -12,6 +12,10 @@ object. Only the year, month and day elements of the object are used.}
 \item{clean}{flag indicating whether ICAP temp files should be cleaned
 (default: \code{TRUE})}
 }
+\value{
+a data frame containing the requested data, or an empty data frame
+if data is unavailable
+}
 \description{
 ICAP offers customers the ability to execute derivative instruments on two
 SEF faciltiies: one domiciled in the UK (IGDL) and the other domiciled in the
@@ -25,5 +29,8 @@ publicly available price, trading volume and other trading
 data. It publishes complete historical data sets in two zip files: one for
 IGDL and the other for ICAP US. These are downloaded, unzipped and data for
 the date requested is formatted and returned to you.
+}
+\references{
+\href{http://www.icap.com/what-we-do/global-broking/sef.aspx}{ICAP SEF}
 }
 

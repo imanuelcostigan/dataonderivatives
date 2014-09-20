@@ -23,4 +23,7 @@ Service using \code{POST} requests to a target URL. The \code{POST} calls
 are done by asset class. This function iterates across all asset classes
 (credit, equities, foreign exchange, rates and commodities).
 }
+\references{
+\href{http://data.bloombergsef.com}{Bloomberg SEF data}
+}
 

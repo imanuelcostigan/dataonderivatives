@@ -14,6 +14,8 @@
 #' @return a data frame containing the requested data, or an empty data frame
 #' if data is unavailable
 #' @importFrom dplyr %>%
+#' @references
+#' \href{http://data.bloombergsef.com}{Bloomberg SEF data}
 #' @export
 
 get_bsef_data <- function (date)
