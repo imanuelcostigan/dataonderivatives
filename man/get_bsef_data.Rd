@@ -3,20 +3,15 @@
 \alias{get_bsef_data}
 \title{Get Bloomberg SEF data}
 \usage{
-get_bsef_data(date, asset_class)
+get_bsef_data(date)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime
 object. Only the year, month and day elements of the object are used.}
-
-\item{asset_class}{the derivatives asset class for which data is required.
-Must be one of the following (case-invariant): \code{'CR'} (credit),
-\code{'EQ'} (equity), \code{'FX'} (foreign exchange), \code{'IR'} (interest
-rates), \code{'CO'} (commodities).}
 }
 \value{
-a data frame containing the requested data, or if no data is available,
-\code{NULL}.
+a data frame containing the requested data, or an empty data frame
+if data is unavailable
 }
 \description{
 The Bloomberg Swap Execution Facility (SEF) offers customers the ability to
@@ -24,6 +19,8 @@ execute derivative instruments across a number of different asset classes. It
 is required to make publicly available price, trading volume and other trading
 data. It publishes this data on its website. I have reverse engineered the
 JavaScript libraries used by its website to call the Bloomberg Application
-Service using \code{POST} requests to a target URL.
+Service using \code{POST} requests to a target URL. The \code{POST} calls
+are done by asset class. This function iterates across all asset classes
+(credit, equities, foreign exchange, rates and commodities).
 }
 
