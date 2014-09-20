@@ -16,6 +16,8 @@
 #' @inheritParams get_bsef_data
 #' @param clean flag indicating whether ICAP temp files should be cleaned
 #' (default: \code{TRUE})
+#' @return a data frame containing the requested data, or an empty data frame
+#' if data is unavailable
 #' @importFrom dplyr %>%
 get_icap_data <- function (date, clean = TRUE)
 {
@@ -55,11 +57,14 @@ read_icap_files <- function (date)
   message('Reading ICAP data for ', format(date, '%d-%b-%Y'), '...')
   matched_files <- list.files(path = file.path(tempdir(), c('igdl', 'icus')),
     pattern = format(date, '%Y%m%d'), full.names = TRUE)
-  assert_that(length(matched_files) >= 1L)
-  dfs <- list()
-  for (i in 1:NROW(matched_files))
-    dfs[[i]] <- read.csv(matched_files[i])
-  suppressWarnings(rbind_all(dfs))
+  if (length(matched_files) < 1L)
+    return (data.frame())
+  else {
+    dfs <- list()
+    for (i in 1:NROW(matched_files))
+      dfs[[i]] <- read.csv(matched_files[i])
+    suppressWarnings(return (rbind_all(dfs)))
+  }
 }
 
 #' @importFrom assertthat assert_that
@@ -68,7 +73,10 @@ read_icap_files <- function (date)
 format_icap_data <- function (df)
 {
   message('Formatting ICAP data...')
-  cols <- c('BATCHDATE', 'TRADEINSTRID', 'ASSETCLASS', 'Trade.Volume..USD.',
+  if (identical(df, data.frame()))
+    return (df)
+  else {
+    cols <- c('BATCHDATE', 'TRADEINSTRID', 'ASSETCLASS', 'Trade.Volume..USD.',
     'Trade.Volume..Local.Currency.', 'OPENPRICE', 'HIGHPRICE', 'LOWPRICE',
     'CLOSEPRICE')
   assert_that(setequal(colnames(df), cols))
@@ -84,6 +92,7 @@ format_icap_data <- function (df)
       priceclose = CLOSEPRICE) %>%
     select(date, security, assetclass, totalvolume, totalvolumeusd,
       priceopen, pricehigh, pricelow, priceclose)
+  }
 }
 
 clean_icap_files <- function () {
