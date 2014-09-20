@@ -2,6 +2,11 @@
 
 export(get_bsef_eod_data)
 importFrom(assertthat,assert_that)
+importFrom(dplyr,"%>%")
+importFrom(dplyr,mutate)
+importFrom(dplyr,rbind_all)
+importFrom(dplyr,select)
+importFrom(dplyr,setequal)
 importFrom(httr,POST)
 importFrom(httr,add_headers)
 importFrom(jsonlite,fromJSON)
