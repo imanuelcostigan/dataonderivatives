@@ -4,3 +4,4 @@ Some Over-The-Counter (OTC) derivatives have been Made Available for Trade (MAT)
 
 This repository is an initial attempt to automate the process of downloading the data from the SEFs, merging them in a coherent manner and presenting the salient results. It is likely this project will evolve over time.
 
+[![Build Status](https://travis-ci.org/imanuelcostigan/dataonderivatives.svg?branch=master)](https://travis-ci.org/imanuelcostigan/dataonderivatives)
