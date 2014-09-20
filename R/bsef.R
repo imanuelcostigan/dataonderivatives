@@ -24,12 +24,12 @@ get_bsef_data <- function (date, asset_class)
   # Process and check argument values
   asset_class <- toupper(asset_class)
   assert_that(asset_class %in% c('CR', 'EQ', 'FX', 'IR', 'CO'))
-  download_bsef_data(date, asset_class) %>% format_bsef_data(.)
+  download_bsef_data_single(date, asset_class) %>% format_bsef_data(.)
 }
 
 #' @importFrom httr POST
 #' @importFrom jsonlite fromJSON
-download_bsef_data <- function (date, asset_class)
+download_bsef_data_single <- function (date, asset_class)
 {
   # BAS doesn't appear to accept an end_date different from date: the
   # response is empty.
