@@ -1,3 +1,6 @@
+if (getRversion() >= "2.15.1")
+utils::globalVariables(c('REGION', 'SETTLEMENTDATE', 'PERIODTYPE'))
+
 #' Get Bloomberg SEF data
 #'
 #' The Bloomberg Swap Execution Facility (SEF) offers customers the ability to
@@ -61,6 +64,7 @@ download_bsef_data_single <- function (asset_class, date)
 }
 
 #' @importFrom dplyr mutate select %>%
+#' @importFrom lubridate ymd_hms
 format_bsef_data <- function (df)
 {
   message('Formatting BSEF data...')
