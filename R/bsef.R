@@ -1,5 +1,9 @@
 if (getRversion() >= "2.15.1")
-utils::globalVariables(c('REGION', 'SETTLEMENTDATE', 'PERIODTYPE'))
+utils::globalVariables(c('tradeDate', 'assetclass', 'security', 'currency',
+  'priceOpen', 'priceHigh', 'priceLow', 'priceClose', 'settlementPrice',
+  'totalVolume', 'blockTradeVolume', 'totalVolumeUsd', 'blockTradeVolumeUsd',
+  'priceopen', 'pricehigh', 'pricelow', 'priceclose', 'pricesettlement',
+  'totalvolume', 'blocktradevolume', 'totalvolumeusd', 'blocktradevolumeusd'))
 
 #' Get Bloomberg SEF data
 #'

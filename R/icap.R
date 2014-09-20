@@ -1,3 +1,10 @@
+if (getRversion() >= "2.15.1")
+utils::globalVariables(c('BATCHDATE', 'TRADEINSTRID', 'ASSETCLASS',
+  'Trade.Volume..Local.Currency.', 'Trade.Volume..USD.', 'OPENPRICE',
+  'HIGHPRICE', 'LOWPRICE', 'CLOSEPRICE', 'security', 'assetclass',
+  'totalvolume', 'totalvolumeusd', 'priceopen', 'pricehigh', 'pricelow',
+  'priceclose', '.'))
+
 #' Get ICAP (IGDL & ICAP US) SEF data
 #'
 #' ICAP offers customers the ability to execute derivative instruments on two
@@ -30,7 +37,7 @@ get_icap_data <- function (date, clean = TRUE)
   return (df)
 }
 
-url_icap_zip <- function (uk = true)
+url_icap_zip <- function (uk = TRUE)
 {
   # UK SEF is G3 rates since 12 May 2014. Previously everything on US SEF.
   if (uk)
