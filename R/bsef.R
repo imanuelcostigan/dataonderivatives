@@ -60,9 +60,10 @@ download_bsef_data_single <- function (asset_class, date)
   # Drill down response to data set that we are interested in
   df <- response$response[[bsef_data_responder(asset_class)]]$BsefEodData
   # Create asset_class field if necesary
-  if (!is.null(df))
-    df$assetclass <- asset_class
-  else
+  if (!is.null(df)) {
+      if (is.list(df)) df <- as.data.frame(df)
+      df$assetclass <- asset_class
+  } else
     df <- data.frame()
   return (df)
 }
