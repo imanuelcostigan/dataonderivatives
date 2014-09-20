@@ -75,7 +75,7 @@ format_bsef_data <- function (df)
     data.frame()
   else {
     message('Formatting BSEF data...')
-    df %>%
+      df %>%
         mutate(date = ymd_hms(tradeDate),
           assetclass = factor(assetclass),
           security = factor(security),
