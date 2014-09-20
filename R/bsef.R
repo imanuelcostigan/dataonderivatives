@@ -31,6 +31,8 @@ download_bsef_data <- function (date)
 #' @importFrom jsonlite fromJSON
 download_bsef_data_single <- function (asset_class, date)
 {
+  message('Downloading and reading BSEF data for the ', asset_class,
+    ' asset class on ', format(date, '%d-%b-%Y'), '...')
   # Process and check argument values
   asset_class <- toupper(asset_class)
   assert_that(asset_class %in% c('CR', 'EQ', 'FX', 'IR', 'CO'))
@@ -59,6 +61,7 @@ download_bsef_data_single <- function (asset_class, date)
 #' @importFrom dplyr mutate select %>%
 format_bsef_data <- function (df)
 {
+  message('Formatting BSEF data...')
   df %>%
     mutate(date = ymd_hms(tradeDate),
       assetclass = factor(assetclass),
