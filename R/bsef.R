@@ -80,7 +80,7 @@ format_bsef_data <- function (df)
         mutate(date = ymd_hms(tradeDate),
           assetclass = factor(assetclass),
           security = factor(security),
-          currency = factor(currency),
+          currency = factor(toupper(currency)),
           priceopen = as.numeric(priceOpen),
           pricehigh = as.numeric(priceHigh),
           pricelow = as.numeric(priceLow),
