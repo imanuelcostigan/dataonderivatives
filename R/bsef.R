@@ -71,24 +71,28 @@ download_bsef_data_single <- function (asset_class, date)
 #' @importFrom lubridate ymd_hms
 format_bsef_data <- function (df)
 {
-  message('Formatting BSEF data...')
-  df %>%
-    mutate(date = ymd_hms(tradeDate),
-      assetclass = factor(assetclass),
-      security = factor(security),
-      currency = factor(currency),
-      priceopen = as.numeric(priceOpen),
-      pricehigh = as.numeric(priceHigh),
-      pricelow = as.numeric(priceLow),
-      priceclose = as.numeric(priceClose),
-      pricesettlement = as.numeric(settlementPrice),
-      totalvolume = as.numeric(totalVolume),
-      blocktradevolume = as.numeric(blockTradeVolume),
-      totalvolumeusd = as.numeric(totalVolumeUsd),
-      blocktradevolumeusd = as.numeric(blockTradeVolumeUsd)) %>%
-    select(date, assetclass, security, currency, priceopen, pricehigh, pricelow,
-      priceclose, pricesettlement, totalvolume, blocktradevolume, totalvolumeusd,
-      blocktradevolumeusd)
+  if (identical(df, data.frame()))
+    data.frame()
+  else {
+    message('Formatting BSEF data...')
+    df %>%
+        mutate(date = ymd_hms(tradeDate),
+          assetclass = factor(assetclass),
+          security = factor(security),
+          currency = factor(currency),
+          priceopen = as.numeric(priceOpen),
+          pricehigh = as.numeric(priceHigh),
+          pricelow = as.numeric(priceLow),
+          priceclose = as.numeric(priceClose),
+          pricesettlement = as.numeric(settlementPrice),
+          totalvolume = as.numeric(totalVolume),
+          blocktradevolume = as.numeric(blockTradeVolume),
+          totalvolumeusd = as.numeric(totalVolumeUsd),
+          blocktradevolumeusd = as.numeric(blockTradeVolumeUsd)) %>%
+        select(date, assetclass, security, currency, priceopen, pricehigh,
+          pricelow, priceclose, pricesettlement, totalvolume, blocktradevolume,
+          totalvolumeusd, blocktradevolumeusd)
+    }
 }
 
 # URL target for data request
