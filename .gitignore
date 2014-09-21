@@ -7,6 +7,10 @@
 # R data files from past sessions
 .Rdata
 
+# RStudio files
+.Rproj.user
+*.Rproj
+
 # =========================
 # Operating System Files
 # =========================

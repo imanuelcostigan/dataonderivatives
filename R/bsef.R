@@ -1,32 +1,53 @@
-#' Get EOD data from Bloomberg SEF
+if (getRversion() >= "2.15.1")
+utils::globalVariables(c('tradeDate', 'assetclass', 'security', 'currency',
+  'priceOpen', 'priceHigh', 'priceLow', 'priceClose', 'settlementPrice',
+  'totalVolume', 'blockTradeVolume', 'totalVolumeUsd', 'blockTradeVolumeUsd',
+  'priceopen', 'pricehigh', 'pricelow', 'priceclose', 'pricesettlement',
+  'totalvolume', 'blocktradevolume', 'totalvolumeusd', 'blocktradevolumeusd'))
+
+#' Get Bloomberg SEF data
 #'
 #' The Bloomberg Swap Execution Facility (SEF) offers customers the ability to
 #' execute derivative instruments across a number of different asset classes. It
 #' is required to make publicly available price, trading volume and other trading
 #' data. It publishes this data on its website. I have reverse engineered the
 #' JavaScript libraries used by its website to call the Bloomberg Application
-#' Service using \code{POST} requests to a target URL.
+#' Service using \code{POST} requests to a target URL. The \code{POST} calls
+#' are done by asset class. This function iterates across all asset classes
+#' (credit, equities, foreign exchange, rates and commodities).
 #'
-#' @param asset_class the derivatives asset class for which data is required.
-#' Must be one of the following (case-invariant): \code{'CR'} (credit),
-#' \code{'EQ'} (equity), \code{'FX'} (foreign exchange), \code{'IR'} (interest
-#' rates), \code{'CO'} (commodities).
-#' @param start_date the date for which data is required as Date or DateTime
+#' @param date the date for which data is required as Date or DateTime
 #' object. Only the year, month and day elements of the object are used.
-#' @return a data frame containing the requested data, or if no data is available,
-#' \code{NULL}.
+#' @return a data frame containing the requested data, or an empty data frame
+#' if data is unavailable
+#' @importFrom dplyr %>%
+#' @references
+#' \href{http://data.bloombergsef.com}{Bloomberg SEF data}
+#' @export
+
+get_bsef_data <- function (date)
+  download_bsef_data(date) %>% format_bsef_data(.)
+
+#' @importFrom dplyr rbind_all
+download_bsef_data <- function (date)
+{
+  asset_class <- c('CR', 'EQ', 'FX', 'IR', 'CO')
+  rbind_all(Map(download_bsef_data_single, asset_class, date))
+}
+
 #' @importFrom assertthat assert_that
 #' @importFrom httr POST
 #' @importFrom jsonlite fromJSON
-#' @export
-get_bsef_eod_data <- function (asset_class, start_date)
+download_bsef_data_single <- function (asset_class, date)
 {
+  message('Downloading and reading BSEF data for the ', asset_class,
+    ' asset class on ', format(date, '%d-%b-%Y'), '...')
   # Process and check argument values
   asset_class <- toupper(asset_class)
   assert_that(asset_class %in% c('CR', 'EQ', 'FX', 'IR', 'CO'))
-  # BAS doesn't appear to accept an end_date different from start_date: the
+  # BAS doesn't appear to accept an end_date different from date: the
   # response is empty.
-  start_date <- paste0(format(start_date, '%Y-%m-%d'), 'T00:00:00.000000Z')
+  start_date <- paste0(format(date, '%Y-%m-%d'), 'T00:00:00.000000Z')
   end_date <- start_date
   # Build POST body
   body <- list(list(tradeDays = list(startDay = start_date, endDay = end_date)))
@@ -38,19 +59,41 @@ get_bsef_eod_data <- function (asset_class, start_date)
   response <- fromJSON(rawToChar(response$content))
   # Drill down response to data set that we are interested in
   df <- response$response[[bsef_data_responder(asset_class)]]$BsefEodData
-  data.frame(
-    tradedate = ymd_hms(df$tradeDate),
-    security = factor(df$security),
-    currency = factor(df$currency),
-    priceopen = as.numeric(df$priceOpen),
-    pricehigh = as.numeric(df$priceHigh),
-    pricelow = as.numeric(df$priceLow),
-    priceclose = as.numeric(df$priceClose),
-    pricesettlement = as.numeric(df$settlementPrice),
-    totalvolume = as.numeric(df$totalVolume),
-    blocktradevolume = as.numeric(df$blockTradeVolume),
-    totalvolumeusd = as.numeric(df$totalVolumeUsd),
-    blocktradevolumeusd = as.numeric(df$blockTradeVolumeUsd))
+  # Create asset_class field if necesary
+  if (!is.null(df)) {
+      if (is.list(df)) df <- as.data.frame(df)
+      df$assetclass <- asset_class
+  } else
+    df <- data.frame()
+  return (df)
+}
+
+#' @importFrom dplyr mutate select %>%
+#' @importFrom lubridate ymd_hms
+format_bsef_data <- function (df)
+{
+  if (identical(df, data.frame()))
+    data.frame()
+  else {
+    message('Formatting BSEF data...')
+      df %>%
+        mutate(date = ymd_hms(tradeDate),
+          assetclass = factor(assetclass),
+          security = factor(security),
+          currency = factor(toupper(currency)),
+          priceopen = as.numeric(priceOpen),
+          pricehigh = as.numeric(priceHigh),
+          pricelow = as.numeric(priceLow),
+          priceclose = as.numeric(priceClose),
+          pricesettlement = as.numeric(settlementPrice),
+          totalvolume = as.numeric(totalVolume),
+          blocktradevolume = as.numeric(blockTradeVolume),
+          totalvolumeusd = as.numeric(totalVolumeUsd),
+          blocktradevolumeusd = as.numeric(blockTradeVolumeUsd)) %>%
+        select(date, assetclass, security, currency, priceopen, pricehigh,
+          pricelow, priceclose, pricesettlement, totalvolume, blocktradevolume,
+          totalvolumeusd, blocktradevolumeusd)
+    }
 }
 
 # URL target for data request
