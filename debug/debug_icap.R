@@ -27,3 +27,9 @@ field_counts %>% qplot(x = date, y = factor(count), data = .,
   colour = source, position=position_jitter(w=0.05, h=0.05)) + theme_minimal()
 # Drill down to those with less than 8 fields:
 field_counts %>% filter(count < 8)
+# Look at the files with 9 fields prior to 2014
+field_counts %>% filter(count == 9, year(date) < 2014)
+headers[str_detect(names(headers), '(icus)*(20131029)+')]
+headers[str_detect(names(headers), '(icus)*(20131216)+')]
+# And then during 2014
+headers[str_detect(names(headers), '(icus)*(20140731)+')]
