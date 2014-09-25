@@ -1,9 +1,9 @@
 if (getRversion() >= "2.15.1")
-utils::globalVariables(c('BATCHDATE', 'TRADEINSTRID', 'ASSETCLASS',
-  'Trade.Volume..Local.Currency.', 'Trade.Volume..USD.', 'OPENPRICE',
-  'HIGHPRICE', 'LOWPRICE', 'CLOSEPRICE', 'security', 'assetclass',
-  'totalvolume', 'totalvolumeusd', 'priceopen', 'pricehigh', 'pricelow',
-  'priceclose', '.'))
+  utils::globalVariables(c('BATCHDATE', 'TRADEINSTRID', 'ASSETCLASS',
+    'Trade.Volume..Local.Currency.', 'Trade.Volume..USD.', 'OPENPRICE',
+    'HIGHPRICE', 'LOWPRICE', 'CLOSEPRICE', 'security', 'assetclass',
+    'totalvolume', 'totalvolumeusd', 'priceopen', 'pricehigh', 'pricelow',
+    'priceclose', '.'))
 
 #' Get ICAP (IGDL & ICAP US) SEF data
 #'
@@ -68,44 +68,41 @@ read_icap_files <- function (date)
   matched_files <- list.files(path = file.path(tempdir(), c('igdl', 'icus')),
     pattern = format(date, '%Y%m%d'), full.names = TRUE)
   if (length(matched_files) < 1L)
-    return (data.frame())
+    return (list())
   else {
     dfs <- list()
     for (i in 1:NROW(matched_files))
       dfs[[i]] <- read.csv(matched_files[i])
-    suppressWarnings(return (rbind_all(dfs)))
   }
+  return (dfs)
 }
 
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr setequal %>% mutate select
 #' @importFrom lubridate mdy
-format_icap_data <- function (df)
+format_icap_data <- function (dfs)
 {
   message('Formatting ICAP data...')
-  if (identical(df, data.frame()))
-    return (df)
+  if (identical(dfs, data.frame()))
+    return (dfs)
   else {
-    cols <- c('BATCHDATE', 'TRADEINSTRID', 'ASSETCLASS', 'Trade.Volume..USD.',
-    'Trade.Volume..Local.Currency.', 'OPENPRICE', 'HIGHPRICE', 'LOWPRICE',
-    'CLOSEPRICE')
-  assert_that(setequal(colnames(df), cols))
-  df %>%
-    mutate(date = mdy(as.character(BATCHDATE)),
-      security = factor(TRADEINSTRID),
-      assetclass = factor(ASSETCLASS),
-      totalvolume = Trade.Volume..Local.Currency.,
-      totalvolumeusd = Trade.Volume..USD.,
-      priceopen = OPENPRICE,
-      pricehigh = HIGHPRICE,
-      pricelow = LOWPRICE,
-      priceclose = CLOSEPRICE) %>%
-    select(date, security, assetclass, totalvolume, totalvolumeusd,
-      priceopen, pricehigh, pricelow, priceclose)
+    dfs %>%
+      mutate(date = mdy(as.character(BATCHDATE)),
+        security = factor(TRADEINSTRID),
+        assetclass = factor(ASSETCLASS),
+        totalvolume = Trade.Volume..Local.Currency.,
+        totalvolumeusd = Trade.Volume..USD.,
+        priceopen = OPENPRICE,
+        pricehigh = HIGHPRICE,
+        pricelow = LOWPRICE,
+        priceclose = CLOSEPRICE) %>%
+      select(date, security, assetclass, totalvolume, totalvolumeusd,
+        priceopen, pricehigh, pricelow, priceclose)
   }
 }
 
-clean_icap_files <- function () {
+clean_icap_files <- function ()
+{
   message('Deleting the ICAP temp directories...')
   unlink(file.path(tempdir(), c('igdl', 'icus')))
 }
