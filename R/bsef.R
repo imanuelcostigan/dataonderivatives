@@ -23,6 +23,8 @@ utils::globalVariables(c('tradeDate', 'assetclass', 'security', 'currency',
 #' @importFrom dplyr %>%
 #' @references
 #' \href{http://data.bloombergsef.com}{Bloomberg SEF data}
+#' @examples
+#' get_bsef_data(ymd(20140528))
 #' @export
 
 get_bsef_data <- function (date)

@@ -30,6 +30,9 @@ data. It publishes complete historical data sets in two zip files: one for
 IGDL and the other for ICAP US. These are downloaded, unzipped and data for
 the date requested is formatted and returned to you.
 }
+\examples{
+get_icap_data(ymd(20140528))
+}
 \references{
 \href{http://www.icap.com/what-we-do/global-broking/sef.aspx}{ICAP SEF}
 }
