@@ -38,12 +38,13 @@ headers[str_detect(names(headers), '(icus)*(20131216)+')]
 # And then during 2014
 headers[str_detect(names(headers), '(icus)*(20140731)+')]
 
+unique(unlist(headers))
 
 regexps <- c('date|Date|DATE', # date
   'asset|Asset|ASSET', # assetclass
   'inst|Inst|INST', # security
-  '((t|T)(rade|RADE))+(\\s)*(V(ol|OL)(ume|UME)*)\\s*(?!\\(*USD\\)*)', # totalvolume
-  '((t|T)(rade|RADE))+(\\s)*(V(ol|OL)(ume|UME)*)\\s*\\(*USD\\)*', #totalvolumeusd
+  '((t|T)(rade|RADE))+(\\s)*(V(ol|OL)(ume|UME)*)\\s*\\.*\\(*(?!USD)\\)*\\.*', # totalvolume
+  '((t|T)(rade|RADE))+(\\s)*(V(ol|OL)(ume|UME)*)\\s*\\.*\\(*USD\\)*\\.*', #totalvolumeusd
   'OPEN|Open|open', #priceopen
   'CLOSE|Close|close', #priceclose
   'LOW|Low|low', #pricelow
@@ -61,3 +62,5 @@ for (regexp in regexps)
   print(paste0(regexp, ': ', i, ' of ', NROW(headers)))
 }
 
+
+ ((?!USD).)
