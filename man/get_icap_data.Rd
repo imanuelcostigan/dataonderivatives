@@ -31,6 +31,7 @@ IGDL and the other for ICAP US. These are downloaded, unzipped and data for
 the date requested is formatted and returned to you.
 }
 \examples{
+library (lubridate)
 get_icap_data(ymd(20140528))
 }
 \references{

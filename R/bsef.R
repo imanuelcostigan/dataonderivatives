@@ -24,6 +24,7 @@ utils::globalVariables(c('tradeDate', 'assetclass', 'security', 'currency',
 #' @references
 #' \href{http://data.bloombergsef.com}{Bloomberg SEF data}
 #' @examples
+#' library (lubridate)
 #' get_bsef_data(ymd(20140528))
 #' @export
 

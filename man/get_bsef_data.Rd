@@ -24,6 +24,7 @@ are done by asset class. This function iterates across all asset classes
 (credit, equities, foreign exchange, rates and commodities).
 }
 \examples{
+library (lubridate)
 get_bsef_data(ymd(20140528))
 }
 \references{
