@@ -26,8 +26,11 @@ if (getRversion() >= "2.15.1") {
 #' \href{http://www.icap.com/what-we-do/global-broking/sef.aspx}{ICAP SEF}
 #' @importFrom dplyr %>%
 #' @examples
+#' \dontrun{
 #' library (lubridate)
 #' get_icap_data(ymd(20140528))
+#' }
+#' @keywords internal
 get_icap_data <- function (date, clean = TRUE) {
   download_icap_zip()
   df <- read_icap_files(date) %>% format_icap_data(.)
