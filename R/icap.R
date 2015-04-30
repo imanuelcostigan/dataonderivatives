@@ -1,5 +1,6 @@
-if (getRversion() >= "2.15.1")
+if (getRversion() >= "2.15.1") {
   utils::globalVariables(c('date', 'security', 'assetclass', '.'))
+}
 
 #' Get ICAP (IGDL & ICAP US) SEF data
 #'
@@ -28,16 +29,14 @@ if (getRversion() >= "2.15.1")
 #' library (lubridate)
 #' get_icap_data(ymd(20140528))
 #' @export
-get_icap_data <- function (date, clean = TRUE)
-{
+get_icap_data <- function (date, clean = TRUE) {
   download_icap_zip()
   df <- read_icap_files(date) %>% format_icap_data(.)
   if (clean) clean_icap_files()
-  return (df)
+  df
 }
 
-url_icap_zip <- function (uk = TRUE)
-{
+url_icap_zip <- function (uk = TRUE) {
   # UK SEF is G3 rates since 12 May 2014. Previously everything on US SEF.
   if (uk)
     'http://www2.icap.com/sef/marketdata/igdl/ICAPSEFMarketDataReport.zip'
@@ -45,8 +44,7 @@ url_icap_zip <- function (uk = TRUE)
     'http://www2.icap.com/sef/marketdata/ussef/ICAPSEFMarketDataReport.zip'
 }
 
-download_icap_zip <- function ()
-{
+download_icap_zip <- function () {
   tmpfile_uk <- tempfile(pattern = 'igdl', fileext = '.zip')
   tmpfile_us <- tempfile(pattern = 'icus', fileext = '.zip')
   message('Downloading ICAPUS and IGDL zip files...')
@@ -59,46 +57,39 @@ download_icap_zip <- function ()
   unlink(c(tmpfile_uk, tmpfile_us))
 }
 
-#' @importFrom dplyr rbind_all
-#' @importFrom assertthat assert_that
-#' @importFrom stringr str_extract
-read_icap_files <- function (date)
-{
+read_icap_files <- function (date) {
   message('Reading ICAP data for ', format(date, '%d-%b-%Y'), '...')
   matched_files <- list.files(path = file.path(tempdir(), c('igdl', 'icus')),
     pattern = format(date, '%Y%m%d'), full.names = TRUE)
-  if (length(matched_files) < 1L)
-    return (list())
-  else
-  {
+  if (length(matched_files) < 1L) {
+    return(list())
+  } else {
     dfs <- list()
     for (i in 1:NROW(matched_files)) {
-      dfs[[i]] <- read.csv(matched_files[i])
-      dfs[[i]]$venue <- str_extract(matched_files[i], 'icus|igdl')
+      dfs[[i]] <- readr::read_csv(matched_files[i])
+      dfs[[i]]$venue <- stringr::str_extract(matched_files[i], 'icus|igdl')
     }
-    return (dfs)
+    return(dfs)
   }
 }
 
-#' @importFrom stringr str_detect perl
-
-align_icap_data <- function (df)
-{
+align_icap_data <- function (df) {
   message('Aligning ICAP data...')
   cols <- colnames(df)
-  col_date <- str_detect(cols, perl('date|Date|DATE'))
-  col_security <- str_detect(cols, perl('inst|Inst|INST'))
-  col_assetclass <- str_detect(cols, perl('asset|Asset|ASSET'))
-  col_totalvolumeusd <- str_detect(cols,
-    perl('((t|T)(rade|RADE))+.*V(ol|OL)(ume|UME).*USD.*'))
-  col_totalvolume <- str_detect(cols,
-    perl('((t|T)(rade|RADE))+.*V(ol|OL)(ume|UME).*')) & !col_totalvolumeusd
-  col_priceopen <- str_detect(cols, perl('OPEN|Open|open'))
-  col_pricehigh <- str_detect(cols, perl('HIGH|High|high'))
-  col_pricelow <- str_detect(cols, perl('LOW|Low|low'))
-  col_priceclose <- str_detect(cols, perl('CLOSE|Close|close'))
+  col_date <- stringr::str_detect(cols, stringr::perl('date|Date|DATE'))
+  col_security <- stringr::str_detect(cols, stringr::perl('inst|Inst|INST'))
+  col_assetclass <- stringr::str_detect(cols, stringr::perl('asset|Asset|ASSET'))
+  col_totalvolumeusd <- stringr::str_detect(cols,
+    stringr::perl('((t|T)(rade|RADE))+.*V(ol|OL)(ume|UME).*USD.*'))
+  col_totalvolume <- stringr::str_detect(cols,
+    stringr::perl('((t|T)(rade|RADE))+.*V(ol|OL)(ume|UME).*')) &
+    !col_totalvolumeusd
+  col_priceopen <- stringr::str_detect(cols, stringr::perl('OPEN|Open|open'))
+  col_pricehigh <- stringr::str_detect(cols, stringr::perl('HIGH|High|high'))
+  col_pricelow <- stringr::str_detect(cols, stringr::perl('LOW|Low|low'))
+  col_priceclose <- stringr::str_detect(cols, stringr::perl('CLOSE|Close|close'))
   grab_column <- function (df, flags) if (sum(flags) == 1) df[, flags] else NA
-  data.frame(
+  dplyr::data_frame(
     date = grab_column(df, col_date),
     security = grab_column(df, col_security),
     assetclass = grab_column(df, col_assetclass),
@@ -107,32 +98,21 @@ align_icap_data <- function (df)
     priceopen = grab_column(df, col_priceopen),
     pricehigh = grab_column(df, col_pricehigh),
     pricelow = grab_column(df, col_pricelow),
-    priceclose = grab_column(df, col_priceclose)
-  )
+    priceclose = grab_column(df, col_priceclose))
 }
 
-#' @importFrom assertthat assert_that
-#' @importFrom dplyr setequal %>% mutate select
-#' @importFrom lubridate mdy
-format_icap_data <- function (dfs)
-{
-  if (identical(dfs, list()))
-    return (data.frame())
-  else {
+format_icap_data <- function (dfs) {
+  if (identical(dfs, list())) {
+    return(dplyr::data_frame())
+  } else {
     message('Formatting ICAP data...')
     dfs <- lapply(dfs, align_icap_data)
-    suppressWarnings({
-      dfs <- rbind_all(dfs)
-    })
-    dfs %>%
-      mutate(date = mdy(as.character(date)),
-        security = factor(security),
-        assetclass = factor(assetclass))
+    suppressWarnings(dfs <- dplyr::rbind_all(dfs))
+    return(dfs %>% dplyr::mutate(date = lubridate::mdy(as.character(date))))
   }
 }
 
-clean_icap_files <- function ()
-{
+clean_icap_files <- function () {
   message('Deleting the ICAP temp directories...')
   unlink(file.path(tempdir(), c('igdl', 'icus')))
 }
