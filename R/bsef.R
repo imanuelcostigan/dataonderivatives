@@ -28,26 +28,21 @@ utils::globalVariables(c('tradeDate', 'assetclass', 'security', 'currency',
 #' get_bsef_data(ymd(20140528))
 #' @export
 
-get_bsef_data <- function (date)
-  download_bsef_data(date) %>% format_bsef_data(.)
-
-#' @importFrom dplyr rbind_all
-download_bsef_data <- function (date)
-{
-  asset_class <- c('CR', 'EQ', 'FX', 'IR', 'CO')
-  rbind_all(Map(download_bsef_data_single, asset_class, date))
+get_bsef_data <- function (date) {
+  download_bsef_data(date) %>% format_bsef_data()
 }
 
-#' @importFrom assertthat assert_that
-#' @importFrom httr POST
-#' @importFrom jsonlite fromJSON
-download_bsef_data_single <- function (asset_class, date)
-{
+download_bsef_data <- function (date) {
+  asset_class <- c('CR', 'EQ', 'FX', 'IR', 'CO')
+  dplyr::rbind_all(Map(download_bsef_data_single, asset_class, date))
+}
+
+download_bsef_data_single <- function (asset_class, date) {
   message('Downloading and reading BSEF data for the ', asset_class,
     ' asset class on ', format(date, '%d-%b-%Y'), '...')
   # Process and check argument values
   asset_class <- toupper(asset_class)
-  assert_that(asset_class %in% c('CR', 'EQ', 'FX', 'IR', 'CO'))
+  assertthat::assert_that(asset_class %in% c('CR', 'EQ', 'FX', 'IR', 'CO'))
   # BAS doesn't appear to accept an end_date different from date: the
   # response is empty.
   start_date <- paste0(format(date, '%Y-%m-%d'), 'T00:00:00.000000Z')
@@ -56,31 +51,31 @@ download_bsef_data_single <- function (asset_class, date)
   body <- list(list(tradeDays = list(startDay = start_date, endDay = end_date)))
   names(body) <- bsef_data_requestor(asset_class)
   body <- list(Request = body)
-  response <- POST(url = bsef_url(), config = bsef_header(), body = body,
+  response <- httr::POST(url = bsef_url(), config = bsef_header(), body = body,
     encode = 'json')
   # Convert response's content to JSON from raw
-  response <- fromJSON(rawToChar(response$content))
+  response <- jsonlite::fromJSON(rawToChar(response$content))
   # Drill down response to data set that we are interested in
   df <- response$response[[bsef_data_responder(asset_class)]]$BsefEodData
   # Create asset_class field if necesary
   if (!is.null(df)) {
-      if (is.list(df)) df <- as.data.frame(df)
+      if (is.list(df)) df <- dplyr::as_data_frame(df)
       df$assetclass <- asset_class
-  } else
-    df <- data.frame()
-  return (df)
+      return(df)
+  } else {
+    df <- dplyr::data_frame()
+    return(df)
+  }
 }
 
-#' @importFrom dplyr mutate select %>%
-#' @importFrom lubridate ymd_hms
-format_bsef_data <- function (df)
-{
-  if (identical(df, data.frame()))
-    data.frame()
-  else {
+#' @importFrom dplyr %>%
+format_bsef_data <- function (df) {
+  if (identical(df, dplyr::data_frame())) {
+    return(data_frame())
+  } else {
     message('Formatting BSEF data...')
       df %>%
-        mutate(date = ymd_hms(tradeDate),
+        dplyr::mutate(date = lubridate::ymd_hms(tradeDate),
           assetclass = factor(assetclass),
           security = factor(security),
           currency = factor(toupper(currency)),
@@ -93,7 +88,7 @@ format_bsef_data <- function (df)
           blocktradevolume = as.numeric(blockTradeVolume),
           totalvolumeusd = as.numeric(totalVolumeUsd),
           blocktradevolumeusd = as.numeric(blockTradeVolumeUsd)) %>%
-        select(date, assetclass, security, currency, priceopen, pricehigh,
+        dplyr::select(date, assetclass, security, currency, priceopen, pricehigh,
           pricelow, priceclose, pricesettlement, totalvolume, blocktradevolume,
           totalvolumeusd, blocktradevolumeusd)
     }
@@ -102,15 +97,16 @@ format_bsef_data <- function (df)
 # URL target for data request
 # Source: http://data.bloombergsef.com/assets/js/ticker.js
 # Date accessed: 19 Sep 2014
-bsef_url <- function ()
+bsef_url <- function () {
   'http://data.bloombergsef.com/bas/blotdatasvc'
+}
 
 # Bloomberg BAS version number
 # Source: http://data.bloombergsef.com/assets/js/ticker.js
 # Date accessed: 19 Sep 2014
-#' @importFrom httr add_headers
-bsef_header <- function (version = '1.9')
-  add_headers('bas-version' = version)
+bsef_header <- function (version = '1.9') {
+  httr::add_headers('bas-version' = version)
+}
 
 # Way to tell Bloomberg which market data set is wanted
 # Source: http://data.bloombergsef.com/assets/js/ticker.js
