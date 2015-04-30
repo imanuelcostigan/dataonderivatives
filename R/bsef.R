@@ -60,9 +60,9 @@ download_bsef_data_single <- function (asset_class, date) {
   df <- response$response[[bsef_data_responder(asset_class)]]$BsefEodData
   # Create asset_class field if necesary
   if (!is.null(df)) {
-      if (is.list(df)) df <- dplyr::as_data_frame(df)
-      df$assetclass <- asset_class
-      return(df)
+    if (is.list(df)) df <- dplyr::as_data_frame(df)
+    df$assetclass <- asset_class
+    return(df)
   } else {
     df <- dplyr::data_frame()
     return(df)
@@ -71,28 +71,28 @@ download_bsef_data_single <- function (asset_class, date) {
 
 #' @importFrom dplyr %>%
 format_bsef_data <- function (df) {
-  if (identical(df, dplyr::data_frame())) {
-    return(data_frame())
+  if (all(dim(df) == c(0, 0))) {
+    return(dplyr::data_frame())
   } else {
     message('Formatting BSEF data...')
-      df %>%
-        dplyr::mutate(date = lubridate::ymd_hms(tradeDate),
-          assetclass = factor(assetclass),
-          security = factor(security),
-          currency = factor(toupper(currency)),
-          priceopen = as.numeric(priceOpen),
-          pricehigh = as.numeric(priceHigh),
-          pricelow = as.numeric(priceLow),
-          priceclose = as.numeric(priceClose),
-          pricesettlement = as.numeric(settlementPrice),
-          totalvolume = as.numeric(totalVolume),
-          blocktradevolume = as.numeric(blockTradeVolume),
-          totalvolumeusd = as.numeric(totalVolumeUsd),
-          blocktradevolumeusd = as.numeric(blockTradeVolumeUsd)) %>%
-        dplyr::select(date, assetclass, security, currency, priceopen, pricehigh,
-          pricelow, priceclose, pricesettlement, totalvolume, blocktradevolume,
-          totalvolumeusd, blocktradevolumeusd)
-    }
+    df %>%
+      dplyr::mutate(date = lubridate::ymd_hms(tradeDate),
+        assetclass = factor(assetclass),
+        security = factor(security),
+        currency = factor(toupper(currency)),
+        priceopen = as.numeric(priceOpen),
+        pricehigh = as.numeric(priceHigh),
+        pricelow = as.numeric(priceLow),
+        priceclose = as.numeric(priceClose),
+        pricesettlement = as.numeric(settlementPrice),
+        totalvolume = as.numeric(totalVolume),
+        blocktradevolume = as.numeric(blockTradeVolume),
+        totalvolumeusd = as.numeric(totalVolumeUsd),
+        blocktradevolumeusd = as.numeric(blockTradeVolumeUsd)) %>%
+      dplyr::select(date, assetclass, security, currency, priceopen, pricehigh,
+        pricelow, priceclose, pricesettlement, totalvolume, blocktradevolume,
+        totalvolumeusd, blocktradevolumeusd)
+  }
 }
 
 # URL target for data request

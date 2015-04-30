@@ -1,6 +1,7 @@
 context("BSEF")
 test_that('BSEF API accesible', {
-    expect_false(identical(download_bsef_data_single('IR', ymd(20140918)),
-        data.frame()))
-    expect_true(identical(get_bsef_data(ymd(20140920)), data.frame()))
+  empty_data <- download_bsef_data_single('IR', lubridate::ymd(20140918))
+  expect_false(identical(empty_data, dplyr::data_frame()))
+  empty_data <- get_bsef_data(lubridate::ymd(20140920))
+  expect_true(identical(empty_data, dplyr::data_frame()))
 })
