@@ -30,7 +30,7 @@ download_ddr_zip <- function (date, asset_class) {
   # before downloading the file.
   assertthat::assert_that(httr::url_ok(zip_url))
   # Use libcurl for https access
-  res <- curl::curl_download(url = zip_url, destfile = tmpfile, quiet = TRUE)
+  res <- download(url = zip_url, destfile = tmpfile, quiet = TRUE)
   message("Unzipping DDR file ...")
   # Create date/asset_class dir as CSV file name in zip does not reflect date.
   # This makes it harder to ensure read_ddr_file picks up the right file.

@@ -3,8 +3,10 @@ Type: Package
 Title: Source publicly available data on derivatives easily
 Version: 0.1
 Date: 2014-09-20
-Author: Imanuel Costigan <i.costigan@me.com>
-Maintainer: Imanuel Costigan <i.costigan@me.com>
+Authors@R: as.person(c(
+  "Imanuel Costigan <i.costigan@me.com> [aut, cre]",
+  "Kevin Ushey <kevin@rstudio.com> [ctb]",
+  "Joe Cheng [ctb]"))
 Description: Swap Execution Facilities (SEFs) are becoming increasingly
     important venues for transacting Over-The-Counter (OTC) derivatives. These
     must make publicly available price, volume and other data in relation to
@@ -18,7 +20,10 @@ Imports:
     dplyr (>= 0.4),
     assertthat (>= 0.1),
     stringr (>= 0.6),
-    readr (>= 0.1),
-    curl (>= 0.5)
+    readr (>= 0.1)
 Suggests:
     testthat
+URL:
+   https://github.com/imanuelcostigan/dataonderivatives
+BugReports:
+   https://github.com/imanuelcostigan/dataonderivatives/issues
