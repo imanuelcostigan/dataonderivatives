@@ -21,14 +21,16 @@ download_ddr_zip <- function (date, asset_class) {
   zip_url <- ddr_url(date, asset_class)
   message('Downloading DDR zip file for ', DDR_ASSET_CLASSES[asset_class],
     ' on ', date, '...')
-  tmpfile_pattern <- paste0("ddr/", ddr_file_name(date, asset_class))
-  tmpfile <- tempfile(pattern = tmpfile_pattern, fileext = ".zip")
+  tmpfile_pattern <- ddr_file_name(date, asset_class)
+  tmpdir <- file.path(tempdir(), "ddr")
+  if (!dir.exists(tmpdir)) dir.create(tmpdir, recursive = TRUE)
+  tmpfile <- tempfile(tmpfile_pattern, tmpdir, fileext = ".zip")
   # Need to use libcurl for https access
   download.file(url = zip_url, destfile = tmpfile, method = "libcurl")
   message("Unzipping DDR file ...")
   # Create date/asset_class dir as CSV file name in zip does not reflect date.
   # This makes it harder to ensure read_ddr_file picks up the right file.
-  tmpdir <- file.path(tempdir(), 'ddr/', date, "/", asset_class, '/')
+  tmpdir <- file.path(tmpdir, date, "/", asset_class, '/')
   unzip(tmpfile, exdir = tmpdir)
   message('Deleting the zip file ...')
   unlink(tmpfile)
@@ -57,7 +59,8 @@ clean_ddr_files <- function () {
 #' The DTCC Data Repository is a registered U.S. swap data repository that allows
 #' market participants to fulfil their public disclosure obligations under
 #' U.S. legislation. This function will give you the ability to download
-#' trade-level data that is reported by market participants.
+#' trade-level data that is reported by market participants. The field names
+#' are (and is assumed to be) the same for each asset class.
 #'
 #' @param date the date for which data is required as Date or DateTime
 #' object. Only the year, month and day elements of the object are used.
