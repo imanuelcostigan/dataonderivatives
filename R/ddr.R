@@ -71,6 +71,8 @@ clean_ddr_files <- function () {
 #' @examples
 #' library("lubridate")
 #' get_ddr_data(ymd(20140430), "IR")
+#' @references
+#' \href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination Platform}
 #' @export
 
 get_ddr_data <- function (date, asset_class, clean = TRUE) {

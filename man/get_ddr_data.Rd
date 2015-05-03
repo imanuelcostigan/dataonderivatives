@@ -31,4 +31,7 @@ trade-level data that is reported by market participants.
 library("lubridate")
 get_ddr_data(ymd(20140430), "IR")
 }
+\references{
+\href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination Platform}
+}
 
