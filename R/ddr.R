@@ -136,6 +136,6 @@ clean_ddr_files <- function () {
 
 get_ddr_data <- function (date, asset_class, clean = TRUE) {
   download_ddr_zip(date, asset_class)
-  on.exit(if (clean) clean_icap_files())
+  on.exit(if (clean) clean_ddr_files())
   read_ddr_file(date, asset_class)
 }
