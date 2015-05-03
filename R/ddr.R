@@ -1,17 +1,17 @@
 if (getRversion() >= "2.15.1") {
-  utils::globalVariables(c("ASSET_CLASSES"))
+  utils::globalVariables(c("DDR_ASSET_CLASSES"))
 }
 
-ASSET_CLASSES <- c("CR" = "CREDITS", 'EQ' = "EQUITIES", 'FX' = "FOREX",
+DDR_ASSET_CLASSES <- c("CR" = "CREDITS", 'EQ' = "EQUITIES", 'FX' = "FOREX",
   'IR' = "RATES", 'CO' = "COMMODITIES")
 
 ddr_file_name <- function (date, asset_class) {
-  paste0(paste("CUMULATIVE", ASSET_CLASSES[asset_class], format(date, "%Y"),
+  paste0(paste("CUMULATIVE", DDR_ASSET_CLASSES[asset_class], format(date, "%Y"),
     format(date, "%m"), format(date, "%d"), sep="_"))
 }
 
 ddr_url <- function (date, asset_class) {
-  assertthat::assert_that(assertthat::has_name(ASSET_CLASSES, asset_class))
+  assertthat::assert_that(assertthat::has_name(DDR_ASSET_CLASSES, asset_class))
   stump <- "https://kgc0418-tdw-data-0.s3.amazonaws.com/slices/"
   # "https://kgc0418-tdw-data-0.s3.amazonaws.com/slices/CUMULATIVE_CREDITS_2015_04_29.zip"
   paste0(stump, ddr_file_name(date, asset_class), ".zip")
@@ -19,7 +19,7 @@ ddr_url <- function (date, asset_class) {
 
 download_ddr_zip <- function (date, asset_class) {
   zip_url <- ddr_url(date, asset_class)
-  message('Downloading DDR zip file for ', ASSET_CLASSES[asset_class],
+  message('Downloading DDR zip file for ', DDR_ASSET_CLASSES[asset_class],
     ' on ', date, '...')
   tmpfile_pattern <- paste0("ddr/", ddr_file_name(date, asset_class))
   tmpfile <- tempfile(pattern = tmpfile_pattern, fileext = ".zip")
@@ -37,7 +37,7 @@ download_ddr_zip <- function (date, asset_class) {
 read_ddr_file <- function (date, asset_class) {
   message('Reading DDR data for ', format(date, '%d-%b-%Y'), '...')
   tmpdir <- file.path(tempdir(), 'ddr/', date, "/", asset_class, '/')
-  ddrfile <- list.files(tmpdir, ASSET_CLASSES[asset_class], full.names = TRUE)
+  ddrfile <- list.files(tmpdir, DDR_ASSET_CLASSES[asset_class], full.names = TRUE)
   if (length(ddrfile) < 1L) {
     return(dplyr::data_frame())
   } else {
