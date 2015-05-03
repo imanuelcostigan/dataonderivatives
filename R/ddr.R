@@ -121,8 +121,10 @@ clean_ddr_files <- function () {
 #' during this process. Defaults to \code{TRUE}.
 #' @return a \code{tbl_df} that contains the requested data.
 #' @examples
+#' \dontrun{
 #' library("lubridate")
 #' get_ddr_data(ymd(20140430), "IR")
+#' }
 #' @references
 #' \href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination Platform}
 #' @export

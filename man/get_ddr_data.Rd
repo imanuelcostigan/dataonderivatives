@@ -25,11 +25,14 @@ a \code{tbl_df} that contains the requested data.
 The DTCC Data Repository is a registered U.S. swap data repository that allows
 market participants to fulfil their public disclosure obligations under
 U.S. legislation. This function will give you the ability to download
-trade-level data that is reported by market participants.
+trade-level data that is reported by market participants. The field names
+are (and is assumed to be) the same for each asset class.
 }
 \examples{
+\dontrun{
 library("lubridate")
 get_ddr_data(ymd(20140430), "IR")
+}
 }
 \references{
 \href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination Platform}
