@@ -11,3 +11,8 @@ test_that('DDR URL scheme still valid', {
 test_that("DDR zip can be downloaded", {
   suppressMessages(expect_equal(download_ddr_zip(ymd(20150430), "IR"), 0))
 })
+
+test_that("DDR file parsed correctly", {
+  res <- get_ddr_data(ymd(20150430), "IR", TRUE)
+  expect_equal(nrow(readr::problems(res)), 0)
+})
