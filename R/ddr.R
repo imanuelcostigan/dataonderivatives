@@ -25,8 +25,12 @@ download_ddr_zip <- function (date, asset_class) {
   tmpdir <- file.path(tempdir(), "ddr")
   if (!dir.exists(tmpdir)) dir.create(tmpdir, recursive = TRUE)
   tmpfile <- tempfile(tmpfile_pattern, tmpdir, fileext = ".zip")
-  # Need to use libcurl for https access
-  res <- download.file(url = zip_url, destfile = tmpfile, method = "libcurl")
+  # Make sure that URL is ok. Is possible to download a "valid" ZIP file which
+  # is empty (e.g. for a future date). This is avoided by checking URL status
+  # before downloading the file.
+  assertthat::assert_that(httr::url_ok(zip_url))
+  # Use libcurl for https access
+  res <- curl::curl_download(url = zip_url, destfile = tmpfile, quiet = TRUE)
   message("Unzipping DDR file ...")
   # Create date/asset_class dir as CSV file name in zip does not reflect date.
   # This makes it harder to ensure read_ddr_file picks up the right file.

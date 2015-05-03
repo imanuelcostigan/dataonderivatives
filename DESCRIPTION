@@ -18,6 +18,7 @@ Imports:
     dplyr (>= 0.4),
     assertthat (>= 0.1),
     stringr (>= 0.6),
-    readr (>= 0.1)
+    readr (>= 0.1),
+    curl (>= 0.5)
 Suggests:
     testthat
