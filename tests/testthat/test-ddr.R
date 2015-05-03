@@ -13,6 +13,8 @@ test_that("DDR zip can be downloaded", {
 })
 
 test_that("DDR file parsed correctly", {
-  res <- get_ddr_data(ymd(20150430), "IR", TRUE)
-  expect_equal(nrow(readr::problems(res)), 0)
+  for (asset_class in names(DDR_ASSET_CLASSES)) {
+    res <- get_ddr_data(ymd(20150430), asset_class, TRUE)
+    expect_equal(nrow(readr::problems(res)), 0)
+  }
 })
