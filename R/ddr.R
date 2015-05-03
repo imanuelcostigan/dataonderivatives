@@ -51,9 +51,30 @@ clean_ddr_files <- function () {
   unlink(file.path(tempdir(), 'ddr'))
 }
 
+
+#' Get DDR data
+#'
+#' The DTCC Data Repository is a registered U.S. swap data repository that allows
+#' market participants to fulfil their public disclosure obligations under
+#' U.S. legislation. This function will give you the ability to download
+#' trade-level data that is reported by market participants.
+#'
+#' @param date the date for which data is required as Date or DateTime
+#' object. Only the year, month and day elements of the object are used.
+#' @param asset_class the asset class for which you would like to download
+#' trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
+#' \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
+#' (commodities).
+#' @param clean where or not to clean up temporary files that are created
+#' during this process. Defaults to \code{TRUE}.
+#' @return a \code{tbl_df} that contains the requested data.
+#' @examples
+#' library("lubridate")
+#' get_ddr_data(ymd(20140430), "IR")
+#' @export
+
 get_ddr_data <- function (date, asset_class, clean = TRUE) {
   download_ddr_zip(date, asset_class)
   on.exit(if (clean) clean_icap_files())
   read_ddr_file(date, asset_class)
-  clean_ddr_files()
 }
