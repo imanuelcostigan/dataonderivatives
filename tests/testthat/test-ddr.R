@@ -4,6 +4,7 @@ library("lubridate")
 test_that('DDR URL scheme still valid', {
   for (asset_class in names(DDR_ASSET_CLASSES)) {
     expect_true(httr::url_ok(ddr_url(ymd(20150430), asset_class)))
+    expect_false(httr::url_ok(ddr_url(today() + days(2), asset_class)))
   }
 })
 
