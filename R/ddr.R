@@ -26,7 +26,7 @@ download_ddr_zip <- function (date, asset_class) {
   if (!dir.exists(tmpdir)) dir.create(tmpdir, recursive = TRUE)
   tmpfile <- tempfile(tmpfile_pattern, tmpdir, fileext = ".zip")
   # Need to use libcurl for https access
-  download.file(url = zip_url, destfile = tmpfile, method = "libcurl")
+  res <- download.file(url = zip_url, destfile = tmpfile, method = "libcurl")
   message("Unzipping DDR file ...")
   # Create date/asset_class dir as CSV file name in zip does not reflect date.
   # This makes it harder to ensure read_ddr_file picks up the right file.
@@ -34,6 +34,7 @@ download_ddr_zip <- function (date, asset_class) {
   unzip(tmpfile, exdir = tmpdir)
   message('Deleting the zip file ...')
   unlink(tmpfile)
+  invisible(res)
 }
 
 read_ddr_file <- function (date, asset_class) {
