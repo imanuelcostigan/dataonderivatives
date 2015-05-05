@@ -43,6 +43,17 @@ You can download daily trade data executed on the BloombergSEF:
 
 ``` r
 library("dataonderivatives")
+library("dplyr")
+#> 
+#> Attaching package: 'dplyr'
+#> 
+#> The following object is masked from 'package:stats':
+#> 
+#>     filter
+#> 
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 # All asset classes
 get_bsef_data(lubridate::ymd(20150504))
 #> Downloading and reading BSEF data for the CR asset class on 04-May-2015...
@@ -69,27 +80,16 @@ get_bsef_data(lubridate::ymd(20150504))
 #>   pricesettlement (dbl), totalvolume (dbl), blocktradevolume (dbl),
 #>   totalvolumeusd (dbl), blocktradevolumeusd (dbl)
 # IR and FX classes only
-get_bsef_data(lubridate::ymd(20150504), c("IR", "FX")) 
+get_bsef_data(lubridate::ymd(20150504), c("IR", "FX")) %>% 
+  group_by(assetclass) %>% summarise(n = n())
 #> Downloading and reading BSEF data for the IR asset class on 04-May-2015...
 #> Downloading and reading BSEF data for the FX asset class on 04-May-2015...
 #> Formatting BSEF data...
-#> Source: local data frame [87 x 13]
+#> Source: local data frame [2 x 2]
 #> 
-#>          date assetclass                       security currency priceopen
-#> 1  2015-05-04         IR            EUR SWAP VS 6M 15YR      EUR    0.9265
-#> 2  2015-05-04         IR             EUR SWAP VS 6M 3YR      EUR    0.1670
-#> 3  2015-05-04         IR             EUR SWAP VS 6M 5YR      EUR    0.3205
-#> 4  2015-05-04         IR             EUR SWAP VS 6M 2YR      EUR    0.0905
-#> 5  2015-05-04         IR            EUR SWAP VS 6M 10YR      EUR    0.7155
-#> 6  2015-05-04         IR            EUR SWAP VS 6M 30YR      EUR    1.0620
-#> 7  2015-05-04         IR           USD MAC 3M JU15 JU17      USD    1.2500
-#> 8  2015-05-04         IR SWA USD P 3.50 12/17/44 SWAP C      USD    3.5000
-#> 9  2015-05-04         IR SWA USD R 3.25 6/17/45 SWAP CN      USD    3.2500
-#> 10 2015-05-04         IR           USD S/A 3M JU15 JU45      USD    2.6619
-#> ..        ...        ...                            ...      ...       ...
-#> Variables not shown: pricehigh (dbl), pricelow (dbl), priceclose (dbl),
-#>   pricesettlement (dbl), totalvolume (dbl), blocktradevolume (dbl),
-#>   totalvolumeusd (dbl), blocktradevolumeusd (dbl)
+#>   assetclass  n
+#> 1         FX 38
+#> 2         IR 49
 ```
 
 You can also download the data reported to the DTCC's SDR:
@@ -151,7 +151,8 @@ get_ddr_data(lubridate::ymd(20150504))
 #>   OPTION_EXPIRATION_DATE (date), PRICE_NOTATION2_TYPE (chr),
 #>   PRICE_NOTATION2 (dbl), PRICE_NOTATION3_TYPE (chr), PRICE_NOTATION3 (dbl)
 # IR and FX classes only
-get_ddr_data(lubridate::ymd(20150504), c("IR", "FX"))
+get_ddr_data(lubridate::ymd(20150504), c("IR", "FX")) %>% 
+   group_by(ASSET_CLASS) %>% summarise(n = n())
 #> Downloading DDR zip file for RATES on 2015-05-04...
 #> Unzipping DDR file ...
 #> Deleting the zip file ...
@@ -161,36 +162,9 @@ get_ddr_data(lubridate::ymd(20150504), c("IR", "FX"))
 #> Reading DDR data for 04-May-2015...
 #> Reading DDR data for 04-May-2015...
 #> Deleting the DDR temp directories...
-#> Source: local data frame [12,910 x 44]
+#> Source: local data frame [2 x 2]
 #> 
-#>    DISSEMINATION_ID ORIGINAL_DISSEMINATION_ID ACTION EXECUTION_TIMESTAMP
-#> 1          28754581                        NA    NEW 2015-05-04 01:36:25
-#> 2          28755698                        NA    NEW 2015-05-04 04:17:03
-#> 3          28755714                        NA    NEW 2015-05-04 04:18:04
-#> 4          28755719                        NA    NEW 2015-05-04 04:19:42
-#> 5          28755050                        NA    NEW 2015-05-04 02:38:19
-#> 6          28755051                        NA    NEW 2015-05-04 02:38:32
-#> 7          28755056                        NA    NEW 2015-05-04 02:38:55
-#> 8          28755059                        NA    NEW 2015-05-04 02:35:49
-#> 9          28755097                        NA    NEW 2015-05-04 02:41:09
-#> 10         28754613                        NA    NEW 2015-05-04 01:35:29
-#> ..              ...                       ...    ...                 ...
-#> Variables not shown: CLEARED (chr), INDICATION_OF_COLLATERALIZATION (chr),
-#>   INDICATION_OF_END_USER_EXCEPTION (chr),
-#>   INDICATION_OF_OTHER_PRICE_AFFECTING_TERM (chr),
-#>   BLOCK_TRADES_AND_LARGE_NOTIONAL_OFF-FACILITY_SWAPS (chr),
-#>   EXECUTION_VENUE (chr), EFFECTIVE_DATE (date), END_DATE (date),
-#>   DAY_COUNT_CONVENTION (chr), SETTLEMENT_CURRENCY (chr), ASSET_CLASS
-#>   (chr), SUB-ASSET_CLASS_FOR_OTHER_COMMODITY (chr), TAXONOMY (chr),
-#>   PRICE_FORMING_CONTINUATION_DATA (chr), UNDERLYING_ASSET_1 (chr),
-#>   UNDERLYING_ASSET_2 (chr), PRICE_NOTATION_TYPE (chr), PRICE_NOTATION
-#>   (dbl), ADDITIONAL_PRICE_NOTATION_TYPE (chr), ADDITIONAL_PRICE_NOTATION
-#>   (dbl), NOTIONAL_CURRENCY_1 (chr), NOTIONAL_CURRENCY_2 (chr),
-#>   ROUNDED_NOTIONAL_AMOUNT_1 (dbl), ROUNDED_NOTIONAL_AMOUNT_2 (dbl),
-#>   PAYMENT_FREQUENCY_1 (chr), PAYMENT_FREQUENCY_2 (chr), RESET_FREQUENCY_1
-#>   (chr), RESET_FREQUENCY_2 (chr), EMBEDED_OPTION (chr),
-#>   OPTION_STRIKE_PRICE (dbl), OPTION_TYPE (chr), OPTION_FAMILY (chr),
-#>   OPTION_CURRENCY (chr), OPTION_PREMIUM (dbl), OPTION_LOCK_PERIOD (date),
-#>   OPTION_EXPIRATION_DATE (date), PRICE_NOTATION2_TYPE (chr),
-#>   PRICE_NOTATION2 (dbl), PRICE_NOTATION3_TYPE (chr), PRICE_NOTATION3 (dbl)
+#>   ASSET_CLASS    n
+#> 1          FX 9379
+#> 2          IR 3531
 ```
