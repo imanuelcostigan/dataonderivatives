@@ -37,7 +37,7 @@ get_bsef_data <- function (date) {
 
 download_bsef_data <- function (date) {
   asset_class <- c('CR', 'EQ', 'FX', 'IR', 'CO')
-  dplyr::rbind_all(Map(download_bsef_data_single, asset_class, date))
+  dplyr::bind_rows(Map(download_bsef_data_single, asset_class, date))
 }
 
 download_bsef_data_single <- function (asset_class, date) {
