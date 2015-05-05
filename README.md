@@ -42,5 +42,5 @@ get_bsef_data(lubridate::ymd(20150504))
 You can also download the data reported to the DTCC's SDR:
 
 ```R
-get_ddr_data(lubridate::ymd(20150504))
+get_ddr_data(lubridate::ymd(20150504), "IR")
 ```
