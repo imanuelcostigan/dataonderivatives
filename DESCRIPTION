@@ -1,17 +1,17 @@
 Package: dataonderivatives
 Type: Package
-Title: Source publicly available data on derivatives easily
+Title: Easily Source Publicly Available Data on Derivatives
 Version: 0.1.99
 Date: 2014-09-20
 Authors@R: as.person(c(
   "Imanuel Costigan <i.costigan@me.com> [aut, cre]",
   "Kevin Ushey <kevin@rstudio.com> [ctb]",
   "Joe Cheng [ctb]"))
-Description: Swap Execution Facilities (SEFs) are becoming increasingly
-    important venues for transacting Over-The-Counter (OTC) derivatives. These
-    must make publicly available price, volume and other data in relation to
-    derivatives transacted on their venues. This package provides a coherent
-    interface to access the key SEF venues.
+Description: Post-GFC derivatives reforms have lifted the veil off
+  over-the-counter (OTC) derivative markets. Swap Execution Facilities (SEFs)
+  and Swap Data Repositories (SDRs) now publish data on swaps that are traded
+  on those facilities and reported to those repositories (respectively). This
+  package provides you the ability to get this data from supported sources.
 License: GPL-2
 Imports:
     httr (>= 0.5),
