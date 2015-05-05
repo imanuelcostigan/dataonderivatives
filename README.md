@@ -28,7 +28,7 @@ You can install a development version from GitHub:
 devtools::install_github("imanuelcostigan/dataonderivatives")
 ```
 
-My intention is to submit this package to [CRAN](http://cran.rstudio.com) shortly.
+My intention is to submit this package to [CRAN](http://cran.rstudio.com) soon.
 
 ## Usage
 
