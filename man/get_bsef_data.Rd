@@ -4,11 +4,17 @@
 \alias{get_bsef_data}
 \title{Get Bloomberg SEF data}
 \usage{
-get_bsef_data(date)
+get_bsef_data(date, asset_class = NULL)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime
-object. Only the year, month and day elements of the object are used.}
+object. Only the year, month and day elements of the object are used. Must
+be of length one.}
+
+\item{asset_class}{the asset class for which you would like to download
+trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
+\code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
+(commodities). Can be a vector of these.}
 }
 \value{
 a data frame containing the requested data, or an empty data frame
@@ -26,7 +32,10 @@ are done by asset class. This function iterates across all asset classes
 }
 \examples{
 library (lubridate)
+# All asset classes
 get_bsef_data(ymd(20140528))
+# Only IR and FX asset classes
+get_bsef_data(ymd(20140528), c("IR", "FX"))
 }
 \references{
 \href{http://data.bloombergsef.com}{Bloomberg SEF data}

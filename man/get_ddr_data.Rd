@@ -8,7 +8,8 @@ get_ddr_data(date, asset_class, clean = TRUE)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime
-object. Only the year, month and day elements of the object are used.}
+object. Only the year, month and day elements of the object are used and it
+must of be length one.}
 
 \item{asset_class}{the asset class for which you would like to download
 trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),

@@ -20,6 +20,10 @@ if (getRversion() >= "2.15.1") {
 #' @param date the date for which data is required as Date or DateTime
 #' object. Only the year, month and day elements of the object are used. Must
 #' be of length one.
+#' @param asset_class the asset class for which you would like to download
+#' trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
+#' \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
+#' (commodities). Can be a vector of these.
 #' @return a data frame containing the requested data, or an empty data frame
 #' if data is unavailable
 #' @importFrom dplyr %>%
@@ -27,23 +31,29 @@ if (getRversion() >= "2.15.1") {
 #' \href{http://data.bloombergsef.com}{Bloomberg SEF data}
 #' @examples
 #' library (lubridate)
+#' # All asset classes
 #' get_bsef_data(ymd(20140528))
+#' # Only IR and FX asset classes
+#' get_bsef_data(ymd(20140528), c("IR", "FX"))
 #' @export
 
-get_bsef_data <- function (date) {
-  assertthat::assert_that(assertthat::is.date(date), length(date) == 1)
-  download_bsef_data(date) %>% format_bsef_data()
+get_bsef_data <- function (date, asset_class = NULL) {
+  valid_asset_classes <- c('CR', 'EQ', 'FX', 'IR', 'CO')
+  if (is.null(asset_class)) {
+    asset_class <- valid_asset_classes
+  }
+  assertthat::assert_that(all(asset_class %in% valid_asset_classes),
+    lubridate::is.instant(date), length(date) == 1)
+  download_bsef_data(date, asset_class) %>% format_bsef_data()
 }
 
-download_bsef_data <- function (date) {
-  asset_class <- c('CR', 'EQ', 'FX', 'IR', 'CO')
+download_bsef_data <- function (date, asset_class) {
   dplyr::bind_rows(Map(download_bsef_data_single, date, asset_class))
 }
 
 download_bsef_data_single <- function (date, asset_class) {
   message('Downloading and reading BSEF data for the ', asset_class,
     ' asset class on ', format(date, '%d-%b-%Y'), '...')
-  assertthat::assert_that(asset_class %in% c('CR', 'EQ', 'FX', 'IR', 'CO'))
   # BAS doesn't appear to accept an end_date different from date: the
   # response is empty.
   start_date <- paste0(format(date, '%Y-%m-%d'), 'T00:00:00.000000Z')
@@ -113,16 +123,17 @@ bsef_header <- function (version = '1.9') {
 # Source: http://data.bloombergsef.com/assets/js/ticker.js
 # Date accessed: 19 Sep 2014
 bsef_data_requestor <- function (asset_class) {
-  paste0('getBsefEod', switch(asset_class,
-    CR = 'Cds', EQ = 'Eqt', FX = 'Fx', IR = 'Irs', CO = 'Cmd'),
-    'DataRequest')
+  paste0('getBsefEod', bsef_asset_class_map(asset_class), 'DataRequest')
 }
 
 # Way to drill down into the data response that is provided
 # Source: http://data.bloombergsef.com/assets/js/ticker.js
 # Date accessed: 19 Sep 2014
 bsef_data_responder <- function (asset_class) {
-  paste0('getBsefEod', switch(asset_class,
-    CR = 'Cds', EQ = 'Eqt', FX = 'Fx', IR = 'Irs', CO = 'Cmd'),
-    'DataResponse')
+  paste0('getBsefEod', bsef_asset_class_map(asset_class), 'DataResponse')
+}
+
+bsef_asset_class_map <- function (asset_class) {
+  asset_classes <- c(CR = 'Cds', EQ = 'Eqt', FX = 'Fx', IR = 'Irs', CO = 'Cmd')
+  unname(asset_classes[asset_class])
 }
