@@ -14,7 +14,8 @@ be of length one.}
 \item{asset_class}{the asset class for which you would like to download
 trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
-(commodities). Can be a vector of these.}
+(commodities). Can be a vector of these. Defaults to \code{NULL} which
+corresponds to all asset classes.}
 }
 \value{
 a data frame containing the requested data, or an empty data frame

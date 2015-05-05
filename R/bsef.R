@@ -23,7 +23,8 @@ if (getRversion() >= "2.15.1") {
 #' @param asset_class the asset class for which you would like to download
 #' trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 #' \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
-#' (commodities). Can be a vector of these.
+#' (commodities). Can be a vector of these. Defaults to \code{NULL} which
+#' corresponds to all asset classes.
 #' @return a data frame containing the requested data, or an empty data frame
 #' if data is unavailable
 #' @importFrom dplyr %>%

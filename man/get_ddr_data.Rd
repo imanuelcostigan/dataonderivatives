@@ -4,7 +4,7 @@
 \alias{get_ddr_data}
 \title{Get DDR data}
 \usage{
-get_ddr_data(date, asset_class, clean = TRUE)
+get_ddr_data(date, asset_class = NULL, clean = TRUE)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime
@@ -14,7 +14,8 @@ must of be length one.}
 \item{asset_class}{the asset class for which you would like to download
 trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
-(commodities). Can be a vector of these.}
+(commodities). Can be a vector of these. Defaults to \code{NULL} which
+corresponds to all asset classes.}
 
 \item{clean}{where or not to clean up temporary files that are created
 during this process. Defaults to \code{TRUE}.}

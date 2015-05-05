@@ -122,7 +122,8 @@ clean_ddr_files <- function () {
 #' @param asset_class the asset class for which you would like to download
 #' trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 #' \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
-#' (commodities). Can be a vector of these.
+#' (commodities). Can be a vector of these. Defaults to \code{NULL} which
+#' corresponds to all asset classes.
 #' @param clean where or not to clean up temporary files that are created
 #' during this process. Defaults to \code{TRUE}.
 #' @return a \code{tbl_df} that contains the requested data.
@@ -135,7 +136,7 @@ clean_ddr_files <- function () {
 #' \href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination Platform}
 #' @export
 
-get_ddr_data <- function (date, asset_class, clean = TRUE) {
+get_ddr_data <- function (date, asset_class = NULL, clean = TRUE) {
   valid_asset_classes <- c('CR', 'EQ', 'FX', 'IR', 'CO')
   if (is.null(asset_class)) {
     asset_class <- valid_asset_classes
