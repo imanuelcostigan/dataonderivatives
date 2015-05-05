@@ -3,3 +3,5 @@
 ^\.travis\.yml$
 debug/
 ^NEWS\.md$
+^README\.Rmd$
+^README-*\.png$
