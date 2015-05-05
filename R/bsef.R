@@ -57,7 +57,7 @@ download_bsef_data_single <- function (date, asset_class) {
     ' asset class on ', format(date, '%d-%b-%Y'), '...')
   # BAS doesn't appear to accept an end_date different from date: the
   # response is empty.
-  start_date <- paste0(format(date, '%Y-%m-%d'), 'T00:00:00.000000Z')
+  start_date <- format(date, '%Y-%m-%dT00:00:00.000000Z')
   end_date <- start_date
   # Build POST body
   body <- list(list(tradeDays = list(startDay = start_date, endDay = end_date)))
