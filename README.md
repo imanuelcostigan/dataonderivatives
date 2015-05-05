@@ -72,6 +72,7 @@ get_bsef_data(lubridate::ymd(20150504))
 You can also download the data reported to the DTCC's SDR:
 
 ``` r
+# Get rates market data only.
 get_ddr_data(lubridate::ymd(20150504), "IR")
 #> Downloading DDR zip file for RATES on 2015-05-04...
 #> Unzipping DDR file ...
