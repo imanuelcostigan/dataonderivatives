@@ -30,7 +30,8 @@ download_bsdr_data_single <- function (from, to, asset_class, currency = NULL,
       notional_low = notional_range[1], notional_high = notional_range[2])
   }
   body <- list(Request = list(pubRequest = body))
-  response <- httr::POST(url = bsdr_url(), body = body, encode = 'json')
+  response <- httr::POST(url = bsdr_url(), body = body, config = bsef_header(),
+    encode = 'json')
   # Convert response's content to JSON from raw
   # Some nested data frames. So flatten these out.
   response <- jsonlite::fromJSON(rawToChar(response$content), flatten = TRUE)
@@ -48,4 +49,10 @@ download_bsdr_data_single <- function (from, to, asset_class, currency = NULL,
 
 bsdr_url <- function () {
  "http://www.bloombergsdr.com/bas/bsdrweb"
+}
+
+# Header isn't specified in search.js. However, added for sake of consistency
+# with BSEF spec.
+bsdr_header <- function (version = 1.3) {
+  httr::add_headers('bas-version' = version)
 }
