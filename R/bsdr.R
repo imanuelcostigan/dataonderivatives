@@ -1,10 +1,17 @@
 # Reverse engineering API:
 # http://www.bloombergsdr.com/assets/js/search.js
-download_bsdr_data_single <- function (from, to, asset_class, currency = NULL,
+download_bsdr_data_single <- function (date_range, asset_class, currency = NULL,
   notional_range = NULL) {
+  # If only one date is specified for date_range, then add one day to this to
+  # define the end date (i.e. we want date range starting from the date
+  # specified)
+  if (length(date_range) == 1) {
+    date_range <- date_range + lubridate::days(0:1)
+  }
+  # Build message string
   msg <- paste0('Downloading and reading BSDR data for the ', asset_class,
-    ' asset class for the period from ', format(from, '%d-%b-%Y'), " to ",
-    format(to, '%d-%b-%Y'))
+    ' asset class for the period from ',
+    paste(format(date_range, "%Y-%m-%dT%H:%M:%OS6Z"), collapse = " to "))
   if (!is.null(currency)) {
     msg <- paste0(msg, " for currency ", currency)
   }
@@ -14,20 +21,23 @@ download_bsdr_data_single <- function (from, to, asset_class, currency = NULL,
   }
   msg <- paste0(msg, '...')
   message(msg)
-  start_date <- paste0(format(from, '%Y-%m-%d'), 'T00:00:00.000000Z')
-  end_date <- paste0(format(to, '%Y-%m-%d'), 'T00:00:00.000000Z')
-  # Build POST body
+  # Format dates to format expected by BBG API
+  date_range <- format(date_range, "%Y-%m-%dT%H:%M:%OS6Z")
+  # Build payload to BBG API. NB: the payload build process in search.js
+  # does not assume datetime_low and _high are specified. However, form always
+  # has datetime_low pre-populated. Given logic at start of function, we can
+  # assume that both are defined in this scope.
   body <- list(
     data_type = "FULL",
     asset_class = asset_class,
-    datetime_low = start_date,
-    datetime_high = end_date)
+    datetime_low = date_range[1],
+    datetime_high = date_range[2])
   if (!is.null(currency)) {
     body <- c(body, currency = currency)
   }
   if (!is.null(notional_range)) {
-    body <- c(body,
-      notional_low = notional_range[1], notional_high = notional_range[2])
+    body <- c(body, notional_low = notional_range[1],
+      notional_high = notional_range[2])
   }
   body <- list(Request = list(pubRequest = body))
   response <- httr::POST(url = bsdr_url(), body = body, config = bsef_header(),
