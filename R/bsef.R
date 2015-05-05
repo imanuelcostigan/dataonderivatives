@@ -43,8 +43,6 @@ download_bsef_data <- function (date) {
 download_bsef_data_single <- function (asset_class, date) {
   message('Downloading and reading BSEF data for the ', asset_class,
     ' asset class on ', format(date, '%d-%b-%Y'), '...')
-  # Process and check argument values
-  asset_class <- toupper(asset_class)
   assertthat::assert_that(asset_class %in% c('CR', 'EQ', 'FX', 'IR', 'CO'))
   # BAS doesn't appear to accept an end_date different from date: the
   # response is empty.
