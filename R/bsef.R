@@ -18,7 +18,8 @@ if (getRversion() >= "2.15.1") {
 #' (credit, equities, foreign exchange, rates and commodities).
 #'
 #' @param date the date for which data is required as Date or DateTime
-#' object. Only the year, month and day elements of the object are used.
+#' object. Only the year, month and day elements of the object are used. Must
+#' be of length one.
 #' @return a data frame containing the requested data, or an empty data frame
 #' if data is unavailable
 #' @importFrom dplyr %>%
@@ -30,6 +31,7 @@ if (getRversion() >= "2.15.1") {
 #' @export
 
 get_bsef_data <- function (date) {
+  assertthat::assert_that(assertthat::is.date(date), length(date) == 1)
   download_bsef_data(date) %>% format_bsef_data()
 }
 

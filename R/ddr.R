@@ -117,7 +117,8 @@ clean_ddr_files <- function () {
 #' are (and is assumed to be) the same for each asset class.
 #'
 #' @param date the date for which data is required as Date or DateTime
-#' object. Only the year, month and day elements of the object are used.
+#' object. Only the year, month and day elements of the object are used and it
+#' must of be length one.
 #' @param asset_class the asset class for which you would like to download
 #' trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 #' \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
@@ -135,6 +136,7 @@ clean_ddr_files <- function () {
 #' @export
 
 get_ddr_data <- function (date, asset_class, clean = TRUE) {
+  assertthat::assert_that(assertthat::is.date(date), length(date) == 1)
   download_ddr_zip(date, asset_class)
   on.exit(if (clean) clean_ddr_files())
   read_ddr_file(date, asset_class)
