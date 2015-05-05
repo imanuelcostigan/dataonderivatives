@@ -122,7 +122,7 @@ clean_ddr_files <- function () {
 #' @param asset_class the asset class for which you would like to download
 #' trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 #' \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
-#' (commodities).
+#' (commodities). Can be a vector of these.
 #' @param clean where or not to clean up temporary files that are created
 #' during this process. Defaults to \code{TRUE}.
 #' @return a \code{tbl_df} that contains the requested data.
@@ -136,8 +136,13 @@ clean_ddr_files <- function () {
 #' @export
 
 get_ddr_data <- function (date, asset_class, clean = TRUE) {
-  assertthat::assert_that(assertthat::is.date(date), length(date) == 1)
-  download_ddr_zip(date, asset_class)
+  valid_asset_classes <- c('CR', 'EQ', 'FX', 'IR', 'CO')
+  if (is.null(asset_class)) {
+    asset_class <- valid_asset_classes
+  }
+  assertthat::assert_that(lubridate::is.instant(date), length(date) == 1,
+    all(asset_class %in% valid_asset_classes))
+  Map(download_ddr_zip, date, asset_class)
   on.exit(if (clean) clean_ddr_files())
-  read_ddr_file(date, asset_class)
+  dplyr::bind_rows(Map(read_ddr_file, date, asset_class))
 }
