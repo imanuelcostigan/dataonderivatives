@@ -14,7 +14,7 @@ must of be length one.}
 \item{asset_class}{the asset class for which you would like to download
 trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
-(commodities).}
+(commodities). Can be a vector of these.}
 
 \item{clean}{where or not to clean up temporary files that are created
 during this process. Defaults to \code{TRUE}.}
