@@ -37,10 +37,10 @@ get_bsef_data <- function (date) {
 
 download_bsef_data <- function (date) {
   asset_class <- c('CR', 'EQ', 'FX', 'IR', 'CO')
-  dplyr::bind_rows(Map(download_bsef_data_single, asset_class, date))
+  dplyr::bind_rows(Map(download_bsef_data_single, date, asset_class))
 }
 
-download_bsef_data_single <- function (asset_class, date) {
+download_bsef_data_single <- function (date, asset_class) {
   message('Downloading and reading BSEF data for the ', asset_class,
     ' asset class on ', format(date, '%d-%b-%Y'), '...')
   assertthat::assert_that(asset_class %in% c('CR', 'EQ', 'FX', 'IR', 'CO'))
