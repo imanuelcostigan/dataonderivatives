@@ -41,7 +41,7 @@ You can install a development version from GitHub:
 ```R
 # install.packages("devtools")
 # install.packages("lubridate") 
-devtools::install_github("imanuelcostigan/dataonderivatives")
+# devtools::install_github("imanuelcostigan/dataonderivatives")
 ```
 
 My intention is to submit this package to [CRAN](http://cran.rstudio.com) soon.
@@ -50,13 +50,13 @@ My intention is to submit this package to [CRAN](http://cran.rstudio.com) soon.
 
 You can download daily trade data executed on the BloombergSEF:
 
-```R
+```{r bsef}
 library("dataonderivatives")
 get_bsef_data(lubridate::ymd(20150504))
 ```
 
 You can also download the data reported to the DTCC's SDR:
 
-```R
+```{r ddr}
 get_ddr_data(lubridate::ymd(20150504), "IR")
 ```
