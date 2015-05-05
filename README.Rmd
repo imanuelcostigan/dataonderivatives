@@ -61,6 +61,8 @@ get_bsef_data(lubridate::ymd(20150504), c("IR", "FX"))
 You can also download the data reported to the DTCC's SDR:
 
 ```{r ddr}
-# Get rates market data only.
+# All asset classes
 get_ddr_data(lubridate::ymd(20150504))
+# IR and FX classes only
+get_ddr_data(lubridate::ymd(20150504), c("IR", "FX"))
 ```
