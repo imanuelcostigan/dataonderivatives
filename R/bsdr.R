@@ -7,36 +7,37 @@ if (getRversion() >= "2.15.1") {
     "end_user_excpetion"))
 }
 
-#' Get Bloomberg SEF data
+#' Get Bloomberg SDR data
 #'
-#' The Bloomberg Swap Execution Facility (SEF) offers customers the ability to
-#' execute derivative instruments across a number of different asset classes. It
-#' is required to make publicly available price, trading volume and other trading
-#' data. It publishes this data on its website. I have reverse engineered the
-#' JavaScript libraries used by its website to call the Bloomberg Application
-#' Service using \code{POST} requests to a target URL. The \code{POST} calls
-#' are done by asset class. This function iterates across all asset classes
-#' (credit, equities, foreign exchange, rates and commodities).
+#' The Bloomberg Swap Data Repository (SDR) allows market participants to
+#' satisfy their swap reporting obligations. BSDR is required to make publicly
+#' available price, trading volume and other trading data. It publishes this
+#' data on its website in real-time and also on a historical basis. I have
+#' reverse engineered the JavaScript libraries used by its website to call the
+#' Bloomberg Application Service using \code{POST} requests to a target URL.
 #'
-#' @param date the date for which data is required as Date or DateTime
-#' object. Only the year, month and day elements of the object are used. Must
-#' be of length one.
+#' @param date the date for which data is required as Date or DateTime object.
+#'   It will use all date-time elements including year, month, day, hour,
+#'   minute, second (incl. fractional seconds) and  time zone information to
+#'   determine the set of trades to return. It will return the set of trades
+#'   for the day starting on \code{date} if \code{date} is of length one.
+#'   Otherwise, if of length two, will return the trades executed between the
+#'   first and second elements.
 #' @param asset_class the asset class for which you would like to download
-#' trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
-#' \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
-#' (commodities). Can be a vector of these. Defaults to \code{NULL} which
-#' corresponds to all asset classes.
+#'   trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
+#'   \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
+#'   (commodities). Can be a vector of these. Defaults to \code{NULL} which
+#'   corresponds to all asset classes.
 #' @return a data frame containing the requested data, or an empty data frame
-#' if data is unavailable
+#'   if data is unavailable
 #' @importFrom dplyr %>%
-#' @references
-#' \href{http://data.bloombergsef.com}{Bloomberg SEF data}
+#' @references \href{http://www.bloombergsdr.com/search}{BSDR search}
 #' @examples
 #' library (lubridate)
-#' # All asset classes
-#' get_bsef_data(ymd(20140528))
+#' # All asset classes for day starting 6 May 2015
+#' get_bsdr_data(ymd(20150506))
 #' # Only IR and FX asset classes
-#' get_bsef_data(ymd(20140528), c("IR", "FX"))
+#' get_bsef_data(ymd(20150506), c("IR", "FX"))
 #' @export
 
 get_bsdr_data <- function (date, asset_class = NULL) {

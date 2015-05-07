@@ -13,9 +13,7 @@ if (getRversion() >= "2.15.1") {
 #' is required to make publicly available price, trading volume and other trading
 #' data. It publishes this data on its website. I have reverse engineered the
 #' JavaScript libraries used by its website to call the Bloomberg Application
-#' Service using \code{POST} requests to a target URL. The \code{POST} calls
-#' are done by asset class. This function iterates across all asset classes
-#' (credit, equities, foreign exchange, rates and commodities).
+#' Service using \code{POST} requests to a target URL.
 #'
 #' @param date the date for which data is required as Date or DateTime
 #' object. Only the year, month and day elements of the object are used. Must
