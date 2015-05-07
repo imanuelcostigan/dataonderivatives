@@ -11,9 +11,7 @@ get_bsdr_data(date, asset_class = NULL)
 It will use all date-time elements including year, month, day, hour,
 minute, second (incl. fractional seconds) and  time zone information to
 determine the set of trades to return. It will return the set of trades
-for the day starting on \code{date} if \code{date} is of length one.
-Otherwise, if of length two, will return the trades executed between the
-first and second elements.}
+for the day starting on \code{date}.}
 
 \item{asset_class}{the asset class for which you would like to download
 trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
