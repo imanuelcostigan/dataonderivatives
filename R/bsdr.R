@@ -26,6 +26,10 @@ if (getRversion() >= "2.15.1") {
 #'   \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 #'   (commodities). Can be a vector of these. Defaults to \code{NULL} which
 #'   corresponds to all asset classes.
+#' @param curate a logical flag indicating whether raw data should be returned
+#'   or whether the raw data should be processed (default). The latter involves
+#'   selecting particular fields and formatting these as seemed appropriate
+#'   based on data and API reviews at the time the formatting was coded.
 #' @return a data frame containing the requested data, or an empty data frame
 #'   if data is unavailable
 #' @importFrom dplyr %>%
@@ -38,14 +42,19 @@ if (getRversion() >= "2.15.1") {
 #' get_bsef_data(ymd(20150506), c("IR", "FX"))
 #' @export
 
-get_bsdr_data <- function (date, asset_class = NULL) {
+get_bsdr_data <- function (date, asset_class = NULL, curated = TRUE) {
   valid_asset_classes <- c('CR', 'EQ', 'FX', 'IR', 'CO')
   if (is.null(asset_class)) {
     asset_class <- valid_asset_classes
   }
   assertthat::assert_that(all(asset_class %in% valid_asset_classes),
     lubridate::is.instant(date), length(date) == 1)
-  download_bsdr_data(date, asset_class) %>% format_bsdr_data()
+  df <- download_bsdr_data(date, asset_class)
+  if (!curated) {
+    return(df)
+  } else {
+    return(df %>% format_bsdr_data())
+  }
 }
 
 download_bsdr_data <- function (date, asset_class) {
