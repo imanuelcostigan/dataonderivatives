@@ -116,6 +116,6 @@ format_icap_data <- function (dfs) {
 
 clean_icap_files <- function () {
   message('Deleting the ICAP temp directories...')
-  unlink(file.path(tempdir(), c('igdl', 'icus')))
+  unlink(file.path(tempdir(), c('igdl', 'icus')), recursive = TRUE)
 }
 

@@ -104,7 +104,7 @@ read_ddr_file <- function (date, asset_class) {
 
 clean_ddr_files <- function () {
   message('Deleting the DDR temp directories...')
-  unlink(file.path(tempdir(), 'ddr'))
+  unlink(file.path(tempdir(), 'ddr'), recursive = TRUE)
 }
 
 
