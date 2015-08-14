@@ -7,7 +7,7 @@ CME_ASSET_CLASSES_LONG <-
 CME_ASSET_CLASSES_SHORT <-
   c(CO = "commodity", CR = "CDS", FX = "fx", IR = "irs")
 
-get_cme_data <- function (date, asset_class = NULL, clean = TRUE) {
+get_cme_data <- function (date, asset_class = NULL, curated = TRUE, clean = TRUE) {
   valid_asset_classes <- c('CR', 'FX', 'IR', 'CO')
   if (is.null(asset_class)) {
     asset_class <- valid_asset_classes
@@ -16,7 +16,7 @@ get_cme_data <- function (date, asset_class = NULL, clean = TRUE) {
     all(asset_class %in% valid_asset_classes))
   Map(download_cme_zip, date, asset_class)
   on.exit(if (clean) clean_cme_files())
-  dplyr::bind_rows(Map(read_cme_file, date, asset_class))
+  dplyr::bind_rows(Map(read_cme_file, date, asset_class, curated))
 }
 
 download_cme_zip <- function (date, asset_class) {
@@ -41,7 +41,7 @@ download_cme_zip <- function (date, asset_class) {
 }
 
 #' @importFrom dplyr %>%
-read_cme_file <- function (date, asset_class) {
+read_cme_file <- function (date, asset_class, curated) {
   message('Reading CME SDR data for ', asset_class, ' on ', date, '...')
   tmpdir <- file.path(tempdir(), 'cme/')
   csvfile <- list.files(tmpdir, cme_file_name(date, asset_class),
@@ -50,13 +50,17 @@ read_cme_file <- function (date, asset_class) {
     return(dplyr::data_frame())
   } else {
     # Should only have one file per day. Use first if multiple matches
-    col_types <- specify_cme_col_types(asset_class)
-    df <- readr::read_csv(csvfile[1], col_types = col_types)
-    if (identical(asset_class, "IR")) {
-      # IR file doesn't use title case for this field.
-      df <- df %>% dplyr::rename(`Block/Off Facility` = `Block/Off facility`)
+    if (!curated) {
+      return(readr::read_csv(csvfile[1]))
+    } else {
+      col_types <- specify_cme_col_types(asset_class)
+      df <- readr::read_csv(csvfile[1], col_types = col_types)
+      if (identical(asset_class, "IR")) {
+        # IR file doesn't use title case for this field.
+        df <- df %>% dplyr::rename(`Block/Off Facility` = `Block/Off facility`)
+      }
+      return(df)
     }
-    return(df)
   }
 }
 
