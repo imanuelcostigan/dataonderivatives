@@ -1,12 +1,3 @@
-if (getRversion() >= "2.15.1") {
-  utils::globalVariables(c("exec_timestamp", "effective_date", "end_date",
-    "price_notation", "additional_price_notation", "notional_currency_amount_1",
-    "option_strike_price", "option_premium", "submission_timestamp",
-    "publication_timestamp", "action", "bespoke_swap", "taxonomy",
-    "price_notation_type", "notional_currency_1", "block_trade", "cleared",
-    "end_user_excpetion"))
-}
-
 #' Get Bloomberg SDR data
 #'
 #' The Bloomberg Swap Data Repository (SDR) allows market participants to
@@ -39,7 +30,7 @@ if (getRversion() >= "2.15.1") {
 #' # All asset classes for day starting 6 May 2015
 #' get_bsdr_data(ymd(20150506))
 #' # Only IR and FX asset classes
-#' get_bsef_data(ymd(20150506), c("IR", "FX"))
+#' get_bsdr_data(ymd(20150506), c("IR", "FX"))
 #' @export
 
 get_bsdr_data <- function (date, asset_class = NULL, curated = TRUE) {
@@ -108,13 +99,13 @@ download_bsdr_data_single <- function (date_range, asset_class, currency = NULL,
     encode = 'json')
   # Convert response's content to JSON from raw
   # Some nested data frames. So flatten these out.
-  response <- jsonlite::fromJSON(rawToChar(response$content), flatten = TRUE)
+  response <- response$content
+  assertthat::assert_that(is.raw(response))
+  response <- jsonlite::fromJSON(rawToChar(response))
   # Drill down response to data set that we are interested in
   df <- response$Response$pubResponse$public_recs
-  # Create asset_class field if necesary
   if (!is.null(df)) {
-    if (is.list(df)) df <- dplyr::as_data_frame(df)
-    return(df)
+    return(remove_invalid_dfs(df))
   } else {
     df <- dplyr::data_frame()
     return(df)
@@ -131,24 +122,35 @@ bsdr_header <- function (version = 1.3) {
   httr::add_headers('bas-version' = version)
 }
 
+# CFTC requirements on publicly disclosed data fields
+# http://www.gpo.gov/fdsys/pkg/CFR-2014-title17-vol2/pdf/CFR-2014-title17-vol2-part43-appA.pdf
 # Using http://www.bloombergsdr.com/api
 # http://www.bloombergsdr.com/assets/img/BSDR%20API%20for%20Slice%20Files.pdf
 #' @importFrom dplyr %>%
 format_bsdr_data <- function (data) {
   # Select fields that are presented on the BSDR web search interface
-  data %>%
-    select(
-      action, exec_timestamp, bespoke_swap, taxonomy,
-      price_notation_type, price_notation, notional_currency_1,
-      notional_currency_amount_1, effective_date, end_date, block_trade, cleared,
-      end_user_excpetion, option_strike_price, option_premium) %>%
-    mutate(
-      exec_timestamp = lubridate::fast_strptime(exec_timestamp,
-        "%Y-%m-%dT%H:%M:%OS%z"),
-      effective_date = lubridate::fast_strptime(effective_date, "%m/%d/%Y"),
-      end_date = lubridate::fast_strptime(end_date, "%m/%d/%Y"),
-      price_notation = as.numeric(price_notation),
-      notional_currency_amount_1 = as.numeric(notional_currency_amount_1),
-      option_strike_price = as.numeric(option_strike_price),
-      option_premium = as.numeric(option_premium))
+  mutations <- list(
+    ~lubridate::fast_strptime(exec_timestamp, "%Y-%m-%dT%H:%M:%OS%z"),
+    ~lubridate::fast_strptime(effective_date, "%m/%d/%Y"),
+    ~lubridate::fast_strptime(end_date, "%m/%d/%Y"),
+    ~as.numeric(price_notation),
+    ~as.numeric(additional_price_notation),
+    ~as.numeric(notional_currency_amount_1),
+    ~as.numeric(option_strike_price),
+    ~as.numeric(option_premium))
+  mutation_names <- c("exec_timestamp", "effective_date", "end_date",
+    "price_notation", "additional_price_notation", "notional_currency_amount_1",
+    "option_strike_price", "option_premium")
+  data %>% dplyr::mutate_(.dots = setNames(mutations, mutation_names))
+}
+
+remove_invalid_dfs <- function (df) {
+  replace_with_na <- function (element) {
+    if (is.data.frame(element) && ncol(element) == 0) {
+      return(rep(NA, nrow(df)))
+    } else {
+      return(element)
+    }
+  }
+  dplyr::as_data_frame(Map(replace_with_na, df))
 }
