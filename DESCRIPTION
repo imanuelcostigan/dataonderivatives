@@ -22,7 +22,7 @@ Imports:
     stringr (>= 0.6),
     readr (>= 0.1)
 Suggests:
-    testthat (>= 0.9.1.9000)
+    testthat (>= 0.1)
 URL:
    https://github.com/imanuelcostigan/dataonderivatives
 BugReports:
