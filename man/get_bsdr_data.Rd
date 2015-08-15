@@ -4,7 +4,7 @@
 \alias{get_bsdr_data}
 \title{Get Bloomberg SDR data}
 \usage{
-get_bsdr_data(date, asset_class = NULL)
+get_bsdr_data(date, asset_class = NULL, curated = TRUE)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime object.
@@ -18,6 +18,11 @@ trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 (commodities). Can be a vector of these. Defaults to \code{NULL} which
 corresponds to all asset classes.}
+
+\item{curate}{a logical flag indicating whether raw data should be returned
+or whether the raw data should be processed (default). The latter involves
+selecting particular fields and formatting these as seemed appropriate
+based on data and API reviews at the time the formatting was coded.}
 }
 \value{
 a data frame containing the requested data, or an empty data frame
@@ -36,7 +41,7 @@ library (lubridate)
 # All asset classes for day starting 6 May 2015
 get_bsdr_data(ymd(20150506))
 # Only IR and FX asset classes
-get_bsef_data(ymd(20150506), c("IR", "FX"))
+get_bsdr_data(ymd(20150506), c("IR", "FX"))
 }
 \references{
 \href{http://www.bloombergsdr.com/search}{BSDR search}

@@ -7,9 +7,9 @@
 get_icap_data(date, clean = TRUE)
 }
 \arguments{
-\item{date}{the date for which data is required as Date or DateTime
-object. Only the year, month and day elements of the object are used. Must
-be of length one.}
+\item{date}{the date for which data is required as Date or DateTime object.
+Only the year, month and day elements of the object are used. Must be of
+length one.}
 
 \item{clean}{flag indicating whether ICAP temp files should be cleaned
 (default: \code{TRUE})}
