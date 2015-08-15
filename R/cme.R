@@ -7,6 +7,39 @@ CME_ASSET_CLASSES_LONG <-
 CME_ASSET_CLASSES_SHORT <-
   c(CO = "commodity", CR = "CDS", FX = "fx", IR = "irs")
 
+#' Get CME SDR data
+#'
+#' The CME SDR allows market participants to
+#' satisfy their swap reporting obligations. CME is required to make publicly
+#' available price, trading volume and other trading data. It publishes this
+#' data on an FTP site.
+#'
+#' @param date the date for which data is required as Date or DateTime object.
+#'   It will only use the year, month and day elements to
+#'   determine the set of trades to return. It will return the set of trades
+#'   for the day starting on \code{date}.
+#' @param asset_class the asset class for which you would like to download
+#'   trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
+#'   \code{"FX"} (foreign exchange), \code{"CO"} (commodities). Can be a
+#'   vector of these. Defaults to \code{NULL} which corresponds to all asset
+#'   classes.
+#' @param curate a logical flag indicating whether raw data should be returned
+#'   or whether the raw data should be processed (default). The latter involves
+#'   selecting particular fields and formatting these as seemed appropriate
+#'   based on data reviews at the time the formatting was coded.
+#' @return a data frame containing the requested data, or an empty data frame
+#'   if data is unavailable
+#' @importFrom dplyr %>%
+#' @references \href{http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html}{CME SDR}
+#' @examples
+#' library (lubridate)
+#' # All asset classes for day starting 6 May 2015
+#' get_cme_data(ymd(20150506))
+#' # Only IR and FX asset classes
+#' get_cme_data(ymd(20150506), c("IR", "FX"))
+#' @export
+
+
 get_cme_data <- function (date, asset_class = NULL, curated = TRUE, clean = TRUE) {
   valid_asset_classes <- c('CR', 'FX', 'IR', 'CO')
   if (is.null(asset_class)) {
