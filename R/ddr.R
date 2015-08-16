@@ -130,6 +130,10 @@ clean_ddr_files <- function () {
 #' \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 #' (commodities). Can be a vector of these. Defaults to \code{NULL} which
 #' corresponds to all asset classes.
+#' @param curate a logical flag indicating whether raw data should be returned
+#' or whether the raw data should be processed (default). The latter involves
+#' selecting particular fields and formatting these as seemed appropriate
+#' based on data reviews at the time the formatting was coded.
 #' @return a \code{tbl_df} that contains the requested data.
 #' @examples
 #' \dontrun{

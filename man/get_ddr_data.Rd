@@ -16,6 +16,11 @@ trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 (commodities). Can be a vector of these. Defaults to \code{NULL} which
 corresponds to all asset classes.}
+
+\item{curate}{a logical flag indicating whether raw data should be returned
+or whether the raw data should be processed (default). The latter involves
+selecting particular fields and formatting these as seemed appropriate
+based on data reviews at the time the formatting was coded.}
 }
 \value{
 a \code{tbl_df} that contains the requested data.
