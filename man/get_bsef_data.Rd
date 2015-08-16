@@ -4,7 +4,7 @@
 \alias{get_bsef_data}
 \title{Get Bloomberg SEF data}
 \usage{
-get_bsef_data(date, asset_class = NULL, curated = TRUE)
+get_bsef_data(date, asset_class = NULL, curate = TRUE)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime object.

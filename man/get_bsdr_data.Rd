@@ -4,7 +4,7 @@
 \alias{get_bsdr_data}
 \title{Get Bloomberg SDR data}
 \usage{
-get_bsdr_data(date, asset_class = NULL, curated = TRUE)
+get_bsdr_data(date, asset_class = NULL, curate = TRUE)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime object.

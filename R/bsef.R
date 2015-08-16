@@ -39,7 +39,7 @@ if (getRversion() >= "2.15.1") {
 #' get_bsef_data(ymd(20140528), c("IR", "FX"))
 #' @export
 
-get_bsef_data <- function (date, asset_class = NULL, curated = TRUE) {
+get_bsef_data <- function (date, asset_class = NULL, curate = TRUE) {
   valid_asset_classes <- c('CR', 'EQ', 'FX', 'IR', 'CO')
   if (is.null(asset_class)) {
     asset_class <- valid_asset_classes

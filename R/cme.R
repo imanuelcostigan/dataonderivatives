@@ -40,7 +40,7 @@ CME_ASSET_CLASSES_SHORT <-
 #' @export
 
 
-get_cme_data <- function (date, asset_class = NULL, curated = TRUE, clean = TRUE) {
+get_cme_data <- function (date, asset_class = NULL, curate = TRUE) {
   valid_asset_classes <- c('CR', 'FX', 'IR', 'CO')
   if (is.null(asset_class)) {
     asset_class <- valid_asset_classes
@@ -48,7 +48,7 @@ get_cme_data <- function (date, asset_class = NULL, curated = TRUE, clean = TRUE
   assertthat::assert_that(lubridate::is.instant(date), length(date) == 1,
     all(asset_class %in% valid_asset_classes))
   Map(download_cme_zip, date, asset_class)
-  on.exit(if (clean) clean_cme_files())
+  on.exit(clean_cme_files())
   dplyr::bind_rows(Map(read_cme_file, date, asset_class, curated))
 }
 

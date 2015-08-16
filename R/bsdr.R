@@ -33,7 +33,7 @@
 #' get_bsdr_data(ymd(20150506), c("IR", "FX"))
 #' @export
 
-get_bsdr_data <- function (date, asset_class = NULL, curated = TRUE) {
+get_bsdr_data <- function (date, asset_class = NULL, curate = TRUE) {
   valid_asset_classes <- c('CR', 'EQ', 'FX', 'IR', 'CO')
   if (is.null(asset_class)) {
     asset_class <- valid_asset_classes
