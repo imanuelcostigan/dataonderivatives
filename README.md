@@ -47,9 +47,9 @@ library("dplyr")
 #> 
 #> Attaching package: 'dplyr'
 #> 
-#> The following object is masked from 'package:stats':
+#> The following objects are masked from 'package:stats':
 #> 
-#>     filter
+#>     filter, lag
 #> 
 #> The following objects are masked from 'package:base':
 #> 
@@ -64,7 +64,7 @@ get_bsef_data(lubridate::ymd(20150504))
 #> Formatting BSEF data...
 #> Source: local data frame [94 x 13]
 #> 
-#>          date assetclass                      security currency  priceopen
+#>     tradeDate assetclass                      security currency  priceOpen
 #> 1  2015-05-04         CR        CDX EM CDSI S23 5Y PRC      USD  90.860000
 #> 2  2015-05-04         CR            CDX IG CDSI S22 5Y      USD  54.690000
 #> 3  2015-05-04         CR MARKIT CDX.NA.HY.24 06/20 ICE      USD 107.375000
@@ -76,9 +76,9 @@ get_bsef_data(lubridate::ymd(20150504))
 #> 9  2015-05-04         FX             NDF-USDBRL-BRL-1M      USD   3.120800
 #> 10 2015-05-04         FX             NDF-USDBRL-USD-1M      USD   3.123700
 #> ..        ...        ...                           ...      ...        ...
-#> Variables not shown: pricehigh (dbl), pricelow (dbl), priceclose (dbl),
-#>   pricesettlement (dbl), totalvolume (dbl), blocktradevolume (dbl),
-#>   totalvolumeusd (dbl), blocktradevolumeusd (dbl)
+#> Variables not shown: priceHigh (dbl), priceLow (dbl), priceClose (dbl),
+#>   settlementPrice (dbl), totalVolume (dbl), blockTradeVolume (dbl),
+#>   totalVolumeUsd (dbl), blockTradeVolumeUsd (chr)
 # IR and FX classes only
 get_bsef_data(lubridate::ymd(20150504), c("IR", "FX")) %>% 
   group_by(assetclass) %>% summarise(n = n())
