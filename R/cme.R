@@ -32,11 +32,13 @@ CME_ASSET_CLASSES_SHORT <-
 #' @importFrom dplyr %>%
 #' @references \href{http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html}{CME SDR}
 #' @examples
+#' \dontrun{
 #' library (lubridate)
 #' # All asset classes for day starting 6 May 2015
 #' get_cme_data(ymd(20150506))
 #' # Only IR and FX asset classes
 #' get_cme_data(ymd(20150506), c("IR", "FX"))
+#' }
 #' @export
 
 

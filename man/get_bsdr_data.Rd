@@ -37,11 +37,13 @@ reverse engineered the JavaScript libraries used by its website to call the
 Bloomberg Application Service using \code{POST} requests to a target URL.
 }
 \examples{
+\dontrun{
 library (lubridate)
 # All asset classes for day starting 6 May 2015
 get_bsdr_data(ymd(20150506))
 # Only IR and FX asset classes
 get_bsdr_data(ymd(20150506), c("IR", "FX"))
+}
 }
 \references{
 \href{http://www.bloombergsdr.com/search}{BSDR search}

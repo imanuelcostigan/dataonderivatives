@@ -24,11 +24,13 @@
 #' @importFrom dplyr %>%
 #' @references \href{http://data.bloombergsef.com}{Bloomberg SEF data}
 #' @examples
+#' \dontrun{
 #' library (lubridate)
 #' # All asset classes
 #' get_bsef_data(ymd(20140528))
 #' # Only IR and FX asset classes
 #' get_bsef_data(ymd(20140528), c("IR", "FX"))
+#' }
 #' @export
 
 get_bsef_data <- function (date, asset_class = NULL, curate = TRUE) {

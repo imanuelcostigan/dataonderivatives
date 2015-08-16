@@ -35,11 +35,13 @@ engineered the JavaScript libraries used by its website to call the
 Bloomberg Application Service using \code{POST} requests to a target URL.
 }
 \examples{
+\dontrun{
 library (lubridate)
 # All asset classes
 get_bsef_data(ymd(20140528))
 # Only IR and FX asset classes
 get_bsef_data(ymd(20140528), c("IR", "FX"))
+}
 }
 \references{
 \href{http://data.bloombergsef.com}{Bloomberg SEF data}
