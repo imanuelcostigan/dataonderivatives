@@ -1,8 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
-debug/
 ^NEWS\.md$
 ^README\.Rmd$
 ^README-*\.png$
 ^README-.*\.png$
+^cran-comments\.md$
+^debug$
