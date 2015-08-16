@@ -88,7 +88,7 @@ specify_ddr_col_types <- function () {
     PRICE_NOTATION3 = readr::col_numeric())
 }
 
-read_ddr_file <- function (date, asset_class) {
+read_ddr_file <- function (date, asset_class, curate) {
   message('Reading DDR data for ', format(date, '%d-%b-%Y'), '...')
   tmpdir <- file.path(tempdir(), 'ddr/', date, "/", asset_class, '/')
   ddrfile <- list.files(tmpdir, DDR_ASSET_CLASSES[asset_class], full.names = TRUE)
@@ -100,7 +100,11 @@ read_ddr_file <- function (date, asset_class) {
     # not contain valid values. Reviewing col names for different asset classes
     # at 30 Apr 2014 indicates they all have same names. So specify col types
     # explicitly
-    return(readr::read_csv(ddrfile[1], col_types = specify_ddr_col_types()))
+    if (!curate) {
+      return(readr::read_csv(ddrfile[1]), col_types = NULL)
+    } else {
+      return(readr::read_csv(ddrfile[1], col_types = specify_ddr_col_types()))
+    }
   }
 }
 
@@ -126,8 +130,6 @@ clean_ddr_files <- function () {
 #' \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 #' (commodities). Can be a vector of these. Defaults to \code{NULL} which
 #' corresponds to all asset classes.
-#' @param clean where or not to clean up temporary files that are created
-#' during this process. Defaults to \code{TRUE}.
 #' @return a \code{tbl_df} that contains the requested data.
 #' @examples
 #' \dontrun{
@@ -138,7 +140,7 @@ clean_ddr_files <- function () {
 #' \href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination Platform}
 #' @export
 
-get_ddr_data <- function (date, asset_class = NULL, clean = TRUE) {
+get_ddr_data <- function (date, asset_class = NULL, curate = TRUE) {
   valid_asset_classes <- c('CR', 'EQ', 'FX', 'IR', 'CO')
   if (is.null(asset_class)) {
     asset_class <- valid_asset_classes
@@ -146,6 +148,6 @@ get_ddr_data <- function (date, asset_class = NULL, clean = TRUE) {
   assertthat::assert_that(lubridate::is.instant(date), length(date) == 1,
     all(asset_class %in% valid_asset_classes))
   Map(download_ddr_zip, date, asset_class)
-  on.exit(if (clean) clean_ddr_files())
-  dplyr::bind_rows(Map(read_ddr_file, date, asset_class))
+  on.exit(clean_ddr_files())
+  dplyr::bind_rows(Map(read_ddr_file, date, asset_class, curate))
 }
