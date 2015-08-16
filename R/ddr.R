@@ -40,6 +40,54 @@ download_ddr_zip <- function (date, asset_class) {
   invisible(res)
 }
 
+specify_ddr_col_types <- function () {
+  list(
+    DISSEMINATION_ID = readr::col_integer(),
+    ORIGINAL_DISSEMINATION_ID = readr::col_integer(),
+    ACTION = readr::col_character(),
+    EXECUTION_TIMESTAMP = readr::col_datetime(),
+    CLEARED = readr::col_character(),
+    INDICATION_OF_COLLATERALIZATION = readr::col_character(),
+    INDICATION_OF_END_USER_EXCEPTION = readr::col_character(),
+    INDICATION_OF_OTHER_PRICE_AFFECTING_TERM = readr::col_character(),
+    "BLOCK_TRADES_AND_LARGE_NOTIONAL_OFF-FACILITY_SWAPS" = readr::col_character(),
+    EXECUTION_VENUE = readr::col_character(),
+    EFFECTIVE_DATE = readr::col_date(),
+    END_DATE = readr::col_date(),
+    DAY_COUNT_CONVENTION = readr::col_character(),
+    SETTLEMENT_CURRENCY = readr::col_character(),
+    ASSET_CLASS = readr::col_character(),
+    "SUB-ASSET_CLASS_FOR_OTHER_COMMODITY" = readr::col_character(),
+    TAXONOMY = readr::col_character(),
+    PRICE_FORMING_CONTINUATION_DATA = readr::col_character(),
+    UNDERLYING_ASSET_1 = readr::col_character(),
+    UNDERLYING_ASSET_2 = readr::col_character(),
+    PRICE_NOTATION_TYPE = readr::col_character(),
+    PRICE_NOTATION = readr::col_numeric(),
+    ADDITIONAL_PRICE_NOTATION_TYPE = readr::col_character(),
+    ADDITIONAL_PRICE_NOTATION = readr::col_numeric(),
+    NOTIONAL_CURRENCY_1 = readr::col_character(),
+    NOTIONAL_CURRENCY_2 = readr::col_character(),
+    ROUNDED_NOTIONAL_AMOUNT_1 = readr::col_numeric(),
+    ROUNDED_NOTIONAL_AMOUNT_2 = readr::col_numeric(),
+    PAYMENT_FREQUENCY_1 = readr::col_character(),
+    PAYMENT_FREQUENCY_2 = readr::col_character(),
+    RESET_FREQUENCY_1 = readr::col_character(),
+    RESET_FREQUENCY_2 = readr::col_character(),
+    EMBEDED_OPTION = readr::col_character(),
+    OPTION_STRIKE_PRICE = readr::col_numeric(),
+    OPTION_TYPE = readr::col_character(),
+    OPTION_FAMILY = readr::col_character(),
+    OPTION_CURRENCY = readr::col_character(),
+    OPTION_PREMIUM = readr::col_numeric(),
+    OPTION_LOCK_PERIOD = readr::col_date(),
+    OPTION_EXPIRATION_DATE = readr::col_date(),
+    PRICE_NOTATION2_TYPE = readr::col_character(),
+    PRICE_NOTATION2 = readr::col_numeric(),
+    PRICE_NOTATION3_TYPE = readr::col_character(),
+    PRICE_NOTATION3 = readr::col_numeric())
+}
+
 read_ddr_file <- function (date, asset_class) {
   message('Reading DDR data for ', format(date, '%d-%b-%Y'), '...')
   tmpdir <- file.path(tempdir(), 'ddr/', date, "/", asset_class, '/')
@@ -52,52 +100,7 @@ read_ddr_file <- function (date, asset_class) {
     # not contain valid values. Reviewing col names for different asset classes
     # at 30 Apr 2014 indicates they all have same names. So specify col types
     # explicitly
-    col_types <- list(
-      DISSEMINATION_ID = readr::col_integer(),
-      ORIGINAL_DISSEMINATION_ID = readr::col_integer(),
-      ACTION = readr::col_character(),
-      EXECUTION_TIMESTAMP = readr::col_datetime(),
-      CLEARED = readr::col_character(),
-      INDICATION_OF_COLLATERALIZATION = readr::col_character(),
-      INDICATION_OF_END_USER_EXCEPTION = readr::col_character(),
-      INDICATION_OF_OTHER_PRICE_AFFECTING_TERM = readr::col_character(),
-      "BLOCK_TRADES_AND_LARGE_NOTIONAL_OFF-FACILITY_SWAPS" = readr::col_character(),
-      EXECUTION_VENUE = readr::col_character(),
-      EFFECTIVE_DATE = readr::col_date(),
-      END_DATE = readr::col_date(),
-      DAY_COUNT_CONVENTION = readr::col_character(),
-      SETTLEMENT_CURRENCY = readr::col_character(),
-      ASSET_CLASS = readr::col_character(),
-      "SUB-ASSET_CLASS_FOR_OTHER_COMMODITY" = readr::col_character(),
-      TAXONOMY = readr::col_character(),
-      PRICE_FORMING_CONTINUATION_DATA = readr::col_character(),
-      UNDERLYING_ASSET_1 = readr::col_character(),
-      UNDERLYING_ASSET_2 = readr::col_character(),
-      PRICE_NOTATION_TYPE = readr::col_character(),
-      PRICE_NOTATION = readr::col_numeric(),
-      ADDITIONAL_PRICE_NOTATION_TYPE = readr::col_character(),
-      ADDITIONAL_PRICE_NOTATION = readr::col_numeric(),
-      NOTIONAL_CURRENCY_1 = readr::col_character(),
-      NOTIONAL_CURRENCY_2 = readr::col_character(),
-      ROUNDED_NOTIONAL_AMOUNT_1 = readr::col_numeric(),
-      ROUNDED_NOTIONAL_AMOUNT_2 = readr::col_numeric(),
-      PAYMENT_FREQUENCY_1 = readr::col_character(),
-      PAYMENT_FREQUENCY_2 = readr::col_character(),
-      RESET_FREQUENCY_1 = readr::col_character(),
-      RESET_FREQUENCY_2 = readr::col_character(),
-      EMBEDED_OPTION = readr::col_character(),
-      OPTION_STRIKE_PRICE = readr::col_numeric(),
-      OPTION_TYPE = readr::col_character(),
-      OPTION_FAMILY = readr::col_character(),
-      OPTION_CURRENCY = readr::col_character(),
-      OPTION_PREMIUM = readr::col_numeric(),
-      OPTION_LOCK_PERIOD = readr::col_date(),
-      OPTION_EXPIRATION_DATE = readr::col_date(),
-      PRICE_NOTATION2_TYPE = readr::col_character(),
-      PRICE_NOTATION2 = readr::col_numeric(),
-      PRICE_NOTATION3_TYPE = readr::col_character(),
-      PRICE_NOTATION3 = readr::col_numeric())
-    return(readr::read_csv(ddrfile[1], col_types = col_types))
+    return(readr::read_csv(ddrfile[1], col_types = specify_ddr_col_types()))
   }
 }
 
