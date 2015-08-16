@@ -83,7 +83,7 @@ read_cme_file <- function (date, asset_class, curated) {
     return(dplyr::data_frame())
   } else {
     # Should only have one file per day. Use first if multiple matches
-    if (!curated) {
+    if (!curate) {
       return(readr::read_csv(csvfile[1]))
     } else {
       col_types <- specify_cme_col_types(asset_class)

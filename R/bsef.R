@@ -47,7 +47,7 @@ get_bsef_data <- function (date, asset_class = NULL, curate = TRUE) {
   assertthat::assert_that(all(asset_class %in% valid_asset_classes),
     lubridate::is.instant(date), length(date) == 1)
   df <- download_bsef_data(date, asset_class)
-  if (!curated) {
+  if (!curate) {
     return (df)
   } else {
     return (df %>% format_bsef_data())
