@@ -90,7 +90,7 @@ read_cme_file <- function (date, asset_class, curate) {
       df <- readr::read_csv(csvfile[1], col_types = col_types)
       if (identical(asset_class, "IR")) {
         # IR file doesn't use title case for this field.
-        df <- df %>% dplyr::rename(`Block/Off Facility` = `Block/Off facility`)
+        df <- df %>% dplyr::rename_("Block/Off Facility" = "Block/Off facility")
       }
       return(df)
     }
