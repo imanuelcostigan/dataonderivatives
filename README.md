@@ -19,22 +19,9 @@ The key economic terms of traded swaps must be reported to an authorised [Swap D
 dataonderivatives
 =================
 
-[![Build Status](https://travis-ci.org/imanuelcostigan/dataonderivatives.svg?branch=master)](https://travis-ci.org/imanuelcostigan/dataonderivatives)
+[![Build Status](https://travis-ci.org/imanuelcostigan/dataonderivatives.svg?branch=master)](https://travis-ci.org/imanuelcostigan/dataonderivatives) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dataonderivatives)](http://cran.r-project.org/package=dataonderivatives)
 
 You can source OTC derivatives data from supported sources. Supported sources include BloombergSEF and the DTCC's DDR. Further sources will be added over time (and pull requests to that end are welcome).
-
-Installation
-------------
-
-You can install a development version from GitHub:
-
-``` r
-# install.packages("devtools")
-# install.packages("lubridate") 
-# devtools::install_github("imanuelcostigan/dataonderivatives")
-```
-
-My intention is to submit this package to [CRAN](http://cran.rstudio.com) soon.
 
 Usage
 -----
