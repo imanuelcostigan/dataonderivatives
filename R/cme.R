@@ -49,7 +49,7 @@ get_cme_data <- function (date, asset_class = NULL, curate = TRUE) {
     all(asset_class %in% valid_asset_classes))
   Map(download_cme_zip, date, asset_class)
   on.exit(clean_cme_files())
-  dplyr::bind_rows(Map(read_cme_file, date, asset_class, curated))
+  dplyr::bind_rows(Map(read_cme_file, date, asset_class, curate))
 }
 
 download_cme_zip <- function (date, asset_class) {
@@ -74,7 +74,7 @@ download_cme_zip <- function (date, asset_class) {
 }
 
 #' @importFrom dplyr %>%
-read_cme_file <- function (date, asset_class, curated) {
+read_cme_file <- function (date, asset_class, curate) {
   message('Reading CME SDR data for ', asset_class, ' on ', date, '...')
   tmpdir <- file.path(tempdir(), 'cme/')
   csvfile <- list.files(tmpdir, cme_file_name(date, asset_class),
