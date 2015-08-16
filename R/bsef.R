@@ -1,11 +1,3 @@
-if (getRversion() >= "2.15.1") {
-  utils::globalVariables(c('tradeDate', 'assetclass', 'security', 'currency',
-    'priceOpen', 'priceHigh', 'priceLow', 'priceClose', 'settlementPrice',
-    'totalVolume', 'blockTradeVolume', 'totalVolumeUsd', 'blockTradeVolumeUsd',
-    'priceopen', 'pricehigh', 'pricelow', 'priceclose', 'pricesettlement',
-    'totalvolume', 'blocktradevolume', 'totalvolumeusd', 'blocktradevolumeusd'))
-}
-
 #' Get Bloomberg SEF data
 #'
 #' The Bloomberg Swap Execution Facility (SEF) offers customers the ability to
@@ -92,23 +84,27 @@ format_bsef_data <- function (df) {
     return(dplyr::data_frame())
   } else {
     message('Formatting BSEF data...')
+    mutations <- list(
+      ~lubridate::ymd_hms(tradeDate),
+      ~as.numeric(priceOpen),
+      ~as.numeric(priceHigh),
+      ~as.numeric(priceLow),
+      ~as.numeric(priceClose),
+      ~as.numeric(settlementPrice),
+      ~as.numeric(totalVolume),
+      ~as.numeric(blockTradeVolume),
+      ~as.numeric(totalVolumeUsd),
+      ~as.numeric(blockTradeVolumeUsd)
+    )
+    mutation_names <- c("date", "priceOpen", "priceHigh", "priceLow",
+      "priceClose", "settlementPrice", "totalVolume", "blockTradeVolume",
+      "totalVolumeUsd", "blocktradevolumeusd")
     df %>%
-      dplyr::mutate(date = lubridate::ymd_hms(tradeDate),
-        assetclass = factor(assetclass),
-        security = factor(security),
-        currency = factor(toupper(currency)),
-        priceopen = as.numeric(priceOpen),
-        pricehigh = as.numeric(priceHigh),
-        pricelow = as.numeric(priceLow),
-        priceclose = as.numeric(priceClose),
-        pricesettlement = as.numeric(settlementPrice),
-        totalvolume = as.numeric(totalVolume),
-        blocktradevolume = as.numeric(blockTradeVolume),
-        totalvolumeusd = as.numeric(totalVolumeUsd),
-        blocktradevolumeusd = as.numeric(blockTradeVolumeUsd)) %>%
-      dplyr::select(date, assetclass, security, currency, priceopen, pricehigh,
-        pricelow, priceclose, pricesettlement, totalvolume, blocktradevolume,
-        totalvolumeusd, blocktradevolumeusd)
+      dplyr::mutate_(.dots = setNames(mutations, mutation_names)) %>%
+      dplyr::select_("date", "assetclass", "security", "currency",
+        "priceopen", "pricehigh", "pricelow", "priceclose", "pricesettlement",
+        "totalvolume", "blocktradevolume", "totalvolumeusd",
+        "blocktradevolumeusd")
   }
 }
 
