@@ -50,8 +50,10 @@ download_icap_zip <- function () {
   tmpfile_uk <- tempfile(pattern = 'igdl', fileext = '.zip')
   tmpfile_us <- tempfile(pattern = 'icus', fileext = '.zip')
   message('Downloading ICAPUS and IGDL zip files...')
-  download(url = url_icap_zip(TRUE), destfile = tmpfile_uk, quiet = TRUE)
-  download(url = url_icap_zip(FALSE), destfile = tmpfile_us, quiet = TRUE)
+  downloader::download(url = url_icap_zip(TRUE), destfile = tmpfile_uk,
+    quiet = TRUE)
+  downloader::download(url = url_icap_zip(FALSE), destfile = tmpfile_us,
+    quiet = TRUE)
   message('Unzipping ICAPUS and IGDL files...')
   unzip(tmpfile_uk, exdir = file.path(tempdir(), 'igdl'))
   unzip(tmpfile_us, exdir = file.path(tempdir(), 'icus'))

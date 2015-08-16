@@ -62,7 +62,7 @@ download_cme_zip <- function (date, asset_class) {
   tmpfile <- tempfile(tmpfile_pattern, tmpdir, fileext = ".zip")
   # Will return error if the ftp_url is not valid.
   tryCatch({
-    download(url = ftp_url, destfile = tmpfile, quiet = TRUE)
+    downloader::download(url = ftp_url, destfile = tmpfile, quiet = TRUE)
     unzip(tmpfile, exdir = tmpdir)
     },
     error = function (c) {

@@ -13,17 +13,18 @@ Description: Post-GFC derivatives reforms have lifted the veil off
   on those facilities and reported to those repositories (respectively). This
   package provides you the ability to get this data from supported sources.
 License: GPL-2
-Imports:
+Imports: 
     httr (>= 0.5),
     jsonlite (>= 0.9),
     lubridate (>= 1.3.3),
     dplyr (>= 0.4),
     assertthat (>= 0.1),
     stringr (>= 0.6),
-    readr (>= 0.1)
-Suggests:
+    readr (>= 0.1),
+    downloader
+Suggests: 
     testthat (>= 0.1)
-URL:
+URL: 
    https://github.com/imanuelcostigan/dataonderivatives
-BugReports:
+BugReports: 
    https://github.com/imanuelcostigan/dataonderivatives/issues

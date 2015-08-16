@@ -29,8 +29,7 @@ download_ddr_zip <- function (date, asset_class) {
   # is empty (e.g. for a future date). This is avoided by checking URL status
   # before downloading the file.
   assertthat::assert_that(httr::url_ok(zip_url))
-  # Use packrat:::download which is better cross-platform.
-  res <- download(url = zip_url, destfile = tmpfile, quiet = TRUE)
+  res <- downloader::download(url = zip_url, destfile = tmpfile, quiet = TRUE)
   message("Unzipping DDR file ...")
   # Create date/asset_class dir as CSV file name in zip does not reflect date.
   # This makes it harder to ensure read_ddr_file picks up the right file.
