@@ -8,4 +8,4 @@
 
 # Version 0.1
 
-- Initial version
+- Implemented ability to access Bloomberg and ICAP SEF data
