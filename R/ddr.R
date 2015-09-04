@@ -33,7 +33,7 @@ download_ddr_zip <- function (date, asset_class) {
   message("Unzipping DDR file ...")
   # Create date/asset_class dir as CSV file name in zip does not reflect date.
   # This makes it harder to ensure read_ddr_file picks up the right file.
-  tmpdir <- file.path(tmpdir, date, "/", asset_class, '/')
+  tmpdir <- file.path(tmpdir, date, asset_class)
   unzip(tmpfile, exdir = tmpdir)
   message('Deleting the zip file ...')
   unlink(tmpfile)
