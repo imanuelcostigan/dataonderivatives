@@ -62,17 +62,17 @@ download_cme_zip <- function (date, asset_class) {
   if (!dir.exists(tmpdir)) dir.create(tmpdir, recursive = TRUE)
   tmpfile_pattern <- cme_file_name(date, asset_class)
   tmpfile <- tempfile(tmpfile_pattern, tmpdir, fileext = ".zip")
-  # Will return error if the ftp_url is not valid.
-  tryCatch({
-    downloader::download(url = ftp_url, destfile = tmpfile, quiet = TRUE)
+  # res will be -1 if download fails
+  # http://adv-r.had.co.nz/Exceptions-Debugging.html#condition-handling
+  res <- -1
+  try({
+    res <- downloader::download(url = ftp_url, destfile = tmpfile, quiet = TRUE)
+  }, silent = TRUE)
+  if (res == 0){
     unzip(tmpfile, exdir = tmpdir)
-    },
-    error = function (c) {
-      warning("There is no ", asset_class, " file for ", date, ". Skipping...")
-    }
-  )
-  # Zero byte temp file is created even if nothing is downloaded.
+  }
   unlink(tmpfile)
+  invisible(res)
 }
 
 #' @importFrom dplyr %>%
