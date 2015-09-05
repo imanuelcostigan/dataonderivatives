@@ -37,8 +37,11 @@ download_ddr_zip <- function (date, asset_class) {
     unzip(tmpfile, exdir = tmpdir)
     message('Deleting the zip file ...')
     unlink(tmpfile)
+    invisible(0)
+  } else {
+    # If no data exists, read_ddr_zip will return an empty data_frame()
+    invisible(-1)
   }
-  # If no data exists, read_ddr_zip will return an empty data_frame()
 }
 
 specify_ddr_col_types <- function () {

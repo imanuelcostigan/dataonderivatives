@@ -10,6 +10,7 @@ test_that('DDR URL scheme still valid', {
 
 test_that("DDR zip can be downloaded", {
   suppressMessages(expect_equal(download_ddr_zip(ymd(20150430), "IR"), 0))
+  suppressMessages(expect_equal(download_ddr_zip(ymd(20050430), "IR"), -1))
 })
 
 test_that("DDR file parsed correctly", {
