@@ -1,5 +1,4 @@
 context("DDR")
-library("lubridate")
 
 test_that('DDR URL scheme still valid', {
   for (asset_class in names(DDR_ASSET_CLASSES)) {
