@@ -1,11 +1,13 @@
 #' Get Bloomberg SDR data
 #'
-#' The Bloomberg Swap Data Repository (SDR) allows market participants to
-#' satisfy their swap reporting obligations. BSDR is required to make publicly
-#' available price, trading volume and other trading data. It publishes this
-#' data on its website in real-time and also on a historical basis. I have
-#' reverse engineered the JavaScript libraries used by its website to call the
-#' Bloomberg Application Service using \code{POST} requests to a target URL.
+#' The Bloomberg Swap Data Repository (BSDR) is a registered U.S. swap data
+#' repository that allows market participants to fulfil their public disclosure
+#' obligations under U.S. legislation. BSDR is required to make publicly
+#' available price, trading volume and other trading data reported to its U.S.
+#' repository. It publishes this data on its website in real-time and also on a
+#' historical basis. I have reverse engineered the JavaScript libraries used by
+#' its website to call the Bloomberg Application Service using \code{POST}
+#' requests to a target URL.
 #'
 #' @param date the date for which data is required as Date or DateTime object.
 #'   It will use all date-time elements including year, month, day, hour,
