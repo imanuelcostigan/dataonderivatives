@@ -6,6 +6,7 @@
 - Can now specify whether or not raw data extracted from various data sources should be processed or not using the `curate` argument.
 - Deprecated ICAP SEF capabilities (unstable)
 - Removed packrat-sourced download() method in favour of downloader package (#12)
+- Messages are no longer printed to the REPL (#18)
 
 # Version 0.1
 
