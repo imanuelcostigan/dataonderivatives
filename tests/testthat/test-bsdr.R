@@ -1,6 +1,7 @@
 context("BSDR")
 
 test_that('BSDR API accesible', {
+  skip_on_cran()
   df1 <- download_bsdr_data_single(ymd(20150505), "CO")
   expect_is(df1, "data.frame")
   df2 <- download_bsdr_data_single(ymd(20150504, 20150506), "CR")

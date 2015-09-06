@@ -8,11 +8,13 @@ test_that('DDR URL scheme still valid', {
 })
 
 test_that("DDR zip can be downloaded", {
-  suppressMessages(expect_equal(download_ddr_zip(ymd(20150430), "IR"), 0))
-  suppressMessages(expect_equal(download_ddr_zip(ymd(20050430), "IR"), -1))
+  skip_on_cran()
+  expect_equal(download_ddr_zip(ymd(20150430), "IR"), 0)
+  expect_equal(download_ddr_zip(ymd(20050430), "IR"), -1)
 })
 
 test_that("DDR file parsed correctly", {
+  skip_on_cran()
   for (asset_class in names(DDR_ASSET_CLASSES)) {
     res <- get_ddr_data(ymd(20150430), asset_class, TRUE)
     expect_equal(nrow(readr::problems(res)), 0)
