@@ -1,15 +1,15 @@
 Package: dataonderivatives
 Type: Package
 Title: Easily Source Publicly Available Data on Derivatives
-Version: 0.2.0
-Date: 2015-08-17
+Version: 0.1.99
+Date: 2014-09-20
 Authors@R: person("Imanuel", "Costigan", email = "i.costigan@me.com",
   role = c("aut", "cre"))
 Description: Post-GFC derivatives reforms have lifted the veil off
   over-the-counter (OTC) derivative markets. Swap Execution Facilities (SEFs)
   and Swap Data Repositories (SDRs) now publish data on swaps that are traded
-  on those facilities and reported to those repositories (respectively). This
-  package provides you the ability to get this data from supported sources.
+  on or reported to those facilities (respectively). This package provides you
+  the ability to get this data from supported sources.
 License: GPL-2
 Imports:
     httr (>= 0.5),

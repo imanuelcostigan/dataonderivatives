@@ -9,8 +9,9 @@ CME_ASSET_CLASSES_SHORT <-
 
 #' Get CME SDR data
 #'
-#' The CME SDR allows market participants to
-#' satisfy their swap reporting obligations. CME is required to make publicly
+#' The CME Swap Data Repository (SDR) is a registered U.S. swap data repository
+#' that allows market participants to fulfil their public disclosure
+#' obligations under U.S. legislation. CME is required to make publicly
 #' available price, trading volume and other trading data. It publishes this
 #' data on an FTP site.
 #'
