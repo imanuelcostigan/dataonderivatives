@@ -28,16 +28,20 @@ download_ddr_zip <- function (date, asset_class) {
   # Make sure that URL is ok. Is possible to download a "valid" ZIP file which
   # is empty (e.g. for a future date). This is avoided by checking URL status
   # before downloading the file.
-  assertthat::assert_that(httr::url_ok(zip_url))
-  res <- downloader::download(url = zip_url, destfile = tmpfile, quiet = TRUE)
-  message("Unzipping DDR file ...")
-  # Create date/asset_class dir as CSV file name in zip does not reflect date.
-  # This makes it harder to ensure read_ddr_file picks up the right file.
-  tmpdir <- file.path(tmpdir, date, "/", asset_class, '/')
-  unzip(tmpfile, exdir = tmpdir)
-  message('Deleting the zip file ...')
-  unlink(tmpfile)
-  invisible(res)
+  tmpdir <- file.path(tmpdir, date, asset_class)
+  if (httr::url_ok(zip_url)) {
+    downloader::download(url = zip_url, destfile = tmpfile, quiet = TRUE)
+    message("Unzipping DDR file ...")
+    # Create date/asset_class dir as CSV file name in zip does not reflect date.
+    # This makes it harder to ensure read_ddr_file picks up the right file.
+    unzip(tmpfile, exdir = tmpdir)
+    message('Deleting the zip file ...')
+    unlink(tmpfile)
+    invisible(0)
+  } else {
+    # If no data exists, read_ddr_zip will return an empty data_frame()
+    invisible(-1)
+  }
 }
 
 specify_ddr_col_types <- function () {
@@ -116,32 +120,33 @@ clean_ddr_files <- function () {
 
 #' Get DDR data
 #'
-#' The DTCC Data Repository is a registered U.S. swap data repository that allows
-#' market participants to fulfil their public disclosure obligations under
-#' U.S. legislation. This function will give you the ability to download
-#' trade-level data that is reported by market participants. The field names
-#' are (and is assumed to be) the same for each asset class.
+#' The DTCC Data Repository is a registered U.S. swap data repository that
+#' allows market participants to fulfil their public disclosure obligations
+#' under U.S. legislation. This function will give you the ability to download
+#' trade-level data that is reported by market participants. The field names are
+#' (and is assumed to be) the same for each asset class.
 #'
-#' @param date the date for which data is required as Date or DateTime
-#' object. Only the year, month and day elements of the object are used and it
-#' must of be length one.
-#' @param asset_class the asset class for which you would like to download
-#' trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
-#' \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
-#' (commodities). Can be a vector of these. Defaults to \code{NULL} which
-#' corresponds to all asset classes.
+#' @param date the date for which data is required as Date or DateTime object.
+#'   Only the year, month and day elements of the object are used and it must of
+#'   be length one.
+#' @param asset_class the asset class for which you would like to download trade
+#'   data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
+#'   \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
+#'   (commodities). Can be a vector of these. Defaults to \code{NULL} which
+#'   corresponds to all asset classes.
 #' @param curate a logical flag indicating whether raw data should be returned
-#' or whether the raw data should be processed (default). The latter involves
-#' selecting particular fields and formatting these as seemed appropriate
-#' based on data reviews at the time the formatting was coded.
-#' @return a \code{tbl_df} that contains the requested data.
+#'   or whether the raw data should be processed (default). The latter involves
+#'   selecting particular fields and formatting these as seemed appropriate
+#'   based on data reviews at the time the formatting was coded.
+#' @return a \code{tbl_df} that contains the requested data. If no data exists
+#'   on that date, an empty data frame (zero columns and rows) is returned.
 #' @examples
 #' \dontrun{
 #' library("lubridate")
 #' get_ddr_data(ymd(20140430), "IR")
 #' }
-#' @references
-#' \href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination Platform}
+#' @references \href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination
+#' Platform}
 #' @export
 
 get_ddr_data <- function (date, asset_class = NULL, curate = TRUE) {

@@ -7,12 +7,12 @@
 get_ddr_data(date, asset_class = NULL, curate = TRUE)
 }
 \arguments{
-\item{date}{the date for which data is required as Date or DateTime
-object. Only the year, month and day elements of the object are used and it
-must of be length one.}
+\item{date}{the date for which data is required as Date or DateTime object.
+Only the year, month and day elements of the object are used and it must of
+be length one.}
 
-\item{asset_class}{the asset class for which you would like to download
-trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
+\item{asset_class}{the asset class for which you would like to download trade
+data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 (commodities). Can be a vector of these. Defaults to \code{NULL} which
 corresponds to all asset classes.}
@@ -23,14 +23,15 @@ selecting particular fields and formatting these as seemed appropriate
 based on data reviews at the time the formatting was coded.}
 }
 \value{
-a \code{tbl_df} that contains the requested data.
+a \code{tbl_df} that contains the requested data. If no data exists
+  on that date, an empty data frame (zero columns and rows) is returned.
 }
 \description{
-The DTCC Data Repository is a registered U.S. swap data repository that allows
-market participants to fulfil their public disclosure obligations under
-U.S. legislation. This function will give you the ability to download
-trade-level data that is reported by market participants. The field names
-are (and is assumed to be) the same for each asset class.
+The DTCC Data Repository is a registered U.S. swap data repository that
+allows market participants to fulfil their public disclosure obligations
+under U.S. legislation. This function will give you the ability to download
+trade-level data that is reported by market participants. The field names are
+(and is assumed to be) the same for each asset class.
 }
 \examples{
 \dontrun{
@@ -39,6 +40,7 @@ get_ddr_data(ymd(20140430), "IR")
 }
 }
 \references{
-\href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination Platform}
+\href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination
+Platform}
 }
 
