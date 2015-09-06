@@ -53,8 +53,6 @@ download_bsef_data <- function (date, asset_class) {
 }
 
 download_bsef_data_single <- function (date, asset_class) {
-  message('Downloading and reading BSEF data for the ', asset_class,
-    ' asset class on ', format(date, '%d-%b-%Y'), '...')
   # BAS doesn't appear to accept an end_date different from date: the
   # response is empty.
   start_date <- format(date, '%Y-%m-%dT00:00:00.000000Z')
@@ -85,7 +83,6 @@ format_bsef_data <- function (df) {
   if (all(dim(df) == c(0, 0))) {
     return(dplyr::data_frame())
   } else {
-    message('Formatting BSEF data...')
     mutations <- list(
       ~lubridate::ymd_hms(tradeDate),
       ~as.numeric(priceOpen),

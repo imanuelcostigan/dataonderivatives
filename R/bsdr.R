@@ -67,19 +67,6 @@ download_bsdr_data_single <- function (date_range, asset_class, currency = NULL,
   if (length(date_range) == 1) {
     date_range <- date_range + lubridate::days(0:1)
   }
-  # Build message string
-  msg <- paste0('Downloading and reading BSDR data for the ', asset_class,
-    ' asset class for the period from ',
-    paste(format(date_range, "%Y-%m-%dT%H:%M:%OS6Z"), collapse = " to "))
-  if (!is.null(currency)) {
-    msg <- paste0(msg, " for currency ", currency)
-  }
-  if (!is.null(notional_range)) {
-    msg <- paste0(msg, " with notional range in ", notional_range[1], " to ",
-      notional_range[2])
-  }
-  msg <- paste0(msg, '...')
-  message(msg)
   # Format dates to format expected by BBG API
   date_range <- format(date_range, "%Y-%m-%dT%H:%M:%OS6Z")
   # Build payload to BBG API. NB: the payload build process in search.js
