@@ -57,8 +57,6 @@ get_cme_data <- function (date, asset_class = NULL, curate = TRUE) {
 
 download_cme_zip <- function (date, asset_class) {
   ftp_url <- cme_ftp_url(date, asset_class)
-  message('Downloading CME SDR zip file for ',
-    asset_class, ' on ', date, '...')
   tmpdir <- file.path(tempdir(), "cme")
   if (!dir.exists(tmpdir)) dir.create(tmpdir, recursive = TRUE)
   tmpfile_pattern <- cme_file_name(date, asset_class)
@@ -78,7 +76,6 @@ download_cme_zip <- function (date, asset_class) {
 
 #' @importFrom dplyr %>%
 read_cme_file <- function (date, asset_class, curate) {
-  message('Reading CME SDR data for ', asset_class, ' on ', date, '...')
   tmpdir <- file.path(tempdir(), 'cme/')
   csvfile <- list.files(tmpdir, cme_file_name(date, asset_class),
     full.names = TRUE)
@@ -237,7 +234,6 @@ specify_cme_col_types <- function (asset_class) {
 }
 
 clean_cme_files <- function () {
-  message('Deleting the CME temp directories...')
   unlink(file.path(tempdir(), 'cme'), recursive = TRUE)
 }
 

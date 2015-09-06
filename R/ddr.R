@@ -19,8 +19,6 @@ ddr_url <- function (date, asset_class) {
 
 download_ddr_zip <- function (date, asset_class) {
   zip_url <- ddr_url(date, asset_class)
-  message('Downloading DDR zip file for ', DDR_ASSET_CLASSES[asset_class],
-    ' on ', date, '...')
   tmpfile_pattern <- ddr_file_name(date, asset_class)
   tmpdir <- file.path(tempdir(), "ddr")
   if (!dir.exists(tmpdir)) dir.create(tmpdir, recursive = TRUE)
@@ -31,11 +29,9 @@ download_ddr_zip <- function (date, asset_class) {
   tmpdir <- file.path(tmpdir, date, asset_class)
   if (httr::url_ok(zip_url)) {
     downloader::download(url = zip_url, destfile = tmpfile, quiet = TRUE)
-    message("Unzipping DDR file ...")
     # Create date/asset_class dir as CSV file name in zip does not reflect date.
     # This makes it harder to ensure read_ddr_file picks up the right file.
     unzip(tmpfile, exdir = tmpdir)
-    message('Deleting the zip file ...')
     unlink(tmpfile)
     invisible(0)
   } else {
@@ -93,7 +89,6 @@ specify_ddr_col_types <- function () {
 }
 
 read_ddr_file <- function (date, asset_class, curate) {
-  message('Reading DDR data for ', format(date, '%d-%b-%Y'), '...')
   tmpdir <- file.path(tempdir(), 'ddr/', date, "/", asset_class, '/')
   ddrfile <- list.files(tmpdir, DDR_ASSET_CLASSES[asset_class], full.names = TRUE)
   if (length(ddrfile) < 1L) {
@@ -113,7 +108,6 @@ read_ddr_file <- function (date, asset_class, curate) {
 }
 
 clean_ddr_files <- function () {
-  message('Deleting the DDR temp directories...')
   unlink(file.path(tempdir(), 'ddr'), recursive = TRUE)
 }
 
