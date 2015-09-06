@@ -1,6 +1,10 @@
 # Native support:
 # https://github.com/craigcitro/r-travis/wiki/Porting-to-native-R-support-in-Travis
 
+addons:
+  apt:
+    sources:
+    - r-packages-trusty
 language: r
 sudo: false
 notifications:
