@@ -55,8 +55,8 @@ download_icap_zip <- function () {
   downloader::download(url = url_icap_zip(FALSE), destfile = tmpfile_us,
     quiet = TRUE)
   message('Unzipping ICAPUS and IGDL files...')
-  unzip(tmpfile_uk, exdir = file.path(tempdir(), 'igdl'))
-  unzip(tmpfile_us, exdir = file.path(tempdir(), 'icus'))
+  utils::unzip(tmpfile_uk, exdir = file.path(tempdir(), 'igdl'))
+  utils::unzip(tmpfile_us, exdir = file.path(tempdir(), 'icus'))
   message('Deleting the zip files...')
   unlink(c(tmpfile_uk, tmpfile_us))
 }

@@ -31,7 +31,7 @@ download_ddr_zip <- function (date, asset_class) {
     downloader::download(url = zip_url, destfile = tmpfile, quiet = TRUE)
     # Create date/asset_class dir as CSV file name in zip does not reflect date.
     # This makes it harder to ensure read_ddr_file picks up the right file.
-    unzip(tmpfile, exdir = tmpdir)
+    utils::unzip(tmpfile, exdir = tmpdir)
     unlink(tmpfile)
     invisible(0)
   } else {

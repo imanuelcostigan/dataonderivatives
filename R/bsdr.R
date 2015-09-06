@@ -132,7 +132,7 @@ format_bsdr_data <- function (data) {
   mutation_names <- c("exec_timestamp", "effective_date", "end_date",
     "price_notation", "additional_price_notation", "notional_currency_amount_1",
     "option_strike_price", "option_premium")
-  data %>% dplyr::mutate_(.dots = setNames(mutations, mutation_names))
+  data %>% dplyr::mutate_(.dots = stats::setNames(mutations, mutation_names))
 }
 
 remove_invalid_dfs <- function (df) {

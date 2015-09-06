@@ -99,7 +99,7 @@ format_bsef_data <- function (df) {
       "priceClose", "settlementPrice", "totalVolume", "blockTradeVolume",
       "totalVolumeUsd", "blocktradevolumeusd")
     df %>%
-      dplyr::mutate_(.dots = setNames(mutations, mutation_names)) %>%
+      dplyr::mutate_(.dots = stats::setNames(mutations, mutation_names)) %>%
       dplyr::select_("tradeDate", "assetclass", "security", "currency",
         "priceOpen", "priceHigh", "priceLow", "priceClose", "settlementPrice",
         "totalVolume", "blockTradeVolume", "totalVolumeUsd",

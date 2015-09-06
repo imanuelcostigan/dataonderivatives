@@ -68,7 +68,7 @@ download_cme_zip <- function (date, asset_class) {
     res <- downloader::download(url = ftp_url, destfile = tmpfile, quiet = TRUE)
   }, silent = TRUE)
   if (res == 0){
-    unzip(tmpfile, exdir = tmpdir)
+    utils::unzip(tmpfile, exdir = tmpdir)
   }
   unlink(tmpfile)
   invisible(res)
