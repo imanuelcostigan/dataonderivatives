@@ -61,15 +61,14 @@ download_cme_zip <- function (date, asset_class) {
   if (!dir.exists(tmpdir)) dir.create(tmpdir, recursive = TRUE)
   tmpfile_pattern <- cme_file_name(date, asset_class)
   tmpfile <- tempfile(tmpfile_pattern, tmpdir, fileext = ".zip")
-  # res will be -1 if download fails
-  # http://adv-r.had.co.nz/Exceptions-Debugging.html#condition-handling
-  res <- -1
-  try({
-    res <- downloader::download(url = ftp_url, destfile = tmpfile, quiet = TRUE)
-  }, silent = TRUE)
-  if (res == 0){
-    utils::unzip(tmpfile, exdir = tmpdir)
-  }
+  # This downloads a file with non-zero byte size even if no data (and file!)
+  # exists on the date / asset class requested. So work around this.
+  downloader::download(url = ftp_url, destfile = tmpfile, quiet = TRUE)
+  # res is an empty character vector if no data exists for that date and asset
+  # class, even though tmpfile is a non-zero sized zip file (hence unlinked).
+  # Mimic download.file return value (with 0 = success). Also need to
+  try(suppressWarnings(files <- utils::unzip(tmpfile, exdir = tmpdir)), silent = TRUE)
+  if (identical(files, character())) res <- -1 else res <- 0
   unlink(tmpfile)
   invisible(res)
 }
