@@ -19,9 +19,9 @@ Imports:
     assertthat (>= 0.1),
     stringr (>= 0.6),
     readr (>= 0.1),
-    downloader,
-    utils,
-    stats
+    downloader (>= 0.4),
+    utils (>= 3.2.2),
+    stats (>= 3.2.2)
 Suggests:
     testthat (>= 0.1)
 URL:
