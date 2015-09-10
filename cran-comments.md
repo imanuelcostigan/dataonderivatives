@@ -1,6 +1,11 @@
+## Update
+
+Removed ICAP file to stop error highlighted by Uwe after initial submission.
+
 ## Summary
 
 Initial submission to CRAN. Tests OK.
+
 
 ## Test environments
 
