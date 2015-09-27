@@ -1,3 +1,8 @@
+# Version 0.2.1
+
+- Network dependent tests disabled on CRAN as they may not be reliable.
+- Suppress CME warnings. Their FTP server demonstrates poor behaviour for non-existent files.
+
 # Version 0.2
 
 - Added ability to source trade data from SDRs (DTCC, Bloomberg and CME) (#7) 
