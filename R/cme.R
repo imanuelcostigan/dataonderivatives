@@ -63,14 +63,16 @@ download_cme_zip <- function (date, asset_class) {
   tmpfile <- tempfile(tmpfile_pattern, tmpdir, fileext = ".zip")
   files <- character()
   try({
-    # On Windows only (?) this downloads a file with non-zero byte size even if
-    # no data (and file!) exists on the date / asset class requested. So work
-    # around this.
-    downloader::download(url = ftp_url, destfile = tmpfile, quiet = TRUE)
-    # res is an em  pty character vector if no data exists for that date and asset
-    # class, even though tmpfile is a non-zero sized zip file (hence unlinked).
-    # Mimic download.file return value (with 0 = success). Also need to
-    suppressWarnings(files <- utils::unzip(tmpfile, exdir = tmpdir))
+    suppressWarnings({
+      # On Windows only (?) this downloads a file with non-zero byte size even if
+      # no data (and file!) exists on the date / asset class requested. So work
+      # around this.
+      downloader::download(url = ftp_url, destfile = tmpfile, quiet = TRUE)
+      # res is an em  pty character vector if no data exists for that date and asset
+      # class, even though tmpfile is a non-zero sized zip file (hence unlinked).
+      # Mimic download.file return value (with 0 = success). Also need to
+      files <- utils::unzip(tmpfile, exdir = tmpdir)
+    })
   }, silent = TRUE)
   if (identical(files, character())) res <- -1 else res <- 0
   unlink(tmpfile)
