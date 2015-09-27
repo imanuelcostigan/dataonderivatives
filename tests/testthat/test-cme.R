@@ -1,6 +1,7 @@
 context("CME SDR")
 
 test_that("CME SDR URL works",  {
+  skip_on_cran()
   expect_equal(cme_ftp_url(lubridate::ymd(20150301), "FX"),
     "ftp://ftp.cmegroup.com/sdr/fx/2015/03/RT.FX.20150301.csv.zip")
   expect_equal(cme_ftp_url(lubridate::ymd(20130702), "IR"),
