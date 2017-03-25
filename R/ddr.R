@@ -27,7 +27,7 @@ download_ddr_zip <- function (date, asset_class) {
   # is empty (e.g. for a future date). This is avoided by checking URL status
   # before downloading the file.
   tmpdir <- file.path(tmpdir, date, asset_class)
-  if (httr::url_ok(zip_url)) {
+  if (identical(httr::status_code(zip_url), 200L)) {
     downloader::download(url = zip_url, destfile = tmpfile, quiet = TRUE)
     # Create date/asset_class dir as CSV file name in zip does not reflect date.
     # This makes it harder to ensure read_ddr_file picks up the right file.
