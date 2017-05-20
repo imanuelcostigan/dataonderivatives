@@ -68,38 +68,34 @@ download_bsdr_data_single <- function (date_range, asset_class, currency = NULL,
     date_range <- date_range + lubridate::days(0:1)
   }
   # Format dates to format expected by BBG API
-  date_range <- format(date_range, "%Y-%m-%dT%H:%M:%OS6Z")
-  # Build payload to BBG API. NB: the payload build process in search.js
-  # does not assume datetime_low and _high are specified. However, form always
-  # has datetime_low pre-populated. Given logic at start of function, we can
-  # assume that both are defined in this scope.
+  tz <- sub("(^\\+[[:digit:]]{2})([[:digit:]]{2}$)", "\\1:\\2",
+    format(date_range, "%z"))
+  date_range <- paste0(format(date_range, "%Y-%m-%dT%H:%M:%OS3"), tz)
   body <- list(
-    data_type = "FULL",
+    source = "search",
+    sorting_column = list(),
     asset_class = asset_class,
     datetime_low = date_range[1],
-    datetime_high = date_range[2])
-  if (!is.null(currency)) {
-    body <- c(body, currency = currency)
-  }
-  if (!is.null(notional_range)) {
-    body <- c(body, notional_low = notional_range[1],
-      notional_high = notional_range[2])
-  }
-  body <- list(Request = list(pubRequest = body))
-  response <- httr::POST(url = bsdr_url(), body = body, config = bsef_header(),
-    encode = 'json')
-  # Convert response's content to JSON from raw
-  # Some nested data frames. So flatten these out.
-  response <- response$content
-  assertthat::assert_that(is.raw(response))
-  response <- jsonlite::fromJSON(rawToChar(response))
-  # Drill down response to data set that we are interested in
-  df <- response$Response$pubResponse$public_recs
-  if (!is.null(df)) {
-    return(remove_invalid_dfs(df))
+    datetime_high = date_range[2],
+    currency = currency %||% "",
+    notional_low = notional_range[1] %||% "",
+    notional_high = notional_range[2] %||% "",
+    offset = 0
+  )
+
+  # Work out how many records need to be retrieved
+  body <- c(body, limit = 0)
+  response <- httr::POST(url = bsdr_url(), body = body, encode = 'json')
+  value <- jsonlite::fromJSON(rawToChar(response[["content"]]))
+  nrecs <- value[["Response"]][["pubResponse"]][["total"]] %>% as.numeric()
+  if (nrecs == 0 || is.null(nrecs)) {
+    return(dplyr::data_frame())
   } else {
-    df <- dplyr::data_frame()
-    return(df)
+    body$limit <- nrecs
+    response <- httr::POST(url = bsdr_url(), body = body, encode = 'json')
+    value <- jsonlite::fromJSON(rawToChar(response$content))
+    df <- value[["Response"]][["pubResponse"]][["public_recs"]]
+    return(remove_invalid_dfs(df))
   }
 }
 
@@ -121,9 +117,9 @@ bsdr_header <- function (version = 1.3) {
 format_bsdr_data <- function (data) {
   # Select fields that are presented on the BSDR web search interface
   mutations <- list(
-    ~lubridate::fast_strptime(exec_timestamp, "%Y-%m-%dT%H:%M:%OS%z"),
-    ~lubridate::fast_strptime(effective_date, "%m/%d/%Y"),
-    ~lubridate::fast_strptime(end_date, "%m/%d/%Y"),
+    ~lubridate::fast_strptime(exec_timestamp, "%Y-%m-%dT%H:%M:%OS%z", lt = FALSE),
+    ~lubridate::fast_strptime(effective_date, "%m/%d/%Y", lt = FALSE),
+    ~lubridate::fast_strptime(end_date, "%m/%d/%Y", lt = FALSE),
     ~as.numeric(price_notation),
     ~as.numeric(additional_price_notation),
     ~as.numeric(notional_currency_amount_1),
@@ -144,4 +140,98 @@ remove_invalid_dfs <- function (df) {
     }
   }
   dplyr::as_data_frame(Map(replace_with_na, df))
+}
+
+
+bsdr_api <- function(dates, asset_class, currency = NULL, notionals = NULL,
+  fetch = 3950) {
+  # Set things up
+  body <- init_bsdr_body()
+  dates <- to_bsdr_time_format(dates)
+
+  # Define POST body
+  body$asset_class <- toupper(asset_class)
+  body$datetime_low <- dates[1]
+  body$datetime_high <- dates[2]
+  body$currency <- toupper(currency %||% body$currency)
+  body$notional_low <- notionals %||% c_input(notionals)[1]
+  body$notional_high <- notionals %||% c_input(notionals)[2]
+
+  # Get number of records returned by query
+  body <- c(body, limit = 0)
+  response <- httr::POST(url = bsdr_url(), body = body, encode = 'json')
+  value <- parse_bsdr_content(response)
+  nrecs <- value[["total"]] %>% as.numeric()
+
+  # Get all records
+  if (nrecs == 0 || is.null(nrecs)) {
+    return(BSDR_API(response, value))
+  } else {
+    body$limit <- nrecs
+    response <- httr::POST(url = bsdr_url(), body = body, encode = 'json')
+    value <- parse_bsdr_content(response)
+    return(BSDR_API(response, value))
+  }
+}
+
+print.bsdr_api <- function(x, ...) {
+  cat("<BSDR ", x$path, ">\n", sep = "")
+  cat("Records: ", x$parsed[["total"]], sep = "")
+  str(x$parsed)
+  invisible(x)
+}
+
+to_bsdr_time_format <- function(dates) {
+  # Format dates to format expected by BBG API
+  tz <- sub("(^\\+[[:digit:]]{2})([[:digit:]]{2}$)", "\\1:\\2",
+    format(dates, "%z"))
+  res <- paste0(format(dates, "%Y-%m-%dT%H:%M:%OS3"), tz)
+  c_input(res, "")
+}
+
+c_input <- function(input, value = "") {
+  if (length(input) == 1) {
+    return(c(input, value))
+  } else {
+    return(input)
+  }
+}
+
+init_bsdr_body <- function() {
+  list(
+    source = "search",
+    sorting_column = list(),
+    asset_class = "",
+    datetime_low = "",
+    datetime_high = "",
+    currency = "",
+    notional_low = "",
+    notional_high = "",
+    offset = 0
+  )
+}
+
+BSDR_API <- function(response, parsed, path = "bas/bsdrweb") {
+  structure(list(
+    response = response,
+    parsed = parsed,
+    path = path
+  ), class = "bsdr_api")
+}
+
+parse_bsdr_content <- function(response) {
+  # Unwrap output a bit. Other elements of response are XML cruft
+  value <- httr::content(response, as = "parsed", simplifyVector = TRUE, flatten = TRUE)
+  value[["Response"]][["pubResponse"]]
+}
+
+
+`%||%` <- function (x, y) {
+  if (is.null(x)) y else x
+}
+
+#' @importFrom tibble as_tibble
+#' @export
+as_tibble.bsdr_api <- function(x, ...) {
+  tibble::as_tibble(x$parsed)
 }
