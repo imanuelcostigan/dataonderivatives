@@ -28,3 +28,4 @@ URL:
 BugReports:
    https://github.com/imanuelcostigan/dataonderivatives/issues
 RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)

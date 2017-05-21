@@ -51,3 +51,106 @@ get_bsdr_data <- function (date, asset_class = NULL, curate = TRUE) {
     return(df %>% format_bsdr_data())
   }
 }
+
+bsdr_api <- function(dates, asset_class, currency = NULL, notionals = NULL) {
+  # Set things up
+  body <- init_bsdr_body()
+  dates <- to_bsdr_time_format(dates)
+
+  # Define POST body
+  body$asset_class <- toupper(asset_class)
+  body$datetime_low <- dates[1]
+  body$datetime_high <- dates[2]
+  body$currency <- toupper(currency %||% body$currency)
+  body$notional_low <- notionals %||% c_input(notionals)[1]
+  body$notional_high <- notionals %||% c_input(notionals)[2]
+
+  # Get number of records returned by query
+  body <- c(body, limit = 0)
+  response <- httr::POST(url = bsdr_url(), body = body, encode = 'json')
+  if (httr::http_error(response)) {
+    return(BSDR_API(response, tibble::tibble()))
+  }
+  value <- httr::content(response, as = "parsed",
+    simplifyVector = TRUE, flatten = TRUE)
+  nrecs <- as.numeric(value[["Response"]][["pubResponse"]][["total"]])
+
+  # Get all records
+  if (nrecs == 0 || is.null(nrecs)) {
+    return(BSDR_API(response, value))
+  } else {
+    # Seems to be a limit on size of payload that can be returned.
+    # By trial and error, 2500 records seems to be safe.
+    pulled <- 0; i <- 1; response <- vector("list");
+    value <- list(public_recs = NULL, total = nrecs)
+    pb <- utils::txtProgressBar(style = 3)
+    while (pulled < nrecs) {
+      body$offset <- pulled
+      body$limit  <- min(nrecs - pulled, 2500)
+      response[[i]] <- httr::POST(url = bsdr_url(), body = body, encode = 'json')
+      value[["public_recs"]][[i]] <- parse_bsdr_content(response[[i]])
+      pulled <- pulled + body$limit; i <- i + 1
+      utils::setTxtProgressBar(pb, pulled / nrecs)
+    }
+    value[["public_recs"]] <- dplyr::bind_rows(value[["public_recs"]])
+    close(pb)
+    return(BSDR_API(response, value))
+  }
+}
+
+BSDR_API <- function(response, parsed, path = "bas/bsdrweb") {
+  structure(list(
+    response = response,
+    parsed = parsed,
+    path = path
+  ), class = "bsdr_api")
+}
+
+init_bsdr_body <- function() {
+  list(
+    source = "search",
+    sorting_column = list(),
+    asset_class = "",
+    datetime_low = "",
+    datetime_high = "",
+    currency = "",
+    notional_low = "",
+    notional_high = "",
+    offset = 0
+  )
+}
+
+print.bsdr_api <- function(x, ...) {
+  cat("<BSDR ", x$path, ">\n", sep = "")
+  str(x$parsed, max.level = 1)
+  invisible(x)
+}
+
+parse_bsdr_content <- function(response) {
+  # Unwrap output a bit. Other elements of response are XML cruft
+  value <- httr::content(response, as = "parsed",
+    simplifyVector = TRUE, flatten = TRUE)
+  out <- value[["Response"]][["pubResponse"]][["public_recs"]]
+  tibble::as_tibble(out)
+}
+
+
+to_bsdr_time_format <- function(dates) {
+  # Format dates to format expected by BBG API
+  tz <- sub("(^\\+[[:digit:]]{2})([[:digit:]]{2}$)", "\\1:\\2",
+    format(dates, "%z"))
+  res <- paste0(format(dates, "%Y-%m-%dT%H:%M:%OS3"), tz)
+  c_input(res, "")
+}
+
+c_input <- function(input, value = "") {
+  if (length(input) == 1) {
+    return(c(input, value))
+  } else {
+    return(input)
+  }
+}
+
+bsdr_url <- function () {
+  "http://www.bloombergsdr.com/bas/bsdrweb"
+}
