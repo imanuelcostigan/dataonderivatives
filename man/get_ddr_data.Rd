@@ -24,7 +24,7 @@ based on data reviews at the time the formatting was coded.}
 }
 \value{
 a \code{tbl_df} that contains the requested data. If no data exists
-  on that date, an empty data frame (zero columns and rows) is returned.
+on that date, an empty data frame (zero columns and rows) is returned.
 }
 \description{
 The DTCC Data Repository is a registered U.S. swap data repository that

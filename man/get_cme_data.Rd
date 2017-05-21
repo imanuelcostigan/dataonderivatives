@@ -25,7 +25,7 @@ based on data reviews at the time the formatting was coded.}
 }
 \value{
 a data frame containing the requested data, or an empty data frame
-  if data is unavailable
+if data is unavailable
 }
 \description{
 The CME Swap Data Repository (SDR) is a registered U.S. swap data repository
