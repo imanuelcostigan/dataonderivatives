@@ -55,12 +55,16 @@ get_bsdr_data <- function (date, asset_class = NULL, curate = TRUE) {
 bsdr_api <- function(dates, asset_class, currency = NULL, notionals = NULL) {
   # Set things up
   body <- init_bsdr_body()
-  dates <- to_bsdr_time_format(dates)
+  strdates <- to_bsdr_time_format(dates)
 
   # Define POST body
   body$asset_class <- toupper(asset_class)
-  body$datetime_low <- dates[1]
-  body$datetime_high <- dates[2]
+  body$datetime_low <- strdates[1]
+  body$datetime_high <- strdates[2]
+  if (is.na(strdates[2])) {
+    # This happens when dates is of length one.
+    body$datetime_high <- to_bsdr_time_format(dates[1] + lubridate::days(1))
+  }
   body$currency <- toupper(currency %||% body$currency)
   body$notional_low <- notionals %||% c_input(notionals)[1]
   body$notional_high <- notionals %||% c_input(notionals)[2]
@@ -75,25 +79,23 @@ bsdr_api <- function(dates, asset_class, currency = NULL, notionals = NULL) {
     simplifyVector = TRUE, flatten = TRUE)
   nrecs <- as.numeric(value[["Response"]][["pubResponse"]][["total"]])
 
+  value <- list(public_recs = NULL, total = nrecs)
   # Get all records
   if (nrecs == 0 || is.null(nrecs)) {
+    value[["public_recs"]] <- tibble::tibble()
     return(BSDR_API(response, value))
   } else {
     # Seems to be a limit on size of payload that can be returned.
     # By trial and error, 2500 records seems to be safe.
     pulled <- 0; i <- 1; response <- vector("list");
-    value <- list(public_recs = NULL, total = nrecs)
-    pb <- utils::txtProgressBar(style = 3)
     while (pulled < nrecs) {
       body$offset <- pulled
       body$limit  <- min(nrecs - pulled, 2500)
       response[[i]] <- httr::POST(url = bsdr_url(), body = body, encode = 'json')
       value[["public_recs"]][[i]] <- parse_bsdr_content(response[[i]])
       pulled <- pulled + body$limit; i <- i + 1
-      utils::setTxtProgressBar(pb, pulled / nrecs)
     }
     value[["public_recs"]] <- dplyr::bind_rows(value[["public_recs"]])
-    close(pb)
     return(BSDR_API(response, value))
   }
 }
@@ -134,13 +136,11 @@ parse_bsdr_content <- function(response) {
   tibble::as_tibble(out)
 }
 
-
 to_bsdr_time_format <- function(dates) {
   # Format dates to format expected by BBG API
   tz <- sub("(^\\+[[:digit:]]{2})([[:digit:]]{2}$)", "\\1:\\2",
     format(dates, "%z"))
-  res <- paste0(format(dates, "%Y-%m-%dT%H:%M:%OS3"), tz)
-  c_input(res, "")
+  paste0(format(dates, "%Y-%m-%dT%H:%M:%OS3"), tz)
 }
 
 c_input <- function(input, value = "") {
@@ -153,4 +153,14 @@ c_input <- function(input, value = "") {
 
 bsdr_url <- function () {
   "http://www.bloombergsdr.com/bas/bsdrweb"
+}
+
+`%||%` <- function (x, y) {
+  if (is.null(x)) y else x
+}
+
+#' @importFrom tibble as_tibble
+#' @export
+as_tibble.bsdr_api <- function(x, ...) {
+  x[["parsed"]][["public_recs"]]
 }
