@@ -52,6 +52,11 @@ get_bsdr_data <- function (date, asset_class = NULL, curate = TRUE) {
   }
 }
 
+bsdr <- function(dates, asset_class, currency = NULL) {
+  res <- bsdr_api(dates, asset_class, currency = currency, notionals = NULL)
+  tibble::as_tibble(res)
+}
+
 bsdr_api <- function(dates, asset_class, currency = NULL, notionals = NULL) {
   # Set things up
   body <- init_bsdr_body()
