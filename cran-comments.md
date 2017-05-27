@@ -1,9 +1,17 @@
 ## Summary
 
-Minor update. Tests pass. One note about possible invalid DTCC URL is to be ignored. The site is likely down for maintanence (as has been the case on weekends on other occasions).
+Major update with breaking changes
+
+## Reverse dependencies
+
+No reverse dependency issues.
 
 ## Test environments
 
-* local OS X install, R 3.2.2
-* ubuntu 12.04 (on travis-ci), R 3.2.2
-* win-builder (devel and release)
+* R 3.4.0 on Ubuntu 12.04 and MacOS 10.12 on Travis CI
+* R-devel (r72742), R-patched (3.4.0-patched), R-release (3.4.0) and R-oldrel (3.3.3) on Appveyor CI
+
+## Test results
+
+Clean pass results
+
