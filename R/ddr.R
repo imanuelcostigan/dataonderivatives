@@ -34,7 +34,7 @@ ddr <- function(date, asset_class, field_specs = ddr_field_specs()) {
   )
   on.exit(unlink(c(zip_path, csv_path), recursive = TRUE))
   zip_path <- ddr_download(date, asset_class)
-  csv_path <- ddr_unzip(zip_path)
+  csv_path <- unzip_(zip_path)
   if(is.na(csv_path)) {
     tibble::tibble()
   } else {
@@ -48,17 +48,6 @@ ddr_download <- function(date, asset_class) {
     paste0(ddr_file_name(date, asset_class), ".zip"))
   downloader::download(file_url, zip_path, quiet = TRUE)
   zip_path
-}
-
-ddr_unzip <- function(path) {
-  if (!file.exists(path)) stop("The file ", path, " does not exist", call. = FALSE)
-  extracted_files <- utils::unzip(path, exdir = tempdir(), list = TRUE)
-  if (nrow(extracted_files) == 1) {
-    utils::unzip(path, exdir = tempdir())
-    return(file.path(tempdir(), extracted_files[["Name"]]))
-  } else {
-    return(NA)
-  }
 }
 
 #' @rdname ddr
