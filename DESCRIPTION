@@ -15,7 +15,6 @@ Imports:
     assertthat (>= 0.1),
     httr (>= 1.2.1),
     lubridate (>= 1.3.3),
-    dplyr (>= 0.4),
     readr (>= 1.1.0),
     downloader (>= 0.4),
     utils (>= 3.2.2),

@@ -2,8 +2,8 @@
 
 export(bsdr)
 export(bsef)
+export(cme)
+export(cme_field_specs)
 export(ddr)
 export(ddr_field_specs)
-export(get_cme_data)
-importFrom(dplyr,"%>%")
 importFrom(tibble,as_tibble)

@@ -12,13 +12,13 @@ test_that("CME SDR URL works",  {
 
 test_that("CME SDR download works",  {
   skip_on_cran()
-  expect_equal(download_cme_zip(lubridate::ymd(20150301), "FX"), 0)
-  expect_equal(download_cme_zip(lubridate::ymd(20050301), "FX"), -1)
+  expect_error(cme_download(lubridate::ymd(20161213), "FX"), NA)
+  expect_true(is.na(cme_download(lubridate::ymd(20050301), "FX")))
 })
 
 
 test_that("CME SDR file parses",  {
   skip_on_cran()
-  expect_true(nrow(get_cme_data(lubridate::ymd(20150301), "FX")) > 0)
-  expect_true(nrow(get_cme_data(lubridate::ymd(20050301), "FX")) == 0)
+  expect_true(nrow(cme(lubridate::ymd(20161213), "FX")) > 0)
+  expect_true(nrow(cme(lubridate::ymd(20050301), "FX")) == 0)
 })
