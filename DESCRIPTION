@@ -1,8 +1,7 @@
 Package: dataonderivatives
 Type: Package
 Title: Easily Source Publicly Available Data on Derivatives
-Version: 0.2.1
-Date: 2015-09-27
+Version: 0.2.99
 Authors@R: person("Imanuel", "Costigan", email = "i.costigan@me.com",
   role = c("aut", "cre"))
 Description: Post-GFC derivatives reforms have lifted the veil off
