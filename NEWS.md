@@ -6,7 +6,7 @@
 - `bsef()` to retrieve Bloomberg SEF data
 - `ddr()` to retrieve DTCC Data Repository data (also closes #25)
 
-## BREAKING:
+## DEFUNCT:
 
 - `get_bsdr_data()` is defunct. Use the new function `bsdr()` instead which has a different interface to `get_bsdr_data()`.
 - `get_bsef_data()` is defunct. Use the new function `bsef()` instead which has a different interface to `get_bsef_data()`.
