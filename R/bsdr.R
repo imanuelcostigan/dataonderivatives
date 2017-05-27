@@ -93,7 +93,7 @@ bsdr_api <- function(dates, asset_class, currency = NULL, notionals = NULL) {
       value[["public_recs"]][[i]] <- parse_bsdr_content(response[[i]])
       pulled <- pulled + body$limit; i <- i + 1
     }
-    value[["public_recs"]] <- dplyr::bind_rows(value[["public_recs"]])
+    value[["public_recs"]] <- do.call(rbind, value[["public_recs"]])
     return(BSDR_API(response, value))
   }
 }
