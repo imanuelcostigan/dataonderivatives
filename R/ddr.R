@@ -32,8 +32,9 @@ ddr <- function(date, asset_class, field_specs = ddr_field_specs()) {
     assertthat::is.string(asset_class),
     asset_class %in% c("CR", "EQ", "FX", "IR", "CO")
   )
-  on.exit(unlink(c(zip_path, csv_path), recursive = TRUE))
+  on.exit(unlink(zip_path, recursive = TRUE))
   zip_path <- ddr_download(date, asset_class)
+  on.exit(unlink(csv_path, recursive = TRUE))
   csv_path <- unzip_(zip_path)
   if(is.na(csv_path)) {
     tibble::tibble()
