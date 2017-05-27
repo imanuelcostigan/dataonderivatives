@@ -14,8 +14,9 @@
 
 ## OTHER:
 
-- Bumped minimum version requirements for `readr` and `httr` packages
+- Bumped minimum version requirements for `readr`, `httr` and `utils` packages. The latter to ensure that `downloader::download()` can be replaced by an implementation of `utils::download.file()` that supports `https:` URLs.
 - Replaced calls to `httr::url_ok()` with expressions containing `httr::status_code()` as the former is deprecated
+- Expanded CI support to macOS (Travis) and Windows (Appveyor)
  
 
 # Version 0.2.1

@@ -48,7 +48,7 @@ ddr_download <- function(date, asset_class) {
   zip_path <- file.path(tempdir(),
     paste0(ddr_file_name(date, asset_class), ".zip"))
   tryCatch(expr = {
-    res <- downloader::download(file_url, zip_path, quiet = TRUE)
+    res <- utils::download.file(file_url, zip_path, quiet = TRUE)
     if (res == 0) return(zip_path) else return(NA)},
     error = function(e) return(NA),
     warning = function(w) return(NA)
