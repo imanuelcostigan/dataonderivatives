@@ -13,5 +13,8 @@ No reverse dependency issues.
 
 ## Test results
 
-Clean pass results
+NOTE: about abbreviations that are introduced in the DESCRIPTION (alongside with their expansions). This is a false positive.
 
+WARNING: about inability of pandoc to retrieve a package's badge from travis-ci. This is false positive as there are no problems fetching this badge when rendered in Github.
+
+So in conclusion: all fine.
