@@ -3,10 +3,12 @@
 ## NEW:
 
 - `bsdr()` to retrieve Bloomberg SDR data
+- `bsef()` to retrieve Bloomberg SEF data
 
 ## BREAKING:
 
 - `get_bsdr_data()` is defunct. Use the new function `bsdr()` instead which has a different interface to `get_bsdr_data()`.
+- `get_bsef_data()` is defunct. Use the new function `bsef()` instead which has a different interface to `get_bsef_data()`.
 
 ## OTHER:
 
