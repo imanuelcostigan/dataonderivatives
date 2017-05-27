@@ -1,3 +1,19 @@
+# Version 0.3
+
+## NEW:
+
+- `bsdr()` to retrieve Bloomberg SDR data
+
+## BREAKING:
+
+- `get_bsdr_data()` is defunct. Use the new function `bsdr()` instead which has a different interface to `get_bsdr_data()`.
+
+## OTHER:
+
+- Bumped minimum version requirements for `readr` and `httr` packages
+- Replaced calls to `httr::url_ok()` with expressions containing `httr::status_code()` as the former is deprecated
+ 
+
 # Version 0.2.1
 
 - Network dependent tests disabled on CRAN as they may not be reliable.
