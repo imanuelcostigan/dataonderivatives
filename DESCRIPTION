@@ -4,11 +4,11 @@ Title: Easily Source Publicly Available Data on Derivatives
 Version: 0.3.0
 Authors@R: person("Imanuel", "Costigan", email = "i.costigan@me.com",
   role = c("aut", "cre"))
-Description: Post-GFC derivatives reforms have lifted the veil off
-  over-the-counter (OTC) derivative markets. Swap Execution Facilities (SEFs)
-  and Swap Data Repositories (SDRs) now publish data on swaps that are traded
-  on or reported to those facilities (respectively). This package provides you
-  the ability to get this data from supported sources.
+Description: Post Global Financial Crisis derivatives reforms have lifted the 
+  veil off over-the-counter (OTC) derivative markets. Swap Execution Facilities
+  (SEFs) and Swap Data Repositories (SDRs) now publish data on swaps that are 
+  traded on or reported to those facilities (respectively). This package provides
+  you the ability to get this data from supported sources.
 License: GPL-2
 Depends:
   R (>= 3.3.0)

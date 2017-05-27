@@ -21,8 +21,7 @@
 #'   \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 #'   (commodities).
 #' @param currency the currency for which you would like to get trades for.
-#'   These should be the currency's [ISO
-#'   code](https://en.wikipedia.org/wiki/ISO_4217)
+#'   These should be the currency's [ISO code](https://en.wikipedia.org/wiki/ISO_4217)
 #' @return a tibble containing the requested data, or an empty tibble if
 #'   data is unavailable. Note that fields containing notional information are
 #'   not necessarily numeric values are capped in public data to meet CFTC

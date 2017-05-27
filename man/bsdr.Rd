@@ -21,7 +21,7 @@ data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 (commodities).}
 
 \item{currency}{the currency for which you would like to get trades for.
-These should be the currency's \href{https://en.wikipedia.org/wiki/ISO_4217}{ISOcode}}
+These should be the currency's \href{https://en.wikipedia.org/wiki/ISO_4217}{ISO code}}
 }
 \value{
 a tibble containing the requested data, or an empty tibble if
