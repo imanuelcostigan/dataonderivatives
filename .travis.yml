@@ -3,8 +3,11 @@
 
 language: r
 cache: packages
-os:
-  - linux
-    sudo: false
-  - osx
-    latex: false
+matrix:
+  include:
+    - os: linux
+      sudo: false
+    - os: osx
+      osx_image: xcode8.3
+      latex: false
+warnings_are_errors: true
