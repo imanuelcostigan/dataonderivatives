@@ -1,4 +1,4 @@
-# Version 0.3
+# Version 0.3.0
 
 ## NEW:
 
@@ -14,7 +14,7 @@
 
 ## OTHER:
 
-- Bumped minimum version requirements for `readr`, `httr` and `utils` packages. The latter to ensure that `downloader::download()` can be replaced by an implementation of `utils::download.file()` that supports `https:` URLs.
+- Bumped minimum version requirements for `R` as well as `readr`, `httr` and `utils` packages. The latter to ensure that `downloader::download()` can be replaced by an implementation of `utils::download.file()` that supports `https:` URLs.
 - Replaced calls to `httr::url_ok()` with expressions containing `httr::status_code()` as the former is deprecated
 - Expanded CI support to macOS (Travis) and Windows (Appveyor)
  
@@ -24,7 +24,7 @@
 - Network dependent tests disabled on CRAN as they may not be reliable.
 - Suppress CME warnings. Their FTP server demonstrates poor behaviour for non-existent files.
 
-# Version 0.2
+# Version 0.2.0
 
 - Added ability to source trade data from SDRs (DTCC, Bloomberg and CME) (#7) 
 - Can now specify `asset_class` in `get_bsef_data()`. Defaults to downloading data for all asset classes
@@ -34,6 +34,6 @@
 - Removed packrat-sourced download() method in favour of downloader package (#12)
 - Messages are no longer printed to the REPL (#18)
 
-# Version 0.1
+# Version 0.1.0
 
 - Implemented ability to access Bloomberg and ICAP SEF data
