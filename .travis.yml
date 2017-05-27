@@ -3,4 +3,8 @@
 
 language: r
 cache: packages
-sudo: false
+os:
+  - linux
+    sudo: false
+  - osx
+    latex: false
