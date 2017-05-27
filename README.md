@@ -30,15 +30,6 @@ You can download daily trade data executed on the BloombergSEF:
 
 ``` r
 library("dataonderivatives")
-library("dplyr")
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 bsef(lubridate::ymd(20150504), "IR")
 #> # A tibble: 49 x 12
 #>                           tradeDate                       security

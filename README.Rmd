@@ -42,7 +42,6 @@ You can download daily trade data executed on the BloombergSEF:
 
 ```{r bsef}
 library("dataonderivatives")
-library("dplyr")
 bsef(lubridate::ymd(20150504), "IR")
 ```
 
