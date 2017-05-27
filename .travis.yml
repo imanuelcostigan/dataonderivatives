@@ -2,8 +2,5 @@
 # https://github.com/craigcitro/r-travis/wiki/Porting-to-native-R-support-in-Travis
 
 language: r
-sudo: required
-notifications:
-  email:
-    on_success: change
-    on_failure: change
+cache: packages
+sudo: false
