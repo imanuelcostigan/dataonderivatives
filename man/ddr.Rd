@@ -20,7 +20,7 @@ data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 (commodities). This must be a string.}
 
 \item{field_specs}{a valid column specification that is passed to
-\code{\link[readr:read_csv]{readr::read_csv()}} with a default value provided by `ddr_field_specs()``}
+\code{\link[readr:read_csv]{readr::read_csv()}} with a default value provided by \code{ddr_field_specs()}}
 }
 \value{
 a tibble that contains the requested data. If no data exists

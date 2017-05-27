@@ -14,7 +14,7 @@
 #'   \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 #'   (commodities). This must be a string.
 #' @param field_specs a valid column specification that is passed to
-#'   [readr::read_csv()] with a default value provided by `ddr_field_specs()``
+#'   [readr::read_csv()] with a default value provided by `ddr_field_specs()`
 #' @return a tibble that contains the requested data. If no data exists
 #'   on that date, an empty tibble is returned.
 #' @examples
