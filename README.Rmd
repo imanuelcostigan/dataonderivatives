@@ -43,19 +43,11 @@ You can download daily trade data executed on the BloombergSEF:
 ```{r bsef}
 library("dataonderivatives")
 library("dplyr")
-# All asset classes
-get_bsef_data(lubridate::ymd(20150504))
-# IR and FX classes only
-get_bsef_data(lubridate::ymd(20150504), c("IR", "FX")) %>% 
-  group_by(assetclass) %>% summarise(n = n())
+bsef(lubridate::ymd(20150504), "IR")
 ```
 
 You can also download the data reported to the DTCC's SDR:
 
 ```{r ddr}
-# All asset classes
-get_ddr_data(lubridate::ymd(20150504))
-# IR and FX classes only
-get_ddr_data(lubridate::ymd(20150504), c("IR", "FX")) %>% 
-   group_by(ASSET_CLASS) %>% summarise(n = n())
+ddr(lubridate::ymd(20150504), "IR")
 ```
