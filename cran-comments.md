@@ -1,3 +1,7 @@
+## Revised submission
+
+Corrected link to CRAN to use the canonical form
+
 ## Summary
 
 Major update with breaking changes
