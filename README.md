@@ -19,7 +19,7 @@ The key economic terms of traded swaps must be reported to an authorised [Swap D
 dataonderivatives
 =================
 
-[![Build Status](https://travis-ci.org/imanuelcostigan/dataonderivatives.svg?branch=master)](https://travis-ci.org/imanuelcostigan/dataonderivatives) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/imanuelcostigan/dataonderivatives?branch=master&svg=true)](https://ci.appveyor.com/project/imanuelcostigan/dataonderivatives) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dataonderivatives)](http://cran.r-project.org/package=dataonderivatives)
+[![Build Status](https://travis-ci.org/imanuelcostigan/dataonderivatives.svg?branch=master)](https://travis-ci.org/imanuelcostigan/dataonderivatives) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/imanuelcostigan/dataonderivatives?branch=master&svg=true)](https://ci.appveyor.com/project/imanuelcostigan/dataonderivatives) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/dataonderivatives)](https://CRAN.R-project.org/package=dataonderivatives)
 
 You can source OTC derivatives data from supported sources. Supported sources include BloombergSEF and several U.S. domiciled SDRs including DTCC's DDR, Bloomberg's SDR and CME. SDRs in other jurisdictions do not provide trade level data and consequently these sources are unsupported. Further sources that provide trade level data will be added over time (and pull requests to that end are welcome).
 
