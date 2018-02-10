@@ -1,10 +1,6 @@
-## Revised submission
-
-Corrected link to CRAN to use the canonical form
-
 ## Summary
 
-Major update with breaking changes
+Minor bug fix release
 
 ## Reverse dependencies
 
@@ -12,8 +8,8 @@ No reverse dependency issues.
 
 ## Test environments
 
-* R 3.4.0 on Ubuntu 12.04 and MacOS 10.12 on Travis CI
-* R-devel (r72742), R-patched (3.4.0-patched), R-release (3.4.0) and R-oldrel (3.3.3) on Appveyor CI
+* R 3.4.2 on Ubuntu 14.04.5 and MacOS 10.12.6 on Travis CI
+* R-devel (r74238), R-patched (3.4.3-patched), R-release (3.4.3) and R-oldrel (3.3.3) on Appveyor CI
 
 ## Test results
 
