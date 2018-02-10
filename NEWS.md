@@ -1,3 +1,7 @@
+# Version 0.3.1
+
+- Fix BSDR payload which caused bsdr() to fail (#28)
+
 # Version 0.3.0
 
 ## NEW:
