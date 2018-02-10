@@ -32,22 +32,55 @@ You can download daily trade data executed on the BloombergSEF:
 library("dataonderivatives")
 bsef(lubridate::ymd(20150504), "IR")
 #> # A tibble: 49 x 12
-#>                           tradeDate                       security
-#>  *                            <chr>                          <chr>
-#>  1 2015-05-04T00:00:00.000000+00:00            EUR SWAP VS 6M 15YR
-#>  2 2015-05-04T00:00:00.000000+00:00             EUR SWAP VS 6M 3YR
-#>  3 2015-05-04T00:00:00.000000+00:00             EUR SWAP VS 6M 5YR
-#>  4 2015-05-04T00:00:00.000000+00:00             EUR SWAP VS 6M 2YR
-#>  5 2015-05-04T00:00:00.000000+00:00            EUR SWAP VS 6M 10YR
-#>  6 2015-05-04T00:00:00.000000+00:00            EUR SWAP VS 6M 30YR
-#>  7 2015-05-04T00:00:00.000000+00:00           USD MAC 3M JU15 JU17
-#>  8 2015-05-04T00:00:00.000000+00:00 SWA USD P 3.50 12/17/44 SWAP C
-#>  9 2015-05-04T00:00:00.000000+00:00 SWA USD R 3.25 6/17/45 SWAP CN
-#> 10 2015-05-04T00:00:00.000000+00:00           USD S/A 3M JU15 JU45
-#> # ... with 39 more rows, and 10 more variables: priceOpen <chr>,
-#> #   priceHigh <chr>, priceLow <chr>, priceClose <chr>,
-#> #   settlementPrice <chr>, totalVolume <chr>, blockTradeVolume <chr>,
-#> #   totalVolumeUsd <chr>, blockTradeVolumeUsd <chr>, currency <chr>
+#>    tradeDate        security       priceOpen priceHigh priceLow priceClose
+#>  * <chr>            <chr>          <chr>     <chr>     <chr>    <chr>     
+#>  1 2015-05-04T00:0… EUR SWAP VS 6… 0.9265    0.9265    0.9265   0.9265    
+#>  2 2015-05-04T00:0… EUR SWAP VS 6… 0.167     0.167     0.167    0.167     
+#>  3 2015-05-04T00:0… EUR SWAP VS 6… 0.3205    0.3487    0.312    0.3404    
+#>  4 2015-05-04T00:0… EUR SWAP VS 6… 0.0905    0.1068    0.0878   0.1068    
+#>  5 2015-05-04T00:0… EUR SWAP VS 6… 0.7155    0.7155    0.707    0.712     
+#>  6 2015-05-04T00:0… EUR SWAP VS 6… 1.062     1.168     1.062    1.168     
+#>  7 2015-05-04T00:0… USD MAC 3M JU… 1.25      1.25      1.25     1.25      
+#>  8 2015-05-04T00:0… SWA USD P 3.5… 3.5       3.5       3.5      3.5       
+#>  9 2015-05-04T00:0… SWA USD R 3.2… 3.25      3.25      3.25     3.25      
+#> 10 2015-05-04T00:0… USD S/A 3M JU… 2.6619    2.6619    2.6619   2.6619    
+#> # ... with 39 more rows, and 6 more variables: settlementPrice <chr>,
+#> #   totalVolume <chr>, blockTradeVolume <chr>, totalVolumeUsd <chr>,
+#> #   blockTradeVolumeUsd <chr>, currency <chr>
+```
+
+And BloombergSDR:
+
+``` r
+bsdr(lubridate::ymd(20150504), "IR")
+#> # A tibble: 272 x 38
+#>    dissemination_id  org_dissemination… exec_timestamp      action cleared
+#>    <chr>             <chr>              <chr>               <chr>  <chr>  
+#>  1 6145124147303546… 0                  2015-05-04T21:00:0… New    C      
+#>  2 6145122631180091… 0                  2015-05-04T20:54:1… New    C      
+#>  3 6145121802251141… 0                  2015-05-04T20:51:0… New    C      
+#>  4 6145118417817174… 0                  2015-05-04T20:37:5… New    C      
+#>  5 6145115729167646… 0                  2015-05-04T20:27:2… New    C      
+#>  6 6145115724872941… 0                  2015-05-04T20:27:2… New    C      
+#>  7 6145115720577712… 0                  2015-05-04T20:27:2… New    C      
+#>  8 6145114410612948… 0                  2015-05-04T20:22:2… New    C      
+#>  9 6145114255993602… 0                  2015-05-04T20:21:4… New    C      
+#> 10 6145114092785631… 0                  2015-05-04T20:21:0… New    C      
+#> # ... with 262 more rows, and 33 more variables: collateralization <chr>,
+#> #   end_user_excpetion <chr>, bespoke_swap <chr>, block_trade <chr>,
+#> #   exec_venue <chr>, effective_date <chr>, end_date <chr>,
+#> #   day_count_convention <chr>, settlement_currency <chr>,
+#> #   asset_class <chr>, asset_subclass <chr>, contract_type <chr>,
+#> #   contract_subtype <lgl>, taxonomy <chr>,
+#> #   price_forming_continuation_data <chr>, underlying_asset_1 <chr>,
+#> #   underlying_asset_2 <chr>, price_notation_type <chr>,
+#> #   price_notation <chr>, additional_price_notation_type <list>,
+#> #   additional_price_notation <chr>, unique_product_id <chr>,
+#> #   notional_currency_1 <chr>, notional_currency_amount_1 <chr>,
+#> #   notional_currency_2 <chr>, payment_frequency <chr>,
+#> #   payment_frequency_2 <chr>, reset_frequency_2 <chr>,
+#> #   option_strike_price <chr>, option_family <chr>, option_premium <chr>,
+#> #   submission_timestamp <chr>, publication_timestamp <chr>
 ```
 
 You can also download the data reported to the DTCC's SDR:
@@ -55,19 +88,19 @@ You can also download the data reported to the DTCC's SDR:
 ``` r
 ddr(lubridate::ymd(20150504), "IR")
 #> # A tibble: 3,531 x 44
-#>    DISSEMINATION_ID ORIGINAL_DISSEMINATION_ID ACTION EXECUTION_TIMESTAMP
-#>               <int>                     <int>  <chr>              <dttm>
-#>  1         28754581                        NA    NEW 2015-05-04 01:36:25
-#>  2         28755698                        NA    NEW 2015-05-04 04:17:03
-#>  3         28755714                        NA    NEW 2015-05-04 04:18:04
-#>  4         28755719                        NA    NEW 2015-05-04 04:19:42
-#>  5         28755050                        NA    NEW 2015-05-04 02:38:19
-#>  6         28755051                        NA    NEW 2015-05-04 02:38:32
-#>  7         28755056                        NA    NEW 2015-05-04 02:38:55
-#>  8         28755059                        NA    NEW 2015-05-04 02:35:49
-#>  9         28755097                        NA    NEW 2015-05-04 02:41:09
-#> 10         28754613                        NA    NEW 2015-05-04 01:35:29
-#> # ... with 3,521 more rows, and 40 more variables: CLEARED <chr>,
+#>    DISSEMINATION_ID ORIGINAL_DISSEMINA… ACTION EXECUTION_TIMESTAMP CLEARED
+#>               <int>               <int> <chr>  <dttm>              <chr>  
+#>  1         28754581                  NA NEW    2015-05-04 01:36:25 C      
+#>  2         28755698                  NA NEW    2015-05-04 04:17:03 U      
+#>  3         28755714                  NA NEW    2015-05-04 04:18:04 U      
+#>  4         28755719                  NA NEW    2015-05-04 04:19:42 U      
+#>  5         28755050                  NA NEW    2015-05-04 02:38:19 U      
+#>  6         28755051                  NA NEW    2015-05-04 02:38:32 U      
+#>  7         28755056                  NA NEW    2015-05-04 02:38:55 U      
+#>  8         28755059                  NA NEW    2015-05-04 02:35:49 U      
+#>  9         28755097                  NA NEW    2015-05-04 02:41:09 U      
+#> 10         28754613                  NA NEW    2015-05-04 01:35:29 U      
+#> # ... with 3,521 more rows, and 39 more variables:
 #> #   INDICATION_OF_COLLATERALIZATION <chr>,
 #> #   INDICATION_OF_END_USER_EXCEPTION <chr>,
 #> #   INDICATION_OF_OTHER_PRICE_AFFECTING_TERM <chr>,

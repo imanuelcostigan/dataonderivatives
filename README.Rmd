@@ -45,6 +45,12 @@ library("dataonderivatives")
 bsef(lubridate::ymd(20150504), "IR")
 ```
 
+And BloombergSDR:
+
+```{r}
+bsdr(lubridate::ymd(20150504), "IR")
+```
+
 You can also download the data reported to the DTCC's SDR:
 
 ```{r ddr}
