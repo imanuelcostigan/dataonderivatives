@@ -3,10 +3,14 @@
 
 language: r
 cache: packages
+after_success:
+  - if [[ "${R_CODECOV}" ]]; then R -e 'covr::codecov()'; fi
+
 matrix:
   include:
     - os: linux
       sudo: false
+      env: R_CODECOV=true
     - os: osx
       osx_image: xcode8.3
       latex: false
