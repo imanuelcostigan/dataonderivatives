@@ -108,7 +108,9 @@ BSDR_API <- function(response, parsed, path = "bas/bsdrweb") {
 init_bsdr_body <- function() {
   list(
     source = "search",
-    sorting_column = list(),
+    # Must not use empty list as httr::POST compacts body and removes empty
+    # elements which then seemingly trips BSDRs internal validity checks
+    sorting_column = "exec_timestamp",
     asset_class = "",
     datetime_low = "",
     datetime_high = "",
@@ -143,7 +145,7 @@ c_input <- function(input, value = "") {
 }
 
 bsdr_url <- function () {
-  "http://www.bloombergsdr.com/bas/bsdrweb"
+  "https://www.bloombergsdr.com/bas/bsdrweb"
 }
 
 `%||%` <- function (x, y) {
