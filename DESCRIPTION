@@ -23,6 +23,7 @@ Suggests:
     testthat (>= 1.0.0),
     covr
 URL:
+   https://imanuelcostigan.github.io/dataonderivatives,
    https://github.com/imanuelcostigan/dataonderivatives
 BugReports:
    https://github.com/imanuelcostigan/dataonderivatives/issues
