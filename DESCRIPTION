@@ -1,7 +1,7 @@
 Package: dataonderivatives
 Type: Package
 Title: Easily Source Publicly Available Data on Derivatives
-Version: 0.3.0-99
+Version: 0.3.1
 Authors@R: person("Imanuel", "Costigan", email = "i.costigan@me.com",
   role = c("aut", "cre"))
 Description: Post Global Financial Crisis derivatives reforms have lifted the 

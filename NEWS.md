@@ -1,6 +1,8 @@
 # Version 0.3.1
 
 - Fix BSDR payload which caused bsdr() to fail (#28)
+- Published a package website
+- Added code coverage
 
 # Version 0.3.0
 
