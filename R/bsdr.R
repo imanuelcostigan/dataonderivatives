@@ -148,10 +148,6 @@ bsdr_url <- function () {
   "https://www.bloombergsdr.com/bas/bsdrweb"
 }
 
-`%||%` <- function (x, y) {
-  if (is.null(x)) y else x
-}
-
 #' @importFrom tibble as_tibble
 as_tibble.bsdr_api <- function(x, ...) {
   x[["parsed"]][["public_recs"]]

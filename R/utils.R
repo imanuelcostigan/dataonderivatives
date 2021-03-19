@@ -9,3 +9,7 @@ unzip_ <- function(path) {
     return(NA)
   }
 }
+
+`%||%` <- function (x, y) {
+  if (is.null(x)) y else x
+}
