@@ -1,3 +1,8 @@
+# Version 0.3.2
+
+- Remove BSDR from package as the service has ceased and CFTC registration
+  withdrawn (#32)
+
 # Version 0.3.1
 
 - Fixed BSDR payload which caused bsdr() to fail (#28)
