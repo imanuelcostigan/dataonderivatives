@@ -20,7 +20,7 @@ data. Valid inputs are  \code{"IR"} (rates), \code{"FX"} (foreign
 exchange), \code{"CO"} (commodities). This must be a string.}
 
 \item{field_specs}{a valid column specification that is passed to
-\code{\link[readr:read_csv]{readr::read_csv()}} with a default value provided by \code{cme_field_specs()}.
+\code{\link[readr:read_delim]{readr::read_csv()}} with a default value provided by \code{cme_field_specs()}.
 Note that you will likely need to set your own spec as the CME file formats
 have changed over time.}
 }
