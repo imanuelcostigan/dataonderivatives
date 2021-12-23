@@ -1,3 +1,7 @@
+# Version 0.4.0
+
+- Rebuild package from the ground up
+
 # Version 0.3.2
 
 - Remove BSDR from package as the service has ceased and CFTC registration

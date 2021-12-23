@@ -1,7 +1,7 @@
 Package: dataonderivatives
 Type: Package
 Title: Easily Source Publicly Available Data on Derivatives
-Version: 0.3.2
+Version: 0.4.0
 Authors@R: person("Imanuel", "Costigan", email = "i.costigan@me.com",
   role = c("aut", "cre"))
 Description: Post Global Financial Crisis derivatives reforms have lifted the 
@@ -11,22 +11,12 @@ Description: Post Global Financial Crisis derivatives reforms have lifted the
   you the ability to get this data from supported sources.
 License: GPL-2
 Depends:
-  R (>= 3.3.0)
-Imports:
-  assertthat (>= 0.1),
-  httr (>= 1.2.1),
-  lubridate (>= 1.3.3),
-  readr (>= 1.1.0),
-  tibble (>= 1.3.0),
-  utils (>= 3.3.0)
-Suggests: 
-    testthat (>= 1.0.0),
-    covr
+  R (>= 4.1.0)
 URL:
    https://imanuelcostigan.github.io/dataonderivatives,
    https://github.com/imanuelcostigan/dataonderivatives
 BugReports:
    https://github.com/imanuelcostigan/dataonderivatives/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
