@@ -1,6 +1,7 @@
 # Version 0.4.0
 
 - Rebuild package from the ground up
+- `bsef()` now takes a start **and** end date reflecting updates to the API.
 
 # Version 0.3.2
 
