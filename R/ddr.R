@@ -10,8 +10,8 @@
 #' #'   Only the year, month and day elements of the object are used and it must of
 #' #'   be length one.
 #' #' @param asset_class the asset class for which you would like to download trade
-#' #'   data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
-#' #'   \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
+#' #'   data. Valid inputs are `"CR"` (credit), `"IR"` (rates),
+#' #'   `"EQ"` (equities), `"FX"` (foreign exchange), `"CO"`
 #' #'   (commodities). This must be a string.
 #' #' @param field_specs a valid column specification that is passed to
 #' #'   [readr::read_csv()] with a default value provided by `ddr_field_specs()`
@@ -22,8 +22,8 @@
 #' #' library("lubridate")
 #' #' ddr(ymd(20170525), "IR") # Not empty
 #' #' }
-#' #' @references \href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination
-#' #' Platform}
+#' #' @references [DDR Real Time Dissemination
+#' #' Platform](https://rtdata.dtcc.com/gtr/)
 #' #' @export
 #'
 #' ddr <- function(date, asset_class, field_specs = ddr_field_specs()) {

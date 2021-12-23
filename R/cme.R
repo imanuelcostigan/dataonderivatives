@@ -9,17 +9,17 @@
 #' #' @param date the date for which data is required as Date or DateTime object.
 #' #'   It will only use the year, month and day elements to
 #' #'   determine the set of trades to return. It will return the set of trades
-#' #'   for the day starting on \code{date}.
+#' #'   for the day starting on `date`.
 #' #' @param asset_class the asset class for which you would like to download trade
-#' #'   data. Valid inputs are  \code{"IR"} (rates), \code{"FX"} (foreign
-#' #'   exchange), \code{"CO"} (commodities). This must be a string.
+#' #'   data. Valid inputs are  `"IR"` (rates), `"FX"` (foreign
+#' #'   exchange), `"CO"` (commodities). This must be a string.
 #' #' @param field_specs a valid column specification that is passed to
 #' #'   [readr::read_csv()] with a default value provided by `cme_field_specs()`.
 #' #'   Note that you will likely need to set your own spec as the CME file formats
 #' #'   have changed over time.
 #' #' @return a tibble containing the requested data, or an empty tibble
 #' #'   if data is unavailable
-#' #' @references \href{http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html}{CME SDR}
+#' #' @references [CME SDR](http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html)
 #' #' @examples
 #' #' \dontrun{
 #' #' library(lubridate)
