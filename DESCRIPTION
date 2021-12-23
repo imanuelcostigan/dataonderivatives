@@ -11,11 +11,13 @@ Description: Post Global Financial Crisis derivatives reforms have lifted
     (respectively). This package provides you the ability to get this data
     from supported sources.
 License: GPL-2
-URL:https://imanuelcostigan.github.io/dataonderivatives,
+URL: https://imanuelcostigan.github.io/dataonderivatives,
     https://github.com/imanuelcostigan/dataonderivatives
-BugReports:https://github.com/imanuelcostigan/dataonderivatives/issues
+BugReports: https://github.com/imanuelcostigan/dataonderivatives/issues
 Depends:
     R (>= 4.1.0)
+Suggests: 
+    covr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
