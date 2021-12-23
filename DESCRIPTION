@@ -1,22 +1,21 @@
-Package: dataonderivatives
 Type: Package
+Package: dataonderivatives
 Title: Easily Source Publicly Available Data on Derivatives
 Version: 0.4.0
-Authors@R: person("Imanuel", "Costigan", email = "i.costigan@me.com",
-  role = c("aut", "cre"))
-Description: Post Global Financial Crisis derivatives reforms have lifted the 
-  veil off over-the-counter (OTC) derivative markets. Swap Execution Facilities
-  (SEFs) and Swap Data Repositories (SDRs) now publish data on swaps that are 
-  traded on or reported to those facilities (respectively). This package provides
-  you the ability to get this data from supported sources.
+Authors@R: 
+    person("Imanuel", "Costigan", , "i.costigan@me.com", role = c("aut", "cre"))
+Description: Post Global Financial Crisis derivatives reforms have lifted
+    the veil off over-the-counter (OTC) derivative markets. Swap Execution
+    Facilities (SEFs) and Swap Data Repositories (SDRs) now publish data
+    on swaps that are traded on or reported to those facilities
+    (respectively). This package provides you the ability to get this data
+    from supported sources.
 License: GPL-2
+URL:https://imanuelcostigan.github.io/dataonderivatives,
+    https://github.com/imanuelcostigan/dataonderivatives
+BugReports:https://github.com/imanuelcostigan/dataonderivatives/issues
 Depends:
-  R (>= 4.1.0)
-URL:
-   https://imanuelcostigan.github.io/dataonderivatives,
-   https://github.com/imanuelcostigan/dataonderivatives
-BugReports:
-   https://github.com/imanuelcostigan/dataonderivatives/issues
-RoxygenNote: 7.1.2
-Roxygen: list(markdown = TRUE)
+    R (>= 4.1.0)
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
