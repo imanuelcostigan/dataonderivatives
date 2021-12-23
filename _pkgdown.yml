@@ -9,7 +9,6 @@ reference:
     desc: "Source Swap Data Repository data"
     contents:
       - ddr
-      - bsdr
       - cme
   - title: "SEF"
     desc: "Source Swap Execution Facility data"
