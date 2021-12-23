@@ -42,7 +42,9 @@ You can download daily trade data executed on the BloombergSEF:
 
 ```{r bsef}
 library("dataonderivatives")
-bsef(lubridate::ymd(20150504), "IR")
+bsef(as.Date("2015-05-04"), asset_class = "IR")
+# Get more than one day's data
+bsef(as.Date("2015-05-04"), as.Date("2015-05-06"), asset_class = "IR")
 ```
 
 You can also download the data reported to the DTCC's SDR:
