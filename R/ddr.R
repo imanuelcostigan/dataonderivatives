@@ -19,8 +19,7 @@
 #'   on that date, an empty tibble is returned.
 #' @examples
 #' \dontrun{
-#' library("lubridate")
-#' ddr(ymd(20170525), "IR") # Not empty
+#' ddr(as.Date("2017-05-25"), "IR") # Not empty
 #' }
 #' @references [DDR Real Time Dissemination Platform](https://rtdata.dtcc.com/gtr/)
 #' @export
