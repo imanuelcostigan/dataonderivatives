@@ -23,6 +23,9 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
+    tibble,
+    httr2,
+    readr,
     vetr
 Config/testthat/edition: 3
 Config/testthat/parallel: true
