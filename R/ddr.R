@@ -25,10 +25,9 @@
 #' @export
 
 ddr <- function(date, asset_class, field_specs = ddr_field_specs()) {
-  assertthat::assert_that(
-    lubridate::is.instant(date), length(date) == 1,
-    assertthat::is.string(asset_class),
-    asset_class %in% c("CR", "EQ", "FX", "IR", "CO")
+  vetr::vetr(
+    Sys.Date() || Sys.time(),
+    character(1L) && . %in% c('CR', 'EQ', 'FX', 'IR', 'CO')
   )
   on.exit(unlink(zip_path, recursive = TRUE))
   zip_path <- ddr_download(date, asset_class)
