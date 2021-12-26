@@ -1,4 +1,3 @@
-context("BSEF")
 test_that('BSEF API accesible', {
   skip_on_cran()
   non_empty_data <- bsef(lubridate::ymd(20140918), lubridate::ymd(20140919), "IR")
