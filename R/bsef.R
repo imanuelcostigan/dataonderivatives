@@ -31,7 +31,7 @@ bsef <- function(start, end = start, asset_class) {
   vetr::vetr(
     Sys.Date() || Sys.time(),
     Sys.Date() || Sys.time(),
-    asset_class = . %in% c('CR', 'EQ', 'FX', 'IR', 'CO')
+    character(1) && . %in% c('CR', 'EQ', 'FX', 'IR', 'CO')
   )
 
   user_agent <- paste(
