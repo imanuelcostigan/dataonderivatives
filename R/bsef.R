@@ -34,11 +34,6 @@ bsef <- function(start, end = start, asset_class) {
     character(1) && . %in% c('CR', 'EQ', 'FX', 'IR', 'CO')
   )
 
-  user_agent <- paste(
-    "dataonderivatives",
-    "(https://imanuelcostigan.github.io/dataonderivatives/)"
-  )
-
   sub_request <- list(
     tradeDays = list(
       # BBG API does not permit HMS filtering
@@ -49,11 +44,11 @@ bsef <- function(start, end = start, asset_class) {
   req = list(sub_request)
   names(req) <- bsef_data_requestor(asset_class)
 
-  res <- httr2::request("https://data.bloombergsef.com/bas/blotdatasvc") |>
+  res <- "https://data.bloombergsef.com/bas/blotdatasvc" |>
+    request_dod() |>
     httr2::req_body_json(
       list(Request = req)
     ) |>
-    httr2::req_user_agent(user_agent) |>
     httr2::req_perform() |>
     httr2::resp_body_json(simplifyVector = TRUE)
 
