@@ -4,7 +4,7 @@
 \alias{cme}
 \title{Get CME SDR data}
 \usage{
-cme(date, asset_class, show_col_types = TRUE)
+cme(date, asset_class, show_col_types = FALSE)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime object.
@@ -16,10 +16,10 @@ trades to return. It will return the set of trades for the day starting on
 data. Valid inputs are  \code{"IR"} (rates), \code{"FX"} (foreign exchange), \code{"CO"}
 (commodities). This must be a string.}
 
-\item{show_col_types}{If \code{FALSE}, do not show the guessed column types. If
-\code{TRUE} always show the column types, even if they are supplied. If \code{NULL}
-(the default) only show the column types if they are not explicitly supplied
-by the \code{col_types} argument.}
+\item{show_col_types}{if \code{FALSE} (default), do not show the guessed column
+types. If \code{TRUE} always show the column types, even if they are supplied.
+If \code{NULL} only show the column types if they are not explicitly supplied by
+the col_types argument.}
 }
 \value{
 a tibble containing the requested data, or an empty tibble if data is

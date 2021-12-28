@@ -14,7 +14,10 @@
 #' @param asset_class the asset class for which you would like to download trade
 #'   data. Valid inputs are  `"IR"` (rates), `"FX"` (foreign exchange), `"CO"`
 #'   (commodities). This must be a string.
-#' @inheritParams readr::read_csv
+#' @param show_col_types if `FALSE` (default), do not show the guessed column
+#'   types. If `TRUE` always show the column types, even if they are supplied.
+#'   If `NULL` only show the column types if they are not explicitly supplied by
+#'   the col_types argument.
 #' @return a tibble containing the requested data, or an empty tibble if data is
 #'   unavailable
 #' @references [CME SDR](http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html)

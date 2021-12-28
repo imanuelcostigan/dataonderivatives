@@ -4,7 +4,7 @@
 \alias{ddr}
 \title{Get DDR data}
 \usage{
-ddr(date, asset_class, show_col_types = TRUE)
+ddr(date, asset_class, show_col_types = FALSE)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime object.
@@ -16,10 +16,10 @@ data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 (commodities). This must be a string.}
 
-\item{show_col_types}{If \code{FALSE}, do not show the guessed column types. If
-\code{TRUE} always show the column types, even if they are supplied. If \code{NULL}
-(the default) only show the column types if they are not explicitly supplied
-by the \code{col_types} argument.}
+\item{show_col_types}{if \code{FALSE} (default), do not show the guessed column
+types. If \code{TRUE} always show the column types, even if they are supplied.
+If \code{NULL} only show the column types if they are not explicitly supplied by
+the col_types argument.}
 }
 \value{
 a tibble that contains the requested data. If no data exists

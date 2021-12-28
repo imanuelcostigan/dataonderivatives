@@ -14,7 +14,10 @@
 #'   data. Valid inputs are `"CR"` (credit), `"IR"` (rates),
 #'   `"EQ"` (equities), `"FX"` (foreign exchange), `"CO"`
 #'   (commodities). This must be a string.
-#' @inheritParams readr::read_csv
+#' @param show_col_types if `FALSE` (default), do not show the guessed column
+#'   types. If `TRUE` always show the column types, even if they are supplied.
+#'   If `NULL` only show the column types if they are not explicitly supplied by
+#'   the col_types argument.
 #' @return a tibble that contains the requested data. If no data exists
 #'   on that date, an empty tibble is returned.
 #' @examples
