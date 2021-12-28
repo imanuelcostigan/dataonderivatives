@@ -16,4 +16,11 @@ unzip_ <- function(path) {
   if (is.null(x)) y else x
 }
 
+request_dod <- function(url) {
+  httr2::request(url) |>
+    httr2::req_user_agent(
+      "dataonderivatives (https://imanuelcostigan.github.io/dataonderivatives/)"
+    )
+}
+
 utils::globalVariables(c("."))

@@ -42,12 +42,11 @@ ddr <- function(date, asset_class) {
 ddr_download <- function(date, asset_class) {
   file_url <- ddr_url(date, asset_class)
   zip_path <- file.path(tempdir(), paste0(ddr_file_name(date, asset_class)))
-  tryCatch(expr = {
-    res <- utils::download.file(file_url, zip_path, quiet = TRUE)
-    if (res == 0) return(zip_path) else return(NA)},
-    error = function(e) return(NA),
-    warning = function(w) return(NA)
-  )
+  res <- file_url |>
+    request_dod() |>
+    httr2::req_error(is_error = function (resp) FALSE) |>
+    httr2::req_perform(path = zip_path)
+  if (!httr2::resp_is_error(res)) return(zip_path) else return(NA)
 }
 
 ddr_file_name <- function (date, asset_class) {
