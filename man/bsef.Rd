@@ -4,12 +4,16 @@
 \alias{bsef}
 \title{Get Bloomberg SEF data}
 \usage{
-bsef(date, asset_class)
+bsef(start, end = start, asset_class)
 }
 \arguments{
-\item{date}{the date for which data is required as Date or DateTime object.
+\item{start}{the date from which data is required as Date or DateTime object.
 Only the year, month and day elements of the object are used. Must be of
 length one.}
+
+\item{end}{the date for which data is required as Date or DateTime object.
+Only the year, month and day elements of the object are used. Must be of
+length one. Defaults to the \code{start} date.}
 
 \item{asset_class}{the asset class for which you would like to download
 trade data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
@@ -30,9 +34,7 @@ Bloomberg Application Service using \code{POST} requests to a target URL.
 }
 \examples{
 \dontrun{
-library (lubridate)
-# All asset classes
-bsef(ymd(20140528), "IR")
+bsef(as.Date("2021-05-12"), as.Date("2021-05-14"), "IR")
 }
 }
 \references{

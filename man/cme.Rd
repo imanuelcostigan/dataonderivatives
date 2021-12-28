@@ -2,43 +2,40 @@
 % Please edit documentation in R/cme.R
 \name{cme}
 \alias{cme}
-\alias{cme_field_specs}
 \title{Get CME SDR data}
 \usage{
-cme(date, asset_class, field_specs = NULL)
-
-cme_field_specs(asset_class)
+cme(date, asset_class, show_col_types = FALSE)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime object.
-It will only use the year, month and day elements to
-determine the set of trades to return. It will return the set of trades
-for the day starting on \code{date}.}
+It will only use the year, month and day elements to determine the set of
+trades to return. It will return the set of trades for the day starting on
+\code{date}.}
 
 \item{asset_class}{the asset class for which you would like to download trade
-data. Valid inputs are  \code{"IR"} (rates), \code{"FX"} (foreign
-exchange), \code{"CO"} (commodities). This must be a string.}
+data. Valid inputs are  \code{"IR"} (rates), \code{"FX"} (foreign exchange), \code{"CO"}
+(commodities). This must be a string.}
 
-\item{field_specs}{a valid column specification that is passed to
-\code{\link[readr:read_delim]{readr::read_csv()}} with a default value provided by \code{cme_field_specs()}.
-Note that you will likely need to set your own spec as the CME file formats
-have changed over time.}
+\item{show_col_types}{if \code{FALSE} (default), do not show the guessed column
+types. If \code{TRUE} always show the column types, even if they are supplied.
+If \code{NULL} only show the column types if they are not explicitly supplied by
+the col_types argument.}
 }
 \value{
-a tibble containing the requested data, or an empty tibble
-if data is unavailable
+a tibble containing the requested data, or an empty tibble if data is
+unavailable
 }
 \description{
 The CME Swap Data Repository (SDR) is a registered U.S. swap data repository
-that allows market participants to fulfil their public disclosure
-obligations under U.S. legislation. CME is required to make publicly
-available price, trading volume and other trading data. It publishes this
-data on an FTP site.
+that allows market participants to fulfil their public disclosure obligations
+under U.S. legislation. CME is required to make publicly available price,
+trading volume and other trading data. It publishes this data on an FTP site.
+Column specs are inferred from all records in the file (i.e. \code{guess_max} is
+set to \code{Inf} when calling \link[readr:read_delim]{readr::read_csv}).
 }
 \examples{
 \dontrun{
-library(lubridate)
-cme(ymd(20150506), "CO")
+cme(as.Date("2015-05-06"), "CO")
 }
 }
 \references{

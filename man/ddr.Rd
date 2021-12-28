@@ -2,12 +2,9 @@
 % Please edit documentation in R/ddr.R
 \name{ddr}
 \alias{ddr}
-\alias{ddr_field_specs}
 \title{Get DDR data}
 \usage{
-ddr(date, asset_class, field_specs = ddr_field_specs())
-
-ddr_field_specs()
+ddr(date, asset_class, show_col_types = FALSE)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime object.
@@ -19,8 +16,10 @@ data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 (commodities). This must be a string.}
 
-\item{field_specs}{a valid column specification that is passed to
-\code{\link[readr:read_delim]{readr::read_csv()}} with a default value provided by \code{ddr_field_specs()}}
+\item{show_col_types}{if \code{FALSE} (default), do not show the guessed column
+types. If \code{TRUE} always show the column types, even if they are supplied.
+If \code{NULL} only show the column types if they are not explicitly supplied by
+the col_types argument.}
 }
 \value{
 a tibble that contains the requested data. If no data exists
@@ -30,16 +29,16 @@ on that date, an empty tibble is returned.
 The DTCC Data Repository is a registered U.S. swap data repository that
 allows market participants to fulfil their public disclosure obligations
 under U.S. legislation. This function will give you the ability to download
-trade-level data that is reported by market participants. The field names are
-(and is assumed to be) the same for each asset class.
+trade-level data that is reported by market participants. Column specs are
+inferred from all records in the file (i.e. \code{guess_max} is set to \code{Inf}
+when calling \link[readr:read_delim]{readr::read_csv}).
 }
 \examples{
 \dontrun{
-library("lubridate")
-ddr(ymd(20170525), "IR") # Not empty
+ddr(as.Date("2017-05-25"), "IR") # Not empty
+ddr(as.Date("2020-12-01"), "CR") # Not empty
 }
 }
 \references{
-\href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination
-Platform}
+\href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination Platform}
 }

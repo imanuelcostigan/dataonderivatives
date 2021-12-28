@@ -1,15 +1,13 @@
-url: https://imanuelcostigan.github.io/dataonderivatives/
-
+url: http://imanuelcostigan.github.io/dataonderivatives/
 template:
-  params:
-    bootswatch: simplex
+  bootstrap: 5
+  bootswatch: simplex
 
 reference:
   - title: "SDR"
     desc: "Source Swap Data Repository data"
     contents:
       - ddr
-      - bsdr
       - cme
   - title: "SEF"
     desc: "Source Swap Execution Facility data"

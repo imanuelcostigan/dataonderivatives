@@ -3,34 +3,36 @@
 #' The DTCC Data Repository is a registered U.S. swap data repository that
 #' allows market participants to fulfil their public disclosure obligations
 #' under U.S. legislation. This function will give you the ability to download
-#' trade-level data that is reported by market participants. The field names are
-#' (and is assumed to be) the same for each asset class.
+#' trade-level data that is reported by market participants. Column specs are
+#' inferred from all records in the file (i.e. `guess_max` is set to `Inf`
+#' when calling [readr::read_csv]).
 #'
 #' @param date the date for which data is required as Date or DateTime object.
 #'   Only the year, month and day elements of the object are used and it must of
 #'   be length one.
 #' @param asset_class the asset class for which you would like to download trade
-#'   data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
-#'   \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
+#'   data. Valid inputs are `"CR"` (credit), `"IR"` (rates),
+#'   `"EQ"` (equities), `"FX"` (foreign exchange), `"CO"`
 #'   (commodities). This must be a string.
-#' @param field_specs a valid column specification that is passed to
-#'   [readr::read_csv()] with a default value provided by `ddr_field_specs()`
+#' @param show_col_types if `FALSE` (default), do not show the guessed column
+#'   types. If `TRUE` always show the column types, even if they are supplied.
+#'   If `NULL` only show the column types if they are not explicitly supplied by
+#'   the col_types argument.
 #' @return a tibble that contains the requested data. If no data exists
 #'   on that date, an empty tibble is returned.
 #' @examples
 #' \dontrun{
-#' library("lubridate")
-#' ddr(ymd(20170525), "IR") # Not empty
+#' ddr(as.Date("2017-05-25"), "IR") # Not empty
+#' ddr(as.Date("2020-12-01"), "CR") # Not empty
 #' }
-#' @references \href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination
-#' Platform}
+#' @references [DDR Real Time Dissemination Platform](https://rtdata.dtcc.com/gtr/)
 #' @export
 
-ddr <- function(date, asset_class, field_specs = ddr_field_specs()) {
-  assertthat::assert_that(
-    lubridate::is.instant(date), length(date) == 1,
-    assertthat::is.string(asset_class),
-    asset_class %in% c("CR", "EQ", "FX", "IR", "CO")
+ddr <- function(date, asset_class, show_col_types = FALSE) {
+  vetr::vetr(
+    Sys.Date() || Sys.time(),
+    character(1L) && . %in% c('CR', 'EQ', 'FX', 'IR', 'CO'),
+    logical(1)
   )
   on.exit(unlink(zip_path, recursive = TRUE))
   zip_path <- ddr_download(date, asset_class)
@@ -39,50 +41,41 @@ ddr <- function(date, asset_class, field_specs = ddr_field_specs()) {
   if(is.na(csv_path)) {
     tibble::tibble()
   } else {
-    readr::read_csv(csv_path, col_types = field_specs)
+    readr::read_csv(csv_path, show_col_types = show_col_types, guess_max = Inf)
   }
 }
 
 ddr_download <- function(date, asset_class) {
   file_url <- ddr_url(date, asset_class)
-  zip_path <- file.path(tempdir(),
-    paste0(ddr_file_name(date, asset_class), ".zip"))
-  tryCatch(expr = {
-    res <- utils::download.file(file_url, zip_path, quiet = TRUE)
-    if (res == 0) return(zip_path) else return(NA)},
-    error = function(e) return(NA),
-    warning = function(w) return(NA)
-  )
+  zip_path <- file.path(tempdir(), paste0(ddr_file_name(date, asset_class)))
+  res <- file_url |>
+    request_dod() |>
+    httr2::req_error(is_error = function (resp) FALSE) |>
+    httr2::req_perform(path = zip_path)
+  if (!httr2::resp_is_error(res)) return(zip_path) else return(NA)
 }
-
-#' @rdname ddr
-#' @export
-ddr_field_specs <- function() {
-  readr::cols(
-    .default = readr::col_character(),
-    DISSEMINATION_ID = readr::col_integer(),
-    ORIGINAL_DISSEMINATION_ID = readr::col_integer(),
-    EXECUTION_TIMESTAMP = readr::col_datetime(format = ""),
-    EFFECTIVE_DATE = readr::col_date(format = ""),
-    END_DATE = readr::col_date(format = ""),
-    PRICE_NOTATION = readr::col_number(),
-    ADDITIONAL_PRICE_NOTATION = readr::col_number(),
-    OPTION_STRIKE_PRICE = readr::col_number(),
-    OPTION_PREMIUM = readr::col_number(),
-    OPTION_EXPIRATION_DATE = readr::col_date(format = "")
-  )
-}
-
-# URL format for ZIP file (as at 27 May 2017):
-# https://kgc0418-tdw-data2-0.s3.amazonaws.com/slices/CUMULATIVE_CREDITS_2017_05_26.zip
 
 ddr_file_name <- function (date, asset_class) {
   asset_map <- c("CR" = "CREDITS", 'EQ' = "EQUITIES", 'FX' = "FOREX",
     'IR' = "RATES", 'CO' = "COMMODITIES")
-  paste0("CUMULATIVE_", asset_map[asset_class], "_", format(date, "%Y_%m_%d"))
+  if (date <= as.Date("2020-11-30")) {
+    prefix <- "CUMULATIVE_"
+  } else {
+    prefix <- "CFTC_CUMULATIVE_"
+  }
+  paste0(prefix, asset_map[asset_class], "_", format(date, "%Y_%m_%d"), ".zip")
 }
 
+# URL format for ZIP file (as at 27 May 2017):
+# https://kgc0418-tdw-data2-0.s3.amazonaws.com/slices/CUMULATIVE_CREDITS_YYYY_MM_DD.zip
+# URL format for ZIP file (as at 1 Dec 2020)
+# https://kgc0418-tdw-data-0.s3.amazonaws.com/cftc/eod/CFTC_CUMULATIVE_CREDITS_YYYY_MM_DD.zip
+
 ddr_url <- function (date, asset_class) {
-  stump <- "https://kgc0418-tdw-data2-0.s3.amazonaws.com/slices/"
-  paste0(stump, ddr_file_name(date, asset_class), ".zip")
+  if (date <= as.Date("2020-11-30")) {
+    stump <- "https://kgc0418-tdw-data2-0.s3.amazonaws.com/slices/"
+  } else {
+    stump <- "https://kgc0418-tdw-data-0.s3.amazonaws.com/cftc/eod/"
+  }
+  paste0(stump, ddr_file_name(date, asset_class))
 }
