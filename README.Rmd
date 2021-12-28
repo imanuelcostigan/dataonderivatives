@@ -18,20 +18,20 @@ Liquidity and pricing in the over-the-counter (OTC) derivative markets have tend
 
 ## Swap execution facilities
 
-Some Over-The-Counter (OTC) derivatives have been Made Available for Trade (MAT) by the CTFC. This means they must be traded on [Swap Execution Facilities (SEFs)](http://www.cftc.gov/IndustryOversight/TradingOrganizations/SEF2/index.htm). These SEFs are compelled publish trading volume and prices for these MAT derivatives on a daily basis. 
+Some Over-The-Counter (OTC) derivatives have been Made Available for Trade (MAT) by the CTFC. This means they must be traded on [Swap Execution Facilities (SEFs)](http://www.cftc.gov/IndustryOversight/TradingOrganizations/SEF2/index.htm). These SEFs are compelled publish trading volume and prices for these MAT derivatives on a daily basis.
 
 Some of the most widely used SEFs are run by [Bloomberg](http://www.bloombergsef.com), [ICAP](http://www.icap.com/what-we-do/global-broking/sef.aspx), [Tullett Prebon](http://www.tullettprebon.com/swap_execution_facility/index.aspx) and [Tradeweb](http://www.tradeweb.com/Institutional/Derivatives/SEF-Center/) among others.
 
 ## Swap data repositories
 
-The key economic terms of traded swaps must be reported to an authorised [Swap Data Repository (SDR)](http://www.cftc.gov/IndustryOversight/DataRepositories/index.htm). Some of the most widely used SDRs are the [DTCC Data Repository](http://www.dtcc.com/data-and-repository-services/global-trade-repository/gtr-us.aspx), [ICE Trade Vault](https://www.icetradevault.com) and the [CME's SDR](http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html). The [CFTC provides weekly snapshots](http://www.cftc.gov/MarketReports/SwapsReports/index.htm) of data collected by these SDRs on a weekly basis. SDRs domiciled in different regulatory jurisdications are expected to provide differing levels of data. [U.S. regulations](http://www.cftc.gov/IndustryOversight/DataRepositories/index.htm) compel U.S. domiciled SDRs to provide (anonymised) trade level data to the public while SDRs in other jurisdictions (e.g. in [Europe](http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2013:052:0033:0036:EN:PDF)) expected far less granular, and typically only aggregated, data. 
+The key economic terms of traded swaps must be reported to an authorised [Swap Data Repository (SDR)](http://www.cftc.gov/IndustryOversight/DataRepositories/index.htm). Some of the most widely used SDRs are the [DTCC Data Repository](http://www.dtcc.com/data-and-repository-services/global-trade-repository/gtr-us.aspx), [ICE Trade Vault](https://www.icetradevault.com) and the [CME's SDR](http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html). The [CFTC provides weekly snapshots](http://www.cftc.gov/MarketReports/SwapsReports/index.htm) of data collected by these SDRs on a weekly basis. SDRs domiciled in different regulatory jurisdications are expected to provide differing levels of data. [U.S. regulations](http://www.cftc.gov/IndustryOversight/DataRepositories/index.htm) compel U.S. domiciled SDRs to provide (anonymised) trade level data to the public while SDRs in other jurisdictions (e.g. in [Europe](http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2013:052:0033:0036:EN:PDF)) expected far less granular, and typically only aggregated, data.
 
 # dataonderivatives
+
 <!-- badges: start -->
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) 
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataonderivatives)](https://CRAN.R-project.org/package=dataonderivatives) 
-[![R-CMD-check](https://github.com/imanuelcostigan/dataonderivatives/workflows/R-CMD-check/badge.svg)](https://github.com/imanuelcostigan/dataonderivatives/actions)
-[![Codecov test coverage](https://codecov.io/gh/imanuelcostigan/dataonderivatives/branch/master/graph/badge.svg)](https://app.codecov.io/gh/imanuelcostigan/dataonderivatives?branch=master)
+
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataonderivatives)](https://CRAN.R-project.org/package=dataonderivatives) [![R-CMD-check](https://github.com/imanuelcostigan/dataonderivatives/workflows/R-CMD-check/badge.svg)](https://github.com/imanuelcostigan/dataonderivatives/actions) [![Codecov test coverage](https://codecov.io/gh/imanuelcostigan/dataonderivatives/branch/master/graph/badge.svg)](https://app.codecov.io/gh/imanuelcostigan/dataonderivatives?branch=master)
+
 <!-- badges: end -->
 
 You can source OTC derivatives data from supported sources. Supported sources include BloombergSEF and several U.S. domiciled SDRs including DTCC's DDR, Bloomberg's SDR and CME. SDRs in other jurisdictions do not provide trade level data and consequently these sources are unsupported. Further sources that provide trade level data will be added over time (and pull requests to that end are welcome).
@@ -42,13 +42,15 @@ You can download daily trade data executed on the BloombergSEF:
 
 ```{r bsef}
 library("dataonderivatives")
-bsef(as.Date("2015-05-04"), asset_class = "IR")
+bsef(as.Date("2021-12-13"), asset_class = "IR")
 # Get more than one day's data
-bsef(as.Date("2015-05-04"), as.Date("2015-05-06"), asset_class = "IR")
+bsef(as.Date("2021-12-13"), as.Date("2021-12-17"), asset_class = "IR")
 ```
 
-You can also download the data reported to the DTCC's SDR:
+You can also download the data reported to the DTCC's and CME's SDRs:
 
 ```{r ddr}
-ddr(lubridate::ymd(20150504), "IR")
+ddr(as.Date("2021-12-13"), "IR")
+cme(as.Date("2021-12-13"), "CO")
 ```
+
