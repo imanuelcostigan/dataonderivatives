@@ -1,0 +1,9 @@
+pandoc: 2.14.2
+pkgdown: 2.0.1
+pkgdown_sha: ~
+articles: {}
+last_built: 2021-12-28T23:09Z
+urls:
+  reference: http://imanuelcostigan.github.io/dataonderivatives/reference
+  article: http://imanuelcostigan.github.io/dataonderivatives/articles
+
