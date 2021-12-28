@@ -24,10 +24,11 @@
 #' }
 #' @export
 
-  assertthat::assert_that(
-    lubridate::is.instant(date), length(date) == 1,
-    assertthat::is.string(asset_class),
-    asset_class %in% c("FX", "IR", "CO")
+cme <- function(date, asset_class, show_col_types = TRUE) {
+  vetr::vetr(
+    Sys.Date() || Sys.time(),
+    character(1L) && . %in% c('CR', 'EQ', 'FX', 'IR', 'CO'),
+    logical(1)
   )
   on.exit(unlink(zip_path, recursive = TRUE))
   zip_path <- cme_download(date, asset_class)
