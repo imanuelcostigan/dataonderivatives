@@ -41,32 +41,71 @@ cme <- function(date, asset_class, show_col_types = TRUE) {
   }
 }
 
-cme_ftp_url <- function (date, asset_class) {
-  # Eg URLS. See #35
-  # ftp://ftp.cmegroup.com/sdr/fx/2015/03/RT.FX.20150301.zip
-  # ftp://ftp.cmegroup.com/sdr/fx/2020/12/RT.FX.20201201.csv.zip
-  # ftp://ftp.cmegroup.com/sdr/rates/2013/07/RT.IRS.20130702.csv.zip
-  # ftp://ftp.cmegroup.com/sdr/commodities/2015/02/RT.COMMODITY.20150201.csv.zip
-  asset_map <- c(CO = "commodities", CR = "credit", FX = "fx", IR = "rates")
-  asset_class_long <- asset_map[asset_class]
-  paste0("ftp://ftp.cmegroup.com/sdr/", tolower(asset_class_long), "/",
-    format(date, "%Y/%m"), "/", cme_file_name(date, asset_class), ".zip")
-}
-
-cme_file_name <- function (date, asset_class) {
-  asset_map <- c(CO = "commodity", CR = "CDS", FX = "fx", IR = "irs")
-  paste0("RT.", toupper(asset_map[asset_class]), format(date, ".%Y%m%d.csv"))
-}
-
-
 cme_download <- function(date, asset_class) {
-  file_url <- cme_ftp_url(date, asset_class)
-  zip_path <- file.path(tempdir(),
-    paste0(cme_file_name(date, asset_class), ".zip"))
+  zip_path <- file.path(
+    tempdir(),
+    cme_file_name(date, asset_class, new = TRUE)
+  )
+  # CME file names are inconsistent over time. Some are suffixed just with .zip
+  # while others are suffixed with .csv.zip. There are other variations that
+  # are not picked up below. Needed to use tryCatch() as the
+  # req_error(is_error = FALSE) approach doesn't swallow ftp errors.
   tryCatch(expr = {
-      res <- utils::download.file(file_url, zip_path, quiet = TRUE)
-      if (res == 0) return(zip_path) else return(NA)},
-    error = function(e) return(NA),
-    warning = function(w) return(NA)
+    cme_base_req(date, asset_class, TRUE) |>
+      httr2::req_perform(path = zip_path)
+    return(zip_path)
+  },
+    error = function(e) {
+      tryCatch(expr = {
+        cme_base_req(date, asset_class, FALSE) |>
+          httr2::req_perform(path = zip_path)
+        return(zip_path)
+      },
+        error = function(e) {
+          return(NA_character_)
+        }
+      )
+    }
+  )
+}
+
+cme_base_req <- function(date, asset_class, new) {
+  request_dod("ftp://ftp.cmegroup.com/sdr") |>
+    httr2::req_url_path_append(cme_asset_class_folder(asset_class)) |>
+    httr2::req_url_path_append(format(date, "%Y/%m")) |>
+    httr2::req_url_path_append(cme_file_name(date, asset_class, new)) |>
+    httr2::req_error(is_error = \(resp) FALSE)
+}
+
+cme_file_name <- function(date, asset_class, new) {
+  paste0(
+    paste(
+      "RT",
+      cme_asset_class_file(asset_class),
+      format(date, "%Y%m%d"),
+      sep = "."
+    ),
+    if(new) ".csv" else NULL,
+    ".zip"
+  )
+}
+
+cme_asset_class_folder <- function(short) {
+  switch(short,
+    CO = "commodities",
+    CR = "credit",
+    EQ = "equity",
+    FX = "fx",
+    IR = "rates"
+  )
+}
+
+cme_asset_class_file <- function(short) {
+  switch(short,
+    CO = "COMMODITY",
+    CR = "CDS",
+    EQ = "EQUITY",
+    FX = "FX",
+    IR = "IRS"
   )
 }
