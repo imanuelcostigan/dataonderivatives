@@ -22,8 +22,7 @@
 #' @references [CME SDR](http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html)
 #' @examples
 #' \dontrun{
-#' library(lubridate)
-#' cme(ymd(20150506), "CO")
+#' cme(as.Date("2015-05-06"), "CO")
 #' }
 #' @export
 
