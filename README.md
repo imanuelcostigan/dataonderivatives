@@ -7,7 +7,7 @@ Liquidity and pricing in the over-the-counter (OTC) derivative markets
 have tended to have less transparent than their exchange traded (lit)
 equivalents. The Bank of International Settlements (BIS) has [published
 statistics](http://www.bis.org/statistics/derstats.htm) of trading in
-the OTC markets on a triennual basis. However, representative statistics
+the OTC markets on a triennial basis. However, representative statistics
 of volume and pricing data on a more frequent basis has been near
 impossible to obtain. Post-GFC derivatives reforms have lifted the veil
 in these markets.
@@ -41,7 +41,7 @@ SDR](http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-re
 The [CFTC provides weekly
 snapshots](http://www.cftc.gov/MarketReports/SwapsReports/index.htm) of
 data collected by these SDRs on a weekly basis. SDRs domiciled in
-different regulatory jurisdications are expected to provide differing
+different regulatory jurisdictions are expected to provide differing
 levels of data. [U.S.
 regulations](http://www.cftc.gov/IndustryOversight/DataRepositories/index.htm)
 compel U.S. domiciled SDRs to provide (anonymised) trade level data to
