@@ -24,7 +24,7 @@
 #' }
 #' @export
 
-cme <- function(date, asset_class, show_col_types = TRUE) {
+cme <- function(date, asset_class, show_col_types = FALSE) {
   vetr::vetr(
     Sys.Date() || Sys.time(),
     character(1L) && . %in% c('CR', 'EQ', 'FX', 'IR', 'CO'),
