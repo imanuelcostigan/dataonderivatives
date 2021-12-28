@@ -12,7 +12,8 @@ Description: Post Global Financial Crisis derivatives reforms have lifted
     from supported sources.
 License: GPL-2
 URL: https://imanuelcostigan.github.io/dataonderivatives,
-    https://github.com/imanuelcostigan/dataonderivatives
+    https://github.com/imanuelcostigan/dataonderivatives,
+    http://imanuelcostigan.github.io/dataonderivatives/
 BugReports: https://github.com/imanuelcostigan/dataonderivatives/issues
 Depends:
     R (>= 4.1.0)

@@ -1,8 +1,7 @@
-url: https://imanuelcostigan.github.io/dataonderivatives/
-
+url: http://imanuelcostigan.github.io/dataonderivatives/
 template:
-  params:
-    bootswatch: simplex
+  bootstrap: 5
+  bootswatch: simplex
 
 reference:
   - title: "SDR"
