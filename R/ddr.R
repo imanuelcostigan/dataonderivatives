@@ -3,8 +3,9 @@
 #' The DTCC Data Repository is a registered U.S. swap data repository that
 #' allows market participants to fulfil their public disclosure obligations
 #' under U.S. legislation. This function will give you the ability to download
-#' trade-level data that is reported by market participants. The field names are
-#' (and is assumed to be) the same for each asset class.
+#' trade-level data that is reported by market participants. Column specs are
+#' inferred from all records in the file (i.e. `guess_max` is set to `Inf`
+#' when calling [readr::read_csv]).
 #'
 #' @param date the date for which data is required as Date or DateTime object.
 #'   Only the year, month and day elements of the object are used and it must of
@@ -13,6 +14,7 @@
 #'   data. Valid inputs are `"CR"` (credit), `"IR"` (rates),
 #'   `"EQ"` (equities), `"FX"` (foreign exchange), `"CO"`
 #'   (commodities). This must be a string.
+#' @inheritParams readr::read_csv
 #' @return a tibble that contains the requested data. If no data exists
 #'   on that date, an empty tibble is returned.
 #' @examples
@@ -23,7 +25,7 @@
 #' @references [DDR Real Time Dissemination Platform](https://rtdata.dtcc.com/gtr/)
 #' @export
 
-ddr <- function(date, asset_class) {
+ddr <- function(date, asset_class, show_col_types = TRUE) {
   vetr::vetr(
     Sys.Date() || Sys.time(),
     character(1L) && . %in% c('CR', 'EQ', 'FX', 'IR', 'CO')
@@ -35,7 +37,7 @@ ddr <- function(date, asset_class) {
   if(is.na(csv_path)) {
     tibble::tibble()
   } else {
-    readr::read_csv(csv_path)
+    readr::read_csv(csv_path, show_col_types = show_col_types, guess_max = Inf)
   }
 }
 

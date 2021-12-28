@@ -4,7 +4,7 @@
 \alias{ddr}
 \title{Get DDR data}
 \usage{
-ddr(date, asset_class)
+ddr(date, asset_class, show_col_types = TRUE)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime object.
@@ -15,6 +15,11 @@ be length one.}
 data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 (commodities). This must be a string.}
+
+\item{show_col_types}{If \code{FALSE}, do not show the guessed column types. If
+\code{TRUE} always show the column types, even if they are supplied. If \code{NULL}
+(the default) only show the column types if they are not explicitly supplied
+by the \code{col_types} argument.}
 }
 \value{
 a tibble that contains the requested data. If no data exists
@@ -24,8 +29,9 @@ on that date, an empty tibble is returned.
 The DTCC Data Repository is a registered U.S. swap data repository that
 allows market participants to fulfil their public disclosure obligations
 under U.S. legislation. This function will give you the ability to download
-trade-level data that is reported by market participants. The field names are
-(and is assumed to be) the same for each asset class.
+trade-level data that is reported by market participants. Column specs are
+inferred from all records in the file (i.e. \code{guess_max} is set to \code{Inf}
+when calling \link[readr:read_delim]{readr::read_csv}).
 }
 \examples{
 \dontrun{
