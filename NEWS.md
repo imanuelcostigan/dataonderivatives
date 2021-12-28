@@ -1,7 +1,22 @@
 # Version 0.4.0
 
-- Rebuild package from the ground up
-- `bsef()` now takes a start **and** end date reflecting updates to the API.
+-   Rebuild package from the ground up.
+    -   All functions make use of `httr2` rather than a mix of `httr` and
+        `base::download.file()`.
+    -   Now requires R 4.1.0 or greater to allow use of new native syntax for
+        anonymous functions and pipes.
+-   `bsef()` now takes a start **and** end date reflecting updates to the API.
+-   `ddr()`:
+    -   Support for `field_specs` argument has been dropped. This was not robust
+        and is better handled by users.
+    -   Instead, it now guesses field specs from **all** ingested records. You
+        can show the specs by setting the `show_col_types` argument to `TRUE`.
+    -   You can now download files for days after 30 Nov 2020 (fixes #33).
+-   `cme()`:
+    -   Support for `field_specs` argument has been dropped. This was not robust
+        and is better handled by users.
+    -   Instead, it now guesses field specs from **all** ingested records. You
+        can show the specs by setting the `show_col_types` argument to `TRUE`.
 
 # Version 0.3.2
 
