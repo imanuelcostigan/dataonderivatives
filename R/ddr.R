@@ -70,14 +70,16 @@ ddr_field_specs <- function() {
   )
 }
 
-# URL format for ZIP file (as at 27 May 2017):
-# https://kgc0418-tdw-data2-0.s3.amazonaws.com/slices/CUMULATIVE_CREDITS_2017_05_26.zip
-
 ddr_file_name <- function (date, asset_class) {
   asset_map <- c("CR" = "CREDITS", 'EQ' = "EQUITIES", 'FX' = "FOREX",
     'IR' = "RATES", 'CO' = "COMMODITIES")
   paste0("CUMULATIVE_", asset_map[asset_class], "_", format(date, "%Y_%m_%d"))
 }
+
+# URL format for ZIP file (as at 27 May 2017):
+# https://kgc0418-tdw-data2-0.s3.amazonaws.com/slices/CUMULATIVE_CREDITS_YYYY_MM_DD.zip
+# URL format for ZIP file (as at 1 Dec 2020)
+# https://kgc0418-tdw-data-0.s3.amazonaws.com/cftc/eod/CFTC_CUMULATIVE_CREDITS_YYYY_MM_DD.zip
 
 ddr_url <- function (date, asset_class) {
   stump <- "https://kgc0418-tdw-data2-0.s3.amazonaws.com/slices/"
