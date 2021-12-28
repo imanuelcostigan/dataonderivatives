@@ -24,11 +24,3 @@ test_that('DDR URL scheme still valid', {
       expect_true()
   }
 })
-
-test_that("DDR file parsed correctly", {
-  skip_on_cran()
-  for (asset_class in c("CR", "EQ", "FX", "IR", "CO")) {
-    res <- ddr(as.Date("2015-04-30"), asset_class)
-    expect_equal(nrow(readr::problems(res)), 0)
-  }
-})

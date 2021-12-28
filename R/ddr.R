@@ -13,8 +13,6 @@
 #'   data. Valid inputs are `"CR"` (credit), `"IR"` (rates),
 #'   `"EQ"` (equities), `"FX"` (foreign exchange), `"CO"`
 #'   (commodities). This must be a string.
-#' @param field_specs a valid column specification that is passed to
-#'   [readr::read_csv()] with a default value provided by `ddr_field_specs()`
 #' @return a tibble that contains the requested data. If no data exists
 #'   on that date, an empty tibble is returned.
 #' @examples
@@ -25,7 +23,7 @@
 #' @references [DDR Real Time Dissemination Platform](https://rtdata.dtcc.com/gtr/)
 #' @export
 
-ddr <- function(date, asset_class, field_specs = ddr_field_specs()) {
+ddr <- function(date, asset_class) {
   vetr::vetr(
     Sys.Date() || Sys.time(),
     character(1L) && . %in% c('CR', 'EQ', 'FX', 'IR', 'CO')
@@ -37,7 +35,7 @@ ddr <- function(date, asset_class, field_specs = ddr_field_specs()) {
   if(is.na(csv_path)) {
     tibble::tibble()
   } else {
-    readr::read_csv(csv_path, col_types = field_specs)
+    readr::read_csv(csv_path)
   }
 }
 
@@ -49,24 +47,6 @@ ddr_download <- function(date, asset_class) {
     if (res == 0) return(zip_path) else return(NA)},
     error = function(e) return(NA),
     warning = function(w) return(NA)
-  )
-}
-
-#' @rdname ddr
-#' @export
-ddr_field_specs <- function() {
-  readr::cols(
-    .default = readr::col_character(),
-    DISSEMINATION_ID = readr::col_integer(),
-    ORIGINAL_DISSEMINATION_ID = readr::col_integer(),
-    EXECUTION_TIMESTAMP = readr::col_datetime(format = ""),
-    EFFECTIVE_DATE = readr::col_date(format = ""),
-    END_DATE = readr::col_date(format = ""),
-    PRICE_NOTATION = readr::col_number(),
-    ADDITIONAL_PRICE_NOTATION = readr::col_number(),
-    OPTION_STRIKE_PRICE = readr::col_number(),
-    OPTION_PREMIUM = readr::col_number(),
-    OPTION_EXPIRATION_DATE = readr::col_date(format = "")
   )
 }
 

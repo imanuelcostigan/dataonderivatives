@@ -2,12 +2,9 @@
 % Please edit documentation in R/ddr.R
 \name{ddr}
 \alias{ddr}
-\alias{ddr_field_specs}
 \title{Get DDR data}
 \usage{
-ddr(date, asset_class, field_specs = ddr_field_specs())
-
-ddr_field_specs()
+ddr(date, asset_class)
 }
 \arguments{
 \item{date}{the date for which data is required as Date or DateTime object.
@@ -18,9 +15,6 @@ be length one.}
 data. Valid inputs are \code{"CR"} (credit), \code{"IR"} (rates),
 \code{"EQ"} (equities), \code{"FX"} (foreign exchange), \code{"CO"}
 (commodities). This must be a string.}
-
-\item{field_specs}{a valid column specification that is passed to
-\code{\link[readr:read_delim]{readr::read_csv()}} with a default value provided by \code{ddr_field_specs()}}
 }
 \value{
 a tibble that contains the requested data. If no data exists
