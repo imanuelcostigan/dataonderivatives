@@ -25,7 +25,7 @@
 #' ddr(as.Date("2017-05-25"), "IR") # Not empty
 #' ddr(as.Date("2020-12-01"), "CR") # Not empty
 #' }
-#' @references [DDR Real Time Dissemination Platform](https://rtdata.dtcc.com/gtr/)
+#' @references [DDR Real Time Dissemination Platform](https://pddata.dtcc.com/gtr/)
 #' @export
 
 ddr <- function(date, asset_class, show_col_types = FALSE) {

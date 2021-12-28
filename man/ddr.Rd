@@ -40,5 +40,5 @@ ddr(as.Date("2020-12-01"), "CR") # Not empty
 }
 }
 \references{
-\href{https://rtdata.dtcc.com/gtr/}{DDR Real Time Dissemination Platform}
+\href{https://pddata.dtcc.com/gtr/}{DDR Real Time Dissemination Platform}
 }
