@@ -28,7 +28,8 @@
 ddr <- function(date, asset_class, show_col_types = TRUE) {
   vetr::vetr(
     Sys.Date() || Sys.time(),
-    character(1L) && . %in% c('CR', 'EQ', 'FX', 'IR', 'CO')
+    character(1L) && . %in% c('CR', 'EQ', 'FX', 'IR', 'CO'),
+    logical(1)
   )
   on.exit(unlink(zip_path, recursive = TRUE))
   zip_path <- ddr_download(date, asset_class)
