@@ -35,8 +35,8 @@ trade-level data that is reported by market participants. The field names are
 }
 \examples{
 \dontrun{
-library("lubridate")
-ddr(ymd(20170525), "IR") # Not empty
+ddr(as.Date("2017-05-25"), "IR") # Not empty
+ddr(as.Date("2020-12-01"), "CR") # Not empty
 }
 }
 \references{

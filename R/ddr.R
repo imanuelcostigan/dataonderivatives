@@ -20,6 +20,7 @@
 #' @examples
 #' \dontrun{
 #' ddr(as.Date("2017-05-25"), "IR") # Not empty
+#' ddr(as.Date("2020-12-01"), "CR") # Not empty
 #' }
 #' @references [DDR Real Time Dissemination Platform](https://rtdata.dtcc.com/gtr/)
 #' @export
@@ -42,8 +43,7 @@ ddr <- function(date, asset_class, field_specs = ddr_field_specs()) {
 
 ddr_download <- function(date, asset_class) {
   file_url <- ddr_url(date, asset_class)
-  zip_path <- file.path(tempdir(),
-    paste0(ddr_file_name(date, asset_class), ".zip"))
+  zip_path <- file.path(tempdir(), paste0(ddr_file_name(date, asset_class)))
   tryCatch(expr = {
     res <- utils::download.file(file_url, zip_path, quiet = TRUE)
     if (res == 0) return(zip_path) else return(NA)},
@@ -73,7 +73,12 @@ ddr_field_specs <- function() {
 ddr_file_name <- function (date, asset_class) {
   asset_map <- c("CR" = "CREDITS", 'EQ' = "EQUITIES", 'FX' = "FOREX",
     'IR' = "RATES", 'CO' = "COMMODITIES")
-  paste0("CUMULATIVE_", asset_map[asset_class], "_", format(date, "%Y_%m_%d"))
+  if (date <= as.Date("2020-11-30")) {
+    prefix <- "CUMULATIVE_"
+  } else {
+    prefix <- "CFTC_CUMULATIVE_"
+  }
+  paste0(prefix, asset_map[asset_class], "_", format(date, "%Y_%m_%d"), ".zip")
 }
 
 # URL format for ZIP file (as at 27 May 2017):
@@ -82,6 +87,10 @@ ddr_file_name <- function (date, asset_class) {
 # https://kgc0418-tdw-data-0.s3.amazonaws.com/cftc/eod/CFTC_CUMULATIVE_CREDITS_YYYY_MM_DD.zip
 
 ddr_url <- function (date, asset_class) {
-  stump <- "https://kgc0418-tdw-data2-0.s3.amazonaws.com/slices/"
-  paste0(stump, ddr_file_name(date, asset_class), ".zip")
+  if (date <= as.Date("2020-11-30")) {
+    stump <- "https://kgc0418-tdw-data2-0.s3.amazonaws.com/slices/"
+  } else {
+    stump <- "https://kgc0418-tdw-data-0.s3.amazonaws.com/cftc/eod/"
+  }
+  paste0(stump, ddr_file_name(date, asset_class))
 }
