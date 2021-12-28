@@ -1,6 +1,10 @@
 ## Summary
 
-Minor bug fix release
+Major rewrite of package and bug fix. 
+
+* Package dependencies have been updated including bumping required version of 
+  R to 4.1.0.
+* Minor user facing changes and a bug fix.
 
 ## Reverse dependencies
 
@@ -8,13 +12,11 @@ No reverse dependency issues.
 
 ## Test environments
 
-* R 3.4.2 on Ubuntu 14.04.5 and MacOS 10.12.6 on Travis CI
-* R-devel (r74238), R-patched (3.4.3-patched), R-release (3.4.3) and R-oldrel (3.3.3) on Appveyor CI
+* MacOS-latest: R-release
+* Windows-latest: R-release
+* Ubuntu-latest: R-release
+* Ubuntu-latest: R-devel (r81417)
 
 ## Test results
 
-NOTE: about abbreviations that are introduced in the DESCRIPTION (alongside with their expansions). This is a false positive.
-
-WARNING: about inability of pandoc to retrieve a package's badge from travis-ci. This is false positive as there are no problems fetching this badge when rendered in Github.
-
-So in conclusion: all fine.
+Across all environments: 0 errors ✓ | 0 warnings ✓ | 0 notes ✓
