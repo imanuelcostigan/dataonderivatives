@@ -33,20 +33,21 @@ among others.
 
 The key economic terms of traded swaps must be reported to an authorised
 [Swap Data Repository
-(SDR)](http://www.cftc.gov/IndustryOversight/DataRepositories/index.htm).
+(SDR)](https://www.cftc.gov/IndustryOversight/DataRepositories/index.htm).
 Some of the most widely used SDRs are the [DTCC Data
-Repository](http://www.dtcc.com/data-and-repository-services/global-trade-repository/gtr-us.aspx),
-[ICE Trade Vault](https://www.icetradevault.com) and the [CME’s
-SDR](http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html).
+Repository](https://www.dtcc.com/repository-and-derivatives-services/repository-services/gtr-north-america),
+[ICE Trade Vault](https://www.theice.com/technology/post-trade) and the
+[CME’s
+SDR](https://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html).
 The [CFTC provides weekly
-snapshots](http://www.cftc.gov/MarketReports/SwapsReports/index.htm) of
+snapshots](https://www.cftc.gov/MarketReports/SwapsReports/index.htm) of
 data collected by these SDRs on a weekly basis. SDRs domiciled in
 different regulatory jurisdictions are expected to provide differing
 levels of data. [U.S.
-regulations](http://www.cftc.gov/IndustryOversight/DataRepositories/index.htm)
+regulations](https://www.cftc.gov/IndustryOversight/DataRepositories/index.htm)
 compel U.S. domiciled SDRs to provide (anonymised) trade level data to
 the public while SDRs in other jurisdictions (e.g. in
-[Europe](http://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2013:052:0033:0036:EN:PDF))
+[Europe](https://eur-lex.europa.eu/LexUriServ/LexUriServ.do?uri=OJ:L:2013:052:0033:0036:EN:PDF))
 expected far less granular, and typically only aggregated, data.
 
 # dataonderivatives
