@@ -38,5 +38,5 @@ bsef(as.Date("2021-05-12"), as.Date("2021-05-14"), "IR")
 }
 }
 \references{
-\href{http://data.bloombergsef.com}{Bloomberg SEF data}
+\href{https://data.bloombergsef.com}{Bloomberg SEF data}
 }

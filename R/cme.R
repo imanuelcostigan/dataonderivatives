@@ -20,7 +20,7 @@
 #'   the col_types argument.
 #' @return a tibble containing the requested data, or an empty tibble if data is
 #'   unavailable
-#' @references [CME SDR](http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html)
+#' @references [CME SDR](https://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html)
 #' @examples
 #' \dontrun{
 #' cme(as.Date("2015-05-06"), "CO")

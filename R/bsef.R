@@ -19,7 +19,7 @@
 #'   (commodities) and must be a string.
 #' @return a tibble containing the requested data, or an empty tibble
 #'   if data is unavailable
-#' @references [Bloomberg SEF data](http://data.bloombergsef.com)
+#' @references [Bloomberg SEF data](https://data.bloombergsef.com)
 #' @examples
 #' \dontrun{
 #' bsef(as.Date("2021-05-12"), as.Date("2021-05-14"), "IR")

@@ -39,5 +39,5 @@ cme(as.Date("2015-05-06"), "CO")
 }
 }
 \references{
-\href{http://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html}{CME SDR}
+\href{https://www.cmegroup.com/trading/global-repository-services/cme-swap-data-repository.html}{CME SDR}
 }
