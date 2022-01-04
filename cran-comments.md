@@ -19,4 +19,6 @@ No reverse dependency issues.
 
 ## Test results
 
-Across all environments: 0 errors ✓ | 0 warnings ✓ | 0 notes ✓
+* Error on testing oldrel (R 4.0.5) as the package requires 4.1.0 (use of the
+  new pipe operator).
+* Otherwise, no issues across environments: 0 errors ✓ | 0 warnings ✓ | 0 notes ✓
