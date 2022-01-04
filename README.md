@@ -53,12 +53,13 @@ expected far less granular, and typically only aggregated, data.
 
 <!-- badges: start -->
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataonderivatives)](https://CRAN.R-project.org/package=dataonderivatives)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/dataonderivatives)](https://CRAN.R-project.org/package=dataonderivatives)
 [![R-CMD-check](https://github.com/imanuelcostigan/dataonderivatives/workflows/R-CMD-check/badge.svg)](https://github.com/imanuelcostigan/dataonderivatives/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/imanuelcostigan/dataonderivatives/branch/master/graph/badge.svg)](https://app.codecov.io/gh/imanuelcostigan/dataonderivatives?branch=master)
-
 <!-- badges: end -->
 
 You can source OTC derivatives data from supported sources. Supported
