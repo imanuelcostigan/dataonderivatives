@@ -6,7 +6,7 @@
 Liquidity and pricing in the over-the-counter (OTC) derivative markets
 have tended to have less transparent than their exchange traded (lit)
 equivalents. The Bank of International Settlements (BIS) has [published
-statistics](http://www.bis.org/statistics/derstats.htm) of trading in
+statistics](https://www.bis.org/statistics/derstats.htm) of trading in
 the OTC markets on a triennial basis. However, representative statistics
 of volume and pricing data on a more frequent basis has been near
 impossible to obtain. Post-GFC derivatives reforms have lifted the veil
@@ -17,16 +17,15 @@ in these markets.
 Some Over-The-Counter (OTC) derivatives have been Made Available for
 Trade (MAT) by the CTFC. This means they must be traded on [Swap
 Execution Facilities
-(SEFs)](http://www.cftc.gov/IndustryOversight/TradingOrganizations/SEF2/index.htm).
+(SEFs)](https://www.cftc.gov/IndustryOversight/TradingOrganizations/SEF2/index.htm).
 These SEFs are compelled publish trading volume and prices for these MAT
 derivatives on a daily basis.
 
 Some of the most widely used SEFs are run by
-[Bloomberg](http://www.bloombergsef.com),
-[ICAP](http://www.icap.com/what-we-do/global-broking/sef.aspx), [Tullett
-Prebon](http://www.tullettprebon.com/swap_execution_facility/index.aspx)
-and
-[Tradeweb](http://www.tradeweb.com/Institutional/Derivatives/SEF-Center/)
+[Bloomberg](https://www.bloomberg.com/professional/product/swap-execution-facility/),
+[ICAP](https://tpicap.com/tpicap/regulatory-hub/tp-icap-sef), [Tullett
+Prebon](https://www.tullettprebon.com/swap-execution-facility/) and
+[Tradeweb](https://www.tradeweb.com/our-markets/market-regulation/sef/)
 among others.
 
 ## Swap data repositories
